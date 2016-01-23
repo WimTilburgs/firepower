@@ -1,0 +1,123 @@
+<section id="home-view" class="mainbar">
+    <section class="matter">
+        <div class="container">
+           <!--Begin eerste blok-->
+            <div class="row" ng-show="vm.workoutsTonen">
+                <div class="col-md-12">
+                    <div class="widget wgreen">
+                        <div ht-widget-header title="Selecteer een workout" allow-collapse="true"></div>
+                        <div class="widget-content text-info">
+                            
+                                <table class="table table-bordered table-responsive table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Oefening</th>
+                                            <th>Workoutnummer</th>
+                                            <th>Aantal Sets</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="o in vm.openWorkoutsKlaar" ng-click="vm.workoutSelecteren(o)">
+                                            <td>
+                                                {{o.oefeningOmschrijving }}
+                                            </td>
+                                            <td>
+                                                {{o.workoutNummer}}
+                                            </td>
+                                            <td>
+                                                {{o.aantal }}
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <br />
+                           
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+ <!--Einde tweed blok-->
+
+              <!--Begin eerste blok-->
+            <div class="row" ng-show=vm.workoutVandaag.length>
+                <div class="col-md-12">
+                    <div class="widget wgreen">
+                        <div ht-widget-header title="Doe je best!" allow-collapse="true"></div>
+                        <div class="widget-content text-info">
+                            
+                        <div >
+                    <label for="exampleInput">Datum workout</label>
+                    <input type="date" id="exampleInput" name="input" ng-model="vm.datum" placeholder="yyyy-MM-dd" required />
+                    <div role="alert">
+                        <span class="error" ng-show="myForm.input.$error.required">
+                         Datum is verplicht
+                         </span>
+                        <span class="error" ng-show="myForm.input.$error.datetimelocal">
+                        Ongeldige datum
+                     </span>
+                    </div>
+                </div>
+                <div class="panel panel-default" ng-repeat="training in vm.workoutVandaag" ng-show="!training.realisatie">
+                    <div class="panel-heading panel-primary">
+                        <p class="alert alert-danger" ng-show="training.repsFree">Kom op ga voor een record!</p>
+                        <p class="alert alert-success"> {{vm.getRecordAantal(training.oefeningId,training.gewicht)}}</p>
+                </div>
+                    <div class="panel-body">
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Gewicht</th>
+                                    <th>Aantal</th>
+                                    <th>Klaar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        {{training.gewicht | number : 1}}
+                                    </td>
+                                    <td>
+                                        {{training.aantalReps}}
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-lg" ng-click="vm.setOpslaan(training)">klaar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table ng-show="training.repsFree" class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <button class="btn btn-primary" ng-click="vm.aantalOmlaag(training)"><i class="fa fa-minus fa-2x"></i></button>
+                                    </th>
+                                    <th>
+
+                                        <button class="btn btn-primary" ng-click="vm.aantalOmhoog(training)"><i class="fa fa-plus fa-2x"></i></button>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+ <!--Einde tweede blok-->
+    
+               
+    </section>
+</section>

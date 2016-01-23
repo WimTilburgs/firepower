@@ -1,0 +1,1 @@
+var Ref = new Firebase("https://firepower.firebaseio.com");

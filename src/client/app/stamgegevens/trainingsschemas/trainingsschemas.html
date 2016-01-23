@@ -1,0 +1,115 @@
+<section class="mainbar">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget wgreen">
+                        <div ht-widget-header title={{vm.title}} allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+                            <div class="row">
+                                <table class="table table-bordered table-responsive table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Percentage</th>
+                                            <th>Aantal Reps</th>
+                                            <th>Amrap</th>
+                                            <th>Workoutnummer</th>
+                                            <th>Setnummer</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="m in vm.trainingsSchemas | orderBy: 'omschrijving'" ng-click="vm.trainingsSchemaSelecteren(m)">
+                                            <td>
+                                                {{m.percentage }}
+                                            </td>
+                                            <td>
+                                                {{m.aantalReps}}
+                                            </td>
+                                            <td>
+                                                {{m.amrap }}
+                                            </td>
+                                            <td>
+                                                {{m.workoutNummer}}
+                                            </td>
+                                            <td>
+                                                {{m.setNummer}}
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <br />
+                              
+                            </div>
+
+                            <div class="row">
+                                <form class="form-horizontal" role="form">
+                                    <fieldset>
+                                        <legend ng-show="vm.toonButtonNieuw">Trainingsschema Toevoegen</legend>
+                                        <legend ng-show="!vm.toonButtonNieuw">Trainingsschema Wijzigen</legend>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Percentage</label>
+                                            <div class="col-sm-9">
+                                                <input type="number" placeholder="percentage ...." ng-model="vm.geselecteerdeTrainingsSchema.percentage" class="form-control"
+                                                />
+                                            </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Aantal reps</label>
+                                                <div class="col-sm-9">
+                                                    <input type="number" placeholder="aantal reps ...." ng-model="vm.geselecteerdeTrainingsSchema.aantalReps" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Amrap</label>
+                                                 <div class="col-sm-9">
+                                                <input type="checkbox" ng-model="vm.geselecteerdeTrainingsSchema.amrap" class="form-control" />
+                                            </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Workoutnummer</label>
+                                                <div class="col-sm-9">
+                                                    <input type="number" placeholder="workoutnummer ...." ng-model="vm.geselecteerdeTrainingsSchema.workoutNummer" class="form-control"/>
+                                                </div>
+                                            </div>
+                                             <div class="form-group">
+                                                <label class="col-sm-3 control-label">Setnummer</label>
+                                                <div class="col-sm-9">
+                                                    <input type="number" placeholder="setnummer ...." ng-model="vm.geselecteerdeTrainingsSchema.setNummer" class="form-control"/>
+                                                </div>
+                                            </div>
+
+                                           
+
+                                       
+
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-offset-3 col-sm-9" ng-show="!vm.toonButtonNieuw">
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.trainingsSchemaWijzigen()" value="Wijzigen" />
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.trainingsSchemaOpslaanTonen()" value="Nieuw" />
+                                    <button class="btn btn-danger btn-sm" ng-click="vm.trainingsSchemaVerwijderen()">Verwijderen</button>
+                                </div>
+                                <br/>
+                                <div class="row col-sm-offset-3 col-sm-9" ng-show="vm.toonButtonNieuw">
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.trainingsSchemaOpslaan()" value="Opslaan" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </section>
+</section>

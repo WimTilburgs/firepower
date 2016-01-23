@@ -1,0 +1,108 @@
+<section class="mainbar">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget wgreen">
+                        <div ht-widget-header title={{vm.title}} allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+                             <div class="row">
+                                <div ui-grid="vm.gridOefeningen" class="myGrid" ui-grid-edit></div>
+                              </div>
+                            <div class="row">
+                                <pre>{{msg.lastCellEdited}}</pre>
+                                <pre>{{vm.geselecteerdeOefening}}</pre>
+                                
+                                <table class="table table-bordered table-responsive table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Omschrijving</th>
+                                            <th>Afkorting</th>
+                                            <th>BarbellGewicht</th>
+                                             <th>SQL Id</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="m in vm.oefeningen | orderBy: 'omschrijving'" ng-click="vm.oefeningSelecteren(m)">
+                                            <td>
+                                                {{m.omschrijving }}
+                                            </td>
+                                            <td>
+                                                {{m.afkorting}}
+                                            </td>
+                                             <td>
+                                                {{m.barbellGewicht}}
+                                            </td>
+                                             <td>
+                                                {{m.sqlId}}
+                                            </td>
+                                          
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <br />
+                            </div>
+                          
+                            <div class="row">
+                                <form class="form-horizontal" role="form">
+                                    <fieldset>
+                                        <legend ng-show="vm.toonButtonNieuw">Oefeningen Toevoegen</legend>
+                                        <legend ng-show="!vm.toonButtonNieuw">Oefeningen Wijzigen</legend>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Omschrijving</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" placeholder="omschrijving ...." ng-model="vm.geselecteerdeOefening.omschrijving" class="form-control"
+                                                />
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Afkorting</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" placeholder="afkorting ...." ng-model="vm.geselecteerdeOefening.afkorting" class="form-control" />
+                                            </div>
+                                        </div>
+                                        
+                                         <div class="form-group">
+                                            <label class="col-sm-3 control-label">Barbellgewicht</label>
+                                            <div class="col-sm-9">
+                                                <input type="number" placeholder="gewicht in kg ...." ng-model="vm.geselecteerdeOefening.barbellGewicht" class="form-control" />
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                            <label class="col-sm-3 control-label">sqlId</label>
+                                            <div class="col-sm-9">
+                                                <input type="number" placeholder="ID in azure sql ...." ng-model="vm.geselecteerdeOefening.sqlId" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-offset-3 col-sm-9" ng-show="!vm.toonButtonNieuw">
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.oefeningWijzigen()" value="Wijzigen" />
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.oefeningOpslaanTonen()" value="Nieuw" />
+                                    <button class="btn btn-danger btn-sm" ng-click="vm.oefeningVerwijderen()">Verwijderen</button>
+                                </div>
+                                <br/>
+                                <div class="row col-sm-offset-3 col-sm-9" ng-show="vm.toonButtonNieuw">
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.oefeningOpslaan()" value="Opslaan" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </section>
+</section>

@@ -1,0 +1,82 @@
+<section class="mainbar">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget wgreen">
+                        <div ht-widget-header title={{vm.title}} allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+                            <div class="row">
+                                <table class="table table-bordered table-responsive table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Omschrijving</th>
+                                            <th>Eenheid</th>
+                                            <th>Actie</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="m in vm.metingSoorten | orderBy: 'omschrijving'" ng-click="vm.metingSoortSelecteren(m)">
+                                            <td>
+                                                {{m.omschrijving }}
+                                            </td>
+                                            <td>
+                                                {{m.eenheid}}
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger btn-sm" ng-click="vm.metingSoorten.$remove(m);vm.geselecteerdeMetingSoort = null;vm.toonButtonNieuw=true">Verwijderen</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <br />
+                            </div>
+                            <div class="row">
+                                <form class="form-horizontal" role="form">
+                                    <fieldset>
+                                        <legend ng-show="vm.toonButtonNieuw">Metingsoorten Toevoegen</legend>
+                                        <legend ng-show="!vm.toonButtonNieuw">Metingsoorten Wijzigen</legend>
+                                        <div class="form-group">
+                                            <label for="metingSoortOmschrijving" class="col-sm-3 control-label">Omschrijving</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" placeholder="omschrijving ...." ng-model="vm.geselecteerdeMetingSoort.omschrijving" class="form-control"
+                                                />
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="metingSoortEenheid" class="col-sm-3 control-label">Eenheid</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" placeholder="meet-eenheid ...." ng-model="vm.geselecteerdeMetingSoort.eenheid" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-offset-3 col-sm-9" ng-show="!vm.toonButtonNieuw">
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.metingSoortWijzigen()" value="Wijzigen" />
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.metingSoortOpslaanTonen()" value="Nieuw" />
+                                </div>
+                                <br/>
+                                <div class="row col-sm-offset-3 col-sm-9" ng-show="vm.toonButtonNieuw">
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.metingSoortOpslaan()" value="Opslaan" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </section>
+</section>

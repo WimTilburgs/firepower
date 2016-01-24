@@ -6,12 +6,13 @@
         .controller('DashboardController', DashboardController);
 
     DashboardController.$inject = ['dataservice', 'logger',
-        'firebaseData', '$q', '$state', 'uiGridConstants', '_', 'blogic'];
+        'firebaseData', '$q', '$state', 'uiGridConstants', 'blogic'];
     /* @ngInject */
     function DashboardController(dataservice, logger, firebaseData
-        , $q, $state, uiGridConstants, _, blogic) {
+        , $q, $state, uiGridConstants, blogic) {
 
         var vm = this;
+        var _ = window._;
         vm.gebruiker = firebaseData.getGebruiker;
         vm.trainingen = firebaseData.getTrainingen;
         vm.toonRecords = true;

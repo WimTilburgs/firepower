@@ -1,6 +1,6 @@
 ///<reference path="./../../../typings/angularjs/angular.d.ts"/>
-var app;
-(function (app) {
+module app {
+
     angular.module('app', [
         'ui.grid',
         'ui.grid.edit',
@@ -16,5 +16,6 @@ var app;
         'app.login',
         'app.stamgegevens',
         'app.trainen',
-    ]);
-})(app || (app = {}));
+    ])
+    //.constant('_',Window._);
+}

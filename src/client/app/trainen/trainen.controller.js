@@ -5,10 +5,11 @@
         .module('app.trainen')
         .controller('Trainen', Trainen);
 
-    Trainen.$inject = ['logger', '_', 'firebaseData', 'uiGridConstants', '$state', 'blogic'];
+    Trainen.$inject = ['logger', 'firebaseData', 'uiGridConstants', '$state', 'blogic'];
     /* @ngInject */
-    function Trainen(logger, _, firebaseData, uiGridConstants, $state, blogic) {
+    function Trainen(logger, firebaseData, uiGridConstants, $state, blogic) {
         var vm = this;
+        var _ = window._;
         vm.datum = new Date();
         vm.oefeningen = firebaseData.getOefeningen;
         vm.trainingen = firebaseData.getTrainingen;

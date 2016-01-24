@@ -25,7 +25,8 @@
 
         function workoutSelecteren(workout) {
             vm.workoutVandaag = _.filter(vm.trainingen,
-                { 'oefeningId': workout.oefeningId, 'workoutNummer': workout.workoutNummer, 'realisatie': false });
+                { 'oefeningId': workout.oefeningId, 'workoutNummer': workout.workoutNummer, 
+                'realisatie': false, 'fireUid': vm.authData.uid });
             vm.workoutVandaag = _.orderBy(vm.workoutVandaag, ['setNummer']);
             vm.workoutsTonen = false;
             //vm.gridTrainingen.data = vm.workoutVandaag;
@@ -57,51 +58,6 @@
             if (training.aantalReps > vm.recordAantal && training.repsFree == true) {
                 logger.error('reps :' + training.aantalReps, 'Nieuw Record!');
             }
-        };
-
-        vm.gridTrainingen = {
-            enableSorting: true,
-            enableFiltering: true,
-
-            columnDefs: [
-                {
-                    field: 'workoutNummer'
-                },
-                {
-                    field: 'datum',
-                    type: 'date',
-                    cellFilter: 'date',
-                },
-                {
-                    field: 'setNummer',
-                },
-                {
-                    field: 'oefeningOmschrijving'
-                },
-                {
-                    field: 'gewicht',
-                    // sort: {
-                    //     direction: uiGridConstants.DESC,
-                    //     priority: 1
-                    // }
-                },
-                {
-                    field: 'aantalReps',
-                    // sort: {
-                    //     direction: uiGridConstants.DESC,
-                    //     priority: 2
-                    // }
-                },
-                {
-                    field: 'repsFree',
-                    //filter: {term: true},
-                    displayName: 'Amrap set'
-                },
-                {
-                    field: 'realisatie',
-                    //filter: { term: true },
-                },
-            ]
         };
 
         activate();

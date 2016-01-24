@@ -17,7 +17,7 @@
             getTrainingsMethodes: getTrainingsMethodes(),
             getTrainingsSchemas: getTrainingsSchemas(),
             getTrainingen: getTrainingen(),
-            getTrainingenNietGerealiseerd: getTrainingenNietGerealiseerd()
+            getTrainingenPerGebruiker: getTrainingenPerGebruiker
         };
         return service;
 
@@ -54,8 +54,8 @@
             return $firebaseArray(Ref.child('trainingen'));
         }
 
-        function getTrainingenNietGerealiseerd() {
-            return $firebaseArray(Ref.child('trainingen').orderByChild('realisatie').equalTo(false));
+        function getTrainingenPerGebruiker(gebruiker) {
+            return $firebaseArray(Ref.child('trainingen').orderByChild('userName').equalTo(gebruiker));
         }
 
         function getIngelogd() {

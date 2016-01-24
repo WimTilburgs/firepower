@@ -40,7 +40,7 @@
             var geg = trainingen;
             //filter de trainingen voor de huidige gebruiker ook de niet actieve selecteren
             geg = _.filter(geg, { 'fireUid': uid, 'realisatie': false });
-            
+            console.log(geg)
             //Haal de oefeningen 
             //Hier zit nog een probleem als er geen openstaande oefeningen zijn
             //var uniekeOefeningen = _.chain(geg).map(function (o) { return o.oefeningOmschrijving }).uniq().value();

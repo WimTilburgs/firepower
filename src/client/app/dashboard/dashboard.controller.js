@@ -56,8 +56,9 @@
             enableFiltering: true,
 
             columnDefs: [
+                
                 {
-                    field: 'voorNaam'
+                    field: 'userName'
                 },
                 {
                     field: 'datum',

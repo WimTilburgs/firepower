@@ -22,7 +22,7 @@
                     controllerAs: 'vm',
                     title: 'tijdelijk',
                     // settings: {
-                    //     nav: 5,
+                    //     nav: 150,
                     //     content: '<i class="fa fa-lock"></i> tijdelijk'
                     // },
                     authenticate: true

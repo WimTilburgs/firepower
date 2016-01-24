@@ -31,6 +31,15 @@
             vm.workoutsTonen = false;
             //vm.gridTrainingen.data = vm.workoutVandaag;
         }
+        
+        function bepaalRecordAantal(oefeningId, gewicht) {
+            var record = _.filter(vm.records, { 'oefeningId': oefeningId, 'gewicht': gewicht });
+            if (record.length == 0) {
+                return 0;
+            }
+            var mapped = _.map(record, 'aantalReps');
+            return mapped[0];
+        }
 
         function getRecordAantal(oefeningId, gewicht) {
             var record = _.filter(vm.records, { 'oefeningId': oefeningId, 'gewicht': gewicht });
@@ -52,11 +61,18 @@
         };
 
         function setOpslaan(training) {
+            if (training.aantalReps > bepaalRecordAantal(training.oefeningId,training.gewicht) && training.repsFree == true) {
+                logger.error('Nieuw recordaantal! :' + training.aantalReps);
+            }
+            console.log('record aantal ' + bepaalRecordAantal(training.oefeningId,training.gewicht));
             training.datum = vm.datum.getTime();
             training.realisatie = true;
             vm.trainingen.$save(training);
-            if (training.aantalReps > vm.recordAantal && training.repsFree == true) {
-                logger.error('reps :' + training.aantalReps, 'Nieuw Record!');
+            
+            console.log(vm.workoutVandaag.length);
+            if (vm.workoutVandaag.length == 0)
+            {
+                vm.workoutsTonen = true;
             }
         };
 

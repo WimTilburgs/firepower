@@ -14,11 +14,26 @@
         var vm = this;
         vm.gebruiker = firebaseData.getGebruiker;
         vm.trainingen = firebaseData.getTrainingen;
+        vm.toonRecords = true;
+        vm.toonTrainingen = false;
 
         // Haal de inloggegevens op
         vm.authData = firebaseData.getAuthGegevens;
+        vm.kiesOverzicht = kiesOverzicht;
 
         vm.oefeningen = firebaseData.getOefeningen;
+
+        function kiesOverzicht(overzicht) {
+            if (overzicht == 'trainingen') {
+                vm.toonRecords = false;
+                vm.toonTrainingen = true;
+            }
+            if (overzicht == 'records') {
+                vm.toonRecords = true;
+                vm.toonTrainingen = false;
+            }
+        }
+
         vm.gridRecords = {
             enableSorting: true,
             enableFiltering: true,
@@ -56,7 +71,7 @@
             enableFiltering: true,
 
             columnDefs: [
-                
+
                 {
                     field: 'userName'
                 },

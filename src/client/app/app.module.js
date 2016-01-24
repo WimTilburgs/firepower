@@ -4,16 +4,18 @@
     angular.module('app', [
         'ui.grid',
         'ui.grid.edit',
+        'ui.bootstrap',
         'app.core',
-        'app.widgets',
         'app.firebase',
-        'app.home',
+        'app.widgets',
         'app.admin',
         'app.dashboard',
+        'app.gebruiker',
+        'app.home',
         'app.layout',
         'app.login',
+        'app.stamgegevens',
         'app.trainen',
-        'app.stamgegevens'
     ])
     .constant('_',window._);
 

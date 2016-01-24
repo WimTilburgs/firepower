@@ -30,8 +30,8 @@
     "angular-animate": "^1.4.5",
     "firebase": "~2.3.2",
     "angularfire": "~1.1.3",
-    "angular-ui-grid": "*"
-    
+    "angular-ui-grid": "*",
+    "angular-bootstrap": "~1.1.0"
   },
   "resolutions": {
     "angular": "1.3.17"

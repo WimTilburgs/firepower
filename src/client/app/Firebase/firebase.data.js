@@ -30,11 +30,6 @@
             return $firebaseArray(Ref.child('metingSoorten'))
         }
         function getOefeningen() {
-            // var oefeningen = $firebaseArray(Ref.child('oefeningen'));
-            // if (oefeningen.length == 0) {
-            //     var newRef = new $window.Firebase(FBURL + '/oefeningen');
-            //     return $firebaseArray(newRef);
-            // }
             return $firebaseArray(Ref.child('oefeningen'));
         }
 

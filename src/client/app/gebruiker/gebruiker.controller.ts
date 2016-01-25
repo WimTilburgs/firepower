@@ -1,8 +1,10 @@
 ///<reference path="../../../../typings/angularjs/angular.d.ts"/>
+///<reference path="../core/app.domain.ts"/>
 module app.controller {
     interface IGebruiker {
         title: string;
-        user: app.domain.IUser
+        user: app.domain.IUser;
+        inlogGegevens: any;
         activate: () => void;
     }
 
@@ -10,6 +12,7 @@ module app.controller {
         static controllerId = 'Gebruiker';
         title: string;
         user: app.domain.IUser;
+        inlogGegevens: any;
         /* @ngInject */
         static $inject = ['logger','firebaseData'];
         constructor(private logger: any , private firebaseData: any) {
@@ -18,9 +21,9 @@ module app.controller {
         private init() {
             this.title = 'Gebruikersoverzicht',
             this.user = this.firebaseData.getGebruiker;
+            this.inlogGegevens = this.firebaseData.getAuthGegevens;
             
-            
-             this.logger.info(this.user)
+             this.logger.info(this.user.achterNaam)
                 this.activate();
         }
         activate(): void {
@@ -32,27 +35,4 @@ module app.controller {
     angular
         .module('app.gebruiker')
         .controller(Gebruiker.controllerId, Gebruiker);
-}
-module app.domain {
-    export interface IUser {
-        achterNaam: string;
-        email: string;
-        geboorteDatum: Date;
-        geslacht: string;
-        voorNaam: string; 
-    }  
-    export class User implements IUser {
-        naam:string;
-        constructor(
-        public achterNaam: string,
-        public email: string,
-        public geboorteDatum: Date,
-        public geslacht: string,
-        public voorNaam: string       
-        ){
-            this.naam = voorNaam + ' ' + achterNaam;
-        }
-        export = app.domain;
-    }
-    
 }

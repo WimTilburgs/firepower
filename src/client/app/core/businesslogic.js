@@ -5,9 +5,9 @@
         .module('app.core')
         .service('blogic', blogic);
 
-    blogic.$inject = [];
-    function blogic() {
-        var _ = window._;
+    blogic.$inject = ['_'];
+    function blogic(_) {
+        //var _ = window._;
         var service = {
             getRecords: getRecords,
             getOpenstaandeWorkouts: getOpenstaandeWorkouts

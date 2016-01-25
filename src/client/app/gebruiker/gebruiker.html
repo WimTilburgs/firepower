@@ -24,16 +24,60 @@
                 </div>
             </div>-->
             <div class="row">
-                
+
                 <div class="col-md-12">
                     <div class="widget wgreen">
                         <div ht-widget-header title="{{vm.title}}" allow-collapse="true"></div>
                         <div class="widget-content text-center text-info">
-                            <h4 ng-show="!vm.user.$value">{{vm.user.$id}}</h4>
-                            <h4 ng-show="vm.user.$value">{{vm.user.naam}}</h4>
-                            <p>{{vm.user.opmerkingen}}</p>
+                            <div class="row">
+                                <form class="form-horizontal" role="form">
+                                    <fieldset>
+                                        <legend>Gegevens gebruiker</legend>
+                                        <!--Een tekstregelinvoer groep-->
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Voornaam</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" placeholder="voornaam ...." ng-model="vm.user.voorNaam" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <!--Einde invoergroep-->
+                                        
+                                         <!--Een tekstregelinvoer groep-->
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Achternaam</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" placeholder="voornaam ...." ng-model="vm.user.achterNaam" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <!--Einde invoergroep-->
+                                        
+                                        <!--Een tekstregelinvoer groep-->
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">e-mail</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" placeholder="e-mail ...." ng-model="vm.user.email" class="form-control" />
+                                            </div>
+                                        </div>
+                                         <!--Einde invoergroep-->
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-offset-3 col-sm-9" ng-show="!vm.toonButtonNieuw">
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.metingSoortWijzigen()" value="Wijzigen" />
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.metingSoortOpslaanTonen()" value="Nieuw" />
+                                </div>
+                                <br/>
+                                <div class="row col-sm-offset-3 col-sm-9" ng-show="vm.toonButtonNieuw">
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.metingSoortOpslaan()" value="Opslaan" />
+                                </div>
+                            </div>
+                            <h4>{{vm.user.voorNaam}}</h4>
+                            <h4>{{vm.user.naam}}</h4>
+                            <p>{{vm.user.achterNaam}}</p>
                             <pre>{{vm.user}}</pre>
-                            <pre>{{vm.inlogGegevens}}</pre>
+                            <pre>{{vm.gegUser.password.email | json}}</pre>
                         </div>
                         <div class="widget-foot">
                             <div class="clearfix"></div>

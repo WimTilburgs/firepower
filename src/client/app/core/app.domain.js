@@ -7,7 +7,7 @@ var app;
                 this.achterNaam = achterNaam;
                 this.voorNaam = voorNaam;
                 this.export = app.domain;
-                this.name = voorNaam + ' ' + achterNaam;
+                this.naam = voorNaam + ' ' + achterNaam;
             }
             return User;
         })();

@@ -32,7 +32,7 @@
                             <div class="row">
                                 <form class="form-horizontal" role="form">
                                     <fieldset>
-                                        <legend>Gegevens gebruiker</legend>
+                                        <legend>{{vm.user.naam}}</legend>
                                         <!--Een tekstregelinvoer groep-->
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Voornaam</label>
@@ -78,6 +78,7 @@
                             <p>{{vm.user.achterNaam}}</p>
                             <pre>{{vm.user}}</pre>
                             <pre>{{vm.gegUser.password.email | json}}</pre>
+                            <pre>{{vm.gegUser | json}}</pre>
                         </div>
                         <div class="widget-foot">
                             <div class="clearfix"></div>

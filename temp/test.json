@@ -1,0 +1,17 @@
+{
+  "$id": "c4da4c76-d342-4413-b393-c0495d841f37",
+  "$priority": null,
+  "auth": {
+    "provider": "password",
+    "uid": "c4da4c76-d342-4413-b393-c0495d841f37"
+  },
+  "expires": 1453837336,
+  "password": {
+    "email": "johan.brouwer@gmail.com",
+    "isTemporaryPassword": false,
+    "profileImageURL": "https://secure.gravatar.com/avatar/b3cdcb76bc962e13c133ed6a61d7e87a?d=retro"
+  },
+  "provider": "password",
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ2IjowLCJkIjp7InByb3ZpZGVyIjoicGFzc3dvcmQiLCJ1aWQiOiJjNGRhNGM3Ni1kMzQyLTQ0MTMtYjM5My1jMDQ5NWQ4NDFmMzcifSwiaWF0IjoxNDUzNzUwOTM2fQ.c0sX6rrlGdaIOGZ81FcFO10TmXHH7aTEcDxC5JhbY7I",
+  "uid": "c4da4c76-d342-4413-b393-c0495d841f37"
+}

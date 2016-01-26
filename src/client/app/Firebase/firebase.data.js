@@ -17,7 +17,8 @@
             getTrainingsMethodes: getTrainingsMethodes(),
             getTrainingsSchemas: getTrainingsSchemas(),
             getTrainingen: getTrainingen(),
-            getTrainingenPerGebruiker: getTrainingenPerGebruiker
+            getTrainingenPerGebruiker: getTrainingenPerGebruiker,
+            getGebruikerValue: getGebruikerValue()
         };
         return service;
 
@@ -61,6 +62,15 @@
             else {
                 return false;
             }
+        }
+
+        function getGebruikerValue() {
+            var authData = Auth.$getAuth();
+            Ref.child('users').child(authData.uid).once('value', function (snapshot) {
+                var data = snapshot.val().password.email;
+                //console.log(snapshot.val().password.email);
+                return data;
+            })
         }
 
         function getGebruiker() {

@@ -7,13 +7,13 @@ module app.domain {
         voorNaam: string; 
     }  
     export class User implements IUser {
-        name:string;
+        naam:string;
         constructor(
         public achterNaam: string,
         
         public voorNaam: string       
         ){
-            this.name = voorNaam + ' ' + achterNaam;
+            this.naam = voorNaam + ' ' + achterNaam;
         }
         export = app.domain;
     }

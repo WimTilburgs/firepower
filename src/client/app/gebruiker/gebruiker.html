@@ -32,7 +32,7 @@
                             <div class="row">
                                 <form class="form-horizontal" role="form">
                                     <fieldset>
-                                        <legend>{{vm.user.naam}}</legend>
+                                        <legend>{{'Welkom ' + vm.user.voorNaam + ' ' + vm.user.achterNaam}}</legend>
                                         <!--Een tekstregelinvoer groep-->
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Voornaam</label>
@@ -46,7 +46,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Achternaam</label>
                                             <div class="col-sm-9">
-                                                <input type="text" placeholder="voornaam ...." ng-model="vm.user.achterNaam" class="form-control" />
+                                                <input type="text" placeholder="achternaam ...." ng-model="vm.user.achterNaam" class="form-control" />
                                             </div>
                                         </div>
                                         <!--Einde invoergroep-->
@@ -64,21 +64,19 @@
                             </div>
                             <br/>
                             <div class="row">
-                                <div class="col-sm-offset-3 col-sm-9" ng-show="!vm.toonButtonNieuw">
-                                    <input type="submit" class="btn btn-primary" ng-click="vm.metingSoortWijzigen()" value="Wijzigen" />
-                                    <input type="submit" class="btn btn-primary" ng-click="vm.metingSoortOpslaanTonen()" value="Nieuw" />
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <input type="submit" class="btn btn-primary" ng-click="vm.userOpslaan()" value="Opslaan" />
+                                   
                                 </div>
                                 <br/>
-                                <div class="row col-sm-offset-3 col-sm-9" ng-show="vm.toonButtonNieuw">
-                                    <input type="submit" class="btn btn-primary" ng-click="vm.metingSoortOpslaan()" value="Opslaan" />
-                                </div>
+                                
                             </div>
-                            <h4>{{vm.user.voorNaam}}</h4>
+                            <!--<h4>{{vm.user.voorNaam}}</h4>
                             <h4>{{vm.user.naam}}</h4>
                             <p>{{vm.user.achterNaam}}</p>
                             <pre>{{vm.user}}</pre>
                             <pre>{{vm.gegUser.password.email | json}}</pre>
-                            <pre>{{vm.gegUser | json}}</pre>
+                            <pre>{{vm.gegUser | json}}</pre>-->
                         </div>
                         <div class="widget-foot">
                             <div class="clearfix"></div>

@@ -17,43 +17,53 @@ var app;
                 //this.user = new app.domain.User('Tilburgs' , 'Wim');
                 //this.inlogGegevens = this.firebaseData.getAuthGegevens;
                 //console.log(this.inlogGegevens)
-                this.title = 'Gebruikersoverzicht',
-                    //this.gegUser = this.MaakGebruiker();
-                    //alert(this.gegUser);
-                    //this.user = new app.domain.User('jassan','hassan');
-                    this.MaakGebruiker();
+                this.title = 'Gebruikersoverzicht';
+                this.getUser();
                 this.activate();
             };
-            Gebruiker.prototype.MaakGebruiker = function () {
+            Gebruiker.prototype.userOpslaan = function () {
+                var authData = this.firebaseData.getAuthGegevens;
+                this.Ref.child('users').child(authData.uid).update({
+                    'voorNaam': this.user.voorNaam,
+                    'achterNaam': this.user.achterNaam,
+                    'email': this.user.email
+                });
+                //alert(this.user.voorNaam) 
+            };
+            Gebruiker.prototype.getUser = function () {
                 var authData = this.firebaseData.getAuthGegevens;
                 this.Ref.child('users').child(authData.uid).once('value', function (snapshot) {
-                    //var data = snapshot.val().password.email;
-                    console.log(snapshot.val().password.email);
-                    //var x = 
-                    Gebruiker.prototype.gegUser = snapshot.val();
-                    var x = Gebruiker.prototype.gegUser;
-                    var achternaam = x.password.email;
-                    Gebruiker.prototype.user = new app.domain.User(achternaam, 'wim');
+                    Gebruiker.prototype.makeUser(snapshot.val());
                 });
-                //alert(test);
             };
-            // getUser() : any {
-            //     var authData = this.Auth.$getAuth();
-            //     if (authData) {
-            //         this.Ref.child('users').child(authData.uid).once('value', function(snapshot) {
-            //             if (snapshot.val() === null) {
-            //                 
-            //                 return snapshot.val();
-            //             }
-            //             else {
-            //                 console.log(snapshot.val());
-            //                 return new app.domain.User('Tilburgs','Wim')
-            //                 
-            //             }
-            //             //return snapshot.val();
-            //         })
-            //     }
-            // }
+            Gebruiker.prototype.makeUser = function (data) {
+                var _achterNaam;
+                var _email;
+                var _voorNaam;
+                Gebruiker.prototype.gegUser = data;
+                var x = Gebruiker.prototype.gegUser;
+                if (x.provider == 'password') {
+                    if (!x.email) {
+                        _email = x.password.email;
+                    }
+                    else {
+                        _email = x.email;
+                    }
+                    if (!x.achterNaam) {
+                        _achterNaam = '';
+                    }
+                    else {
+                        _achterNaam = x.achterNaam;
+                    }
+                    if (!x.voorNaam) {
+                        _voorNaam = '';
+                    }
+                    else {
+                        _voorNaam = x.voorNaam;
+                    }
+                }
+                Gebruiker.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+            };
             Gebruiker.prototype.activate = function () {
                 this.logger.info('Gebruikersoverzicht');
                 //     this.gegUser.$loaded(function () {

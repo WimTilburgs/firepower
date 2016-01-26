@@ -1,7 +1,7 @@
 module app.domain {
     export interface IUser {
         achterNaam: string;
-        //email: string;
+        email: string;
         //geboorteDatum: Date;
         //geslacht: string;
         voorNaam: string; 
@@ -10,7 +10,7 @@ module app.domain {
         naam:string;
         constructor(
         public achterNaam: string,
-        
+        public email: string,
         public voorNaam: string       
         ){
             this.naam = voorNaam + ' ' + achterNaam;

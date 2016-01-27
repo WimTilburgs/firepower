@@ -17,8 +17,10 @@ module app.controller {
         inlogGegevens: any;
         gegUser: any;
         /* @ngInject */
-        static $inject = ['logger', 'firebaseData', 'Auth', 'Ref'];
-        constructor(private logger: any, private firebaseData: any, private Auth: any, private Ref: any) {
+        static $inject = ['logger', 'firebaseData', 'Auth', 'Ref', '$state'];
+        constructor(private logger: any, private firebaseData: any, private Auth: any,
+            private Ref: any,
+            private $state: any) {
             this.init();
         }
         private init() {
@@ -30,8 +32,9 @@ module app.controller {
             this.getUser();
             this.activate();
         }
-        
-        userOpslaan() : void {
+
+        userOpslaan(): void {
+            
             var authData = this.firebaseData.getAuthGegevens;
             this.Ref.child('users').child(authData.uid).update(
                 {
@@ -41,48 +44,106 @@ module app.controller {
                 });
             //alert(this.user.voorNaam) 
         }
-        
+
         private getUser(): void {
             var authData = this.firebaseData.getAuthGegevens;
-            this.Ref.child('users').child(authData.uid).once('value', function(snapshot) {
-                Gebruiker.prototype.makeUser(snapshot.val())
+            if (!authData) {
+                this.$state.go('login');
+            }
+            else {
+                this.Ref.child('users').child(authData.uid).once('value', function(snapshot) {
+                    Gebruiker.prototype.makeUser(snapshot.val());
 
-            })
+                });
+            }
+
         }
 
         private makeUser(data) {
             var _achterNaam: string;
             var _email: string;
             var _voorNaam: string;
+           
+            /**
+             * deze gebruik ik nu om geguser wat zichtbaar te maken voor ontwikkeling
+             * hierna gewoon var x = data gebruiken
+             */
             Gebruiker.prototype.gegUser = data;
+            
             var x = Gebruiker.prototype.gegUser;
-            if (x.provider == 'password') {
-                if(!x.email)
-                {
-                    _email = x.password.email;
-                }
-                else
-                {
-                    _email = x.email;
-                }
-                if(!x.achterNaam){
-                    _achterNaam = '';
-                }
-                else
-                {
-                    _achterNaam = x.achterNaam;
-                }
-                if(!x.voorNaam){
-                    _voorNaam = '';
-                }
-                else
-                {
-                    _voorNaam = x.voorNaam;
-                }
-                
-                
+            //alert(x.achterNaam)
+            switch (x.provider) {
+                case 'password':
+
+                    if (!x.achterNaam) {
+                        _achterNaam = '';
+                    }
+                    else {
+                        _achterNaam = x.achterNaam;
+                    }
+                    if (!x.voorNaam) {
+                        _voorNaam = '';
+                    }
+                    else {
+                        _voorNaam = x.voorNaam;
+                    }
+                    if (!x.email) {
+                        _email = x.password.email;
+                    }
+                    else {
+                        _email = x.email;
+                    }
+                    break;
+
+                case 'facebook':
+                    if (!x.achterNaam) {
+                        _achterNaam = x.facebook.cachedUserProfile.last_name;
+                    }
+                    else {
+                        _achterNaam = x.achterNaam;
+                    }
+                    if (!x.voorNaam) {
+                        _voorNaam = x.facebook.cachedUserProfile.first_name;
+                    }
+                    else {
+                        _voorNaam = x.voorNaam;
+                    }
+                    if (!x.email) {
+                        _email = x.facebook.cachedUserProfile.email;
+                    }
+                    else {
+                        _email = x.email;
+                    }
+
+                    break;
+
+                case 'google':
+                    if (x.achterNaam === undefined) {
+                        _achterNaam =  x.google.cachedUserProfile.family_name;
+                    }
+                    else {
+                        _achterNaam =  x.achterNaam;
+                    }
+                    if (!x.voorNaam) {
+                        _voorNaam = x.google.cachedUserProfile.given_name;
+                    }
+                    else {
+                        _voorNaam = x.voorNaam;
+                    }
+                    if (!x.email) {
+                        _email = '';
+                    }
+                    else {
+                        _email = x.email;
+                    }
+                    
+                    //break;
+
+                default:
+                   // break;
             }
-            Gebruiker.prototype.user = new app.domain.User(_achterNaam ,_email, _voorNaam);
+
+            Gebruiker.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam);
         }
 
         activate(): void {

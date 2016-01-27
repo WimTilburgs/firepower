@@ -22,7 +22,7 @@
                     controllerAs: 'vm',
                     title: 'inloggen',
                     settings: {
-                        nav: 100,
+                        nav: 99,
                         content: '<i class="fa fa-sign-in"></i> Inloggen'
                     }
                 }

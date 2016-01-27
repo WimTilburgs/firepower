@@ -5,11 +5,12 @@ var app;
     var controller;
     (function (controller) {
         var Gebruiker = (function () {
-            function Gebruiker(logger, firebaseData, Auth, Ref) {
+            function Gebruiker(logger, firebaseData, Auth, Ref, $state) {
                 this.logger = logger;
                 this.firebaseData = firebaseData;
                 this.Auth = Auth;
                 this.Ref = Ref;
+                this.$state = $state;
                 this.init();
             }
             Gebruiker.prototype.init = function () {
@@ -32,35 +33,88 @@ var app;
             };
             Gebruiker.prototype.getUser = function () {
                 var authData = this.firebaseData.getAuthGegevens;
-                this.Ref.child('users').child(authData.uid).once('value', function (snapshot) {
-                    Gebruiker.prototype.makeUser(snapshot.val());
-                });
+                if (!authData) {
+                    this.$state.go('login');
+                }
+                else {
+                    this.Ref.child('users').child(authData.uid).once('value', function (snapshot) {
+                        Gebruiker.prototype.makeUser(snapshot.val());
+                    });
+                }
             };
             Gebruiker.prototype.makeUser = function (data) {
                 var _achterNaam;
                 var _email;
                 var _voorNaam;
+                /**
+                 * deze gebruik ik nu om geguser wat zichtbaar te maken voor ontwikkeling
+                 * hierna gewoon var x = data gebruiken
+                 */
                 Gebruiker.prototype.gegUser = data;
                 var x = Gebruiker.prototype.gegUser;
-                if (x.provider == 'password') {
-                    if (!x.email) {
-                        _email = x.password.email;
-                    }
-                    else {
-                        _email = x.email;
-                    }
-                    if (!x.achterNaam) {
-                        _achterNaam = '';
-                    }
-                    else {
-                        _achterNaam = x.achterNaam;
-                    }
-                    if (!x.voorNaam) {
-                        _voorNaam = '';
-                    }
-                    else {
-                        _voorNaam = x.voorNaam;
-                    }
+                //alert(x.achterNaam)
+                switch (x.provider) {
+                    case 'password':
+                        if (!x.achterNaam) {
+                            _achterNaam = '';
+                        }
+                        else {
+                            _achterNaam = x.achterNaam;
+                        }
+                        if (!x.voorNaam) {
+                            _voorNaam = '';
+                        }
+                        else {
+                            _voorNaam = x.voorNaam;
+                        }
+                        if (!x.email) {
+                            _email = x.password.email;
+                        }
+                        else {
+                            _email = x.email;
+                        }
+                        break;
+                    case 'facebook':
+                        if (!x.achterNaam) {
+                            _achterNaam = x.facebook.cachedUserProfile.last_name;
+                        }
+                        else {
+                            _achterNaam = x.achterNaam;
+                        }
+                        if (!x.voorNaam) {
+                            _voorNaam = x.facebook.cachedUserProfile.first_name;
+                        }
+                        else {
+                            _voorNaam = x.voorNaam;
+                        }
+                        if (!x.email) {
+                            _email = x.facebook.cachedUserProfile.email;
+                        }
+                        else {
+                            _email = x.email;
+                        }
+                        break;
+                    case 'google':
+                        if (x.achterNaam === undefined) {
+                            _achterNaam = x.google.cachedUserProfile.family_name;
+                        }
+                        else {
+                            _achterNaam = x.achterNaam;
+                        }
+                        if (!x.voorNaam) {
+                            _voorNaam = x.google.cachedUserProfile.given_name;
+                        }
+                        else {
+                            _voorNaam = x.voorNaam;
+                        }
+                        if (!x.email) {
+                            _email = '';
+                        }
+                        else {
+                            _email = x.email;
+                        }
+                    //break;
+                    default:
                 }
                 Gebruiker.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam);
             };
@@ -74,7 +128,7 @@ var app;
             };
             Gebruiker.controllerId = 'Gebruiker';
             /* @ngInject */
-            Gebruiker.$inject = ['logger', 'firebaseData', 'Auth', 'Ref'];
+            Gebruiker.$inject = ['logger', 'firebaseData', 'Auth', 'Ref', '$state'];
             return Gebruiker;
         })();
         angular

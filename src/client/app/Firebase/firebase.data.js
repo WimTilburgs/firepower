@@ -5,8 +5,24 @@
         .module('app.firebase')
         .factory('firebaseData', firebaseData);
 
-    firebaseData.$inject = ['logger', '$firebaseArray', '$firebaseObject', 'Ref', 'exception', 'Auth', 'FBURL', '$window'];
-    function firebaseData(logger, $firebaseArray, $firebaseObject, Ref, exception, Auth, FBURL, $window) {
+    firebaseData.$inject = ['logger',
+        '$firebaseArray',
+        '$firebaseObject',
+        'Ref',
+        'exception',
+        'Auth',
+        'FBURL',
+        '$window',
+        '$state'];
+    function firebaseData(logger,
+        $firebaseArray,
+        $firebaseObject,
+        Ref,
+        exception,
+        Auth,
+        FBURL,
+        $window,
+        $state) {
         var service = {
             getAuthGegevens: getAuthGegevens(),
             getGebruiker: getGebruiker(),
@@ -18,13 +34,17 @@
             getTrainingsSchemas: getTrainingsSchemas(),
             getTrainingen: getTrainingen(),
             getTrainingenPerGebruiker: getTrainingenPerGebruiker,
-            getGebruikerValue: getGebruikerValue()
+
         };
         return service;
 
         //////////////// error handling moet nog gemaakt worden!
         function getAuthGegevens() {
+
             var authData = Auth.$getAuth();
+            if (!authData) {
+                $state.go('login');
+            }
             return authData;
         }
         function getMetingSoorten() {
@@ -64,14 +84,6 @@
             }
         }
 
-        function getGebruikerValue() {
-            var authData = Auth.$getAuth();
-            Ref.child('users').child(authData.uid).once('value', function (snapshot) {
-                var data = snapshot.val().password.email;
-                //console.log(snapshot.val().password.email);
-                return data;
-            })
-        }
 
         function getGebruiker() {
             var authData = Auth.$getAuth();

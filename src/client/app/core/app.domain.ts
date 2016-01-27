@@ -7,7 +7,7 @@ module app.domain {
         voorNaam: string; 
     }  
     export class User implements IUser {
-        naam:string;
+        naam: string;
         constructor(
         public achterNaam: string,
         public email: string,

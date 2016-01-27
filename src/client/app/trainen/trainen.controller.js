@@ -85,18 +85,19 @@
                 //$state.reload();
                 $state.go('login');
             }
-            // Haal de inloggegevens op
-            vm.authData = firebaseData.getAuthGegevens;
-
-            vm.trainingen.$loaded(function () {
-                //berekenRecords(vm.trainingen);
-                vm.openWorkoutsKlaar = blogic.getOpenstaandeWorkouts(vm.trainingen, vm.oefeningen, vm.authData.uid);
-                if (vm.openWorkoutsKlaar.length != 0) {
-                    vm.workoutsTonen = true;
-                }
-                vm.records = blogic.getRecords(vm.trainingen, vm.oefeningen, vm.authData.uid);
-                //console.log(vm.records);
-            });
+            else {
+                // Haal de inloggegevens op
+                vm.authData = firebaseData.getAuthGegevens;
+                vm.trainingen.$loaded(function () {
+                    //berekenRecords(vm.trainingen);
+                    vm.openWorkoutsKlaar = blogic.getOpenstaandeWorkouts(vm.trainingen, vm.oefeningen, vm.authData.uid);
+                    if (vm.openWorkoutsKlaar.length != 0) {
+                        vm.workoutsTonen = true;
+                    }
+                    vm.records = blogic.getRecords(vm.trainingen, vm.oefeningen, vm.authData.uid);
+                    //console.log(vm.records);
+                });
+            }
         }
     }
 })();

@@ -5,6 +5,7 @@
     "args": [
         "--no-color"
     ],
+    
     "tasks": [
         {
             "taskName": "build",

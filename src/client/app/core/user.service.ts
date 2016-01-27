@@ -1,78 +1,58 @@
 ///<reference path="../../../../typings/angularjs/angular.d.ts"/>
 ///<reference path="../core/app.domain.ts"/>
-module app.controller {
-    interface IGebruiker {
-        title: string;
+
+module app.core {
+    interface IUserService {
         user: app.domain.IUser;
-        inlogGegevens: any;
-        activate: () => void;
-        userOpslaan: () => void;
-        gegUser: any;
     }
 
-    class Gebruiker implements IGebruiker {
-        static controllerId = 'Gebruiker';
-        title: string;
+    export class UserService
+        implements IUserService {
+
         user: app.domain.IUser;
-        inlogGegevens: any;
-        gegUser: any;
+
         /* @ngInject */
         static $inject = ['logger',
             'firebaseData',
             'Auth',
             'Ref',
             '$state',
-            'currentAuth'
+
         ];
+
         constructor(
             private logger: any,
             private firebaseData: any,
             private Auth: any,
             private Ref: any,
-            private $state: any,
-            private currentAuth: any) {
-            this.init();
-        }
-        private init() {
-            //this.getUser();
-            //this.user = new app.domain.User('Tilburgs' , 'Wim');
-            //this.inlogGegevens = this.firebaseData.getAuthGegevens;
-            //console.log(this.inlogGegevens)
-            this.title = 'Gebruikersoverzicht';
-            if (!this.currentAuth) {
-                this.$state.go('login');
-            }
-            this.getUser();
-            this.activate();
+            private $state: any
+        ) {
+            //getUser()
         }
 
-        userOpslaan(): void {
-            this.Ref.child('users').child(this.currentAuth.uid).update(
-                {
-                    'voorNaam': this.user.voorNaam,
-                    'achterNaam': this.user.achterNaam,
-                    'email': this.user.email
+        getUser(): app.domain.IUser {
+
+            var _achterNaam: string = 'achternaam';
+            var _email: string = 'email';
+            var _voorNaam: string = 'voornaam';
+            return this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+            var authData = this.Auth.$getAuth();
+            if (authData) {
+                this.Ref.child('users').child(authData.uid).once('value', function(snapshot) {
+                   return UserService.prototype.user = new app.domain.User('z', 'y', 'x');
                 });
-        }
-
-        private getUser(): void {
-            this.Ref.child('users').child(this.currentAuth.uid).once('value', function(snapshot) {
-                Gebruiker.prototype.makeUser(snapshot.val())
-            });
+            } else {
+                alert('else');
+               return this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+            }
         }
 
         private makeUser(data) {
             var _achterNaam: string;
             var _email: string;
             var _voorNaam: string;
-           
-            /**
-             * deze gebruik ik nu om geguser wat zichtbaar te maken voor ontwikkeling
-             * hierna gewoon var x = data gebruiken
-             */
-            //Gebruiker.prototype.gegUser = data;
-            this.gegUser = data;
-            var x = this.gegUser;
+
+            var x = data;
             //alert(x.achterNaam)
             switch (x.provider) {
                 case 'password':
@@ -145,21 +125,10 @@ module app.controller {
                     break;
             }
 
-            this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
-        }
-
-        activate(): void {
-            this.logger.info('Gebruikersoverzicht');
-            //     this.gegUser.$loaded(function () {
-            //     console.log(this.gegUser);
-            //     var test = 'Tilburgs'
-            //     Gebruiker.prototype.user = new app.domain.User(test,'wim');
-            // })
-
+            return this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
         }
     }
-
     angular
-        .module('app.gebruiker')
-        .controller(Gebruiker.controllerId, Gebruiker);
+        .module('app.core')
+        .service('userService', UserService);
 }

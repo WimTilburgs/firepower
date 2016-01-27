@@ -64,9 +64,15 @@
                 // Provide an exit clause if it tries to do it twice.
                 $rootScope.$on('$stateChangeError',
                     function (event, toState, toParams, fromState, fromParams, error) {
+                        if (error === 'AUTH_REQUIRED') {
+                            //alert('ik zit in de required toestand');
+                            $state.go('login');
+                            return;
+                        }
                         if (handlingStateChangeError) {
                             return;
                         }
+                        
                         stateCounts.errors++;
                         handlingStateChangeError = true;
                         var destination = (toState &&

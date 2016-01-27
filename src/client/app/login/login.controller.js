@@ -5,9 +5,15 @@
         .module('app.login')
         .controller('Login', Login);
 
-    Login.$inject = ['logger', 'firebaseData', 'Auth', '$state', 'Ref'];
+    Login.$inject = [
+        'logger',
+        'firebaseData',
+        'Auth',
+        '$state',
+        'Ref',
+        'currentAuth'];
     /* @ngInject */
-    function Login(logger, firebaseData, Auth, $state, Ref) {
+    function Login(logger, firebaseData, Auth, $state, Ref, currentAuth) {
         var vm = this;
         vm.title = 'Login';
         vm.gebruiker = {};
@@ -18,11 +24,11 @@
         function afmelden() {
             Auth.$unauth();
             vm.toonInloggen = true;
-            window.location.reload(true);
+            //window.location.reload(true);
         }
 
         //Is de gebruiker ingelogd?
-        if (!firebaseData.getIngelogd) {
+        if (!currentAuth) {
             //$state.reload();
             vm.toonInloggen = true;
         }
@@ -34,9 +40,9 @@
                     logger.error(error);
                 } else {
                     //alert('klaar');
-                    window.location.reload(true);
-                   
-                    $state.go('gebruiker');
+                    //window.location.reload(true);
+
+                    //$state.go('gebruiker');
                 }
 
             }
@@ -49,11 +55,13 @@
                     Ref.child('users').child(authData.uid).set(authData, onComplete);
 
                 } else {
-                    window.location.reload(true);
-                    $state.go('home');
+                    vm.toonInloggen = false;
+                    //window.location.reload(true);
+                    //$state.go('home');
                 }
-                window.location.reload(true);
-                $state.go('gebruiker');
+                //vm.toonInloggen = false;
+                //window.location.reload(true);
+                //$state.go('gebruiker');
             })
 
         }

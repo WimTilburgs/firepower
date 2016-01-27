@@ -5,12 +5,13 @@ var app;
     var controller;
     (function (controller) {
         var Gebruiker = (function () {
-            function Gebruiker(logger, firebaseData, Auth, Ref, $state) {
+            function Gebruiker(logger, firebaseData, Auth, Ref, $state, currentAuth) {
                 this.logger = logger;
                 this.firebaseData = firebaseData;
                 this.Auth = Auth;
                 this.Ref = Ref;
                 this.$state = $state;
+                this.currentAuth = currentAuth;
                 this.init();
             }
             Gebruiker.prototype.init = function () {
@@ -19,28 +20,23 @@ var app;
                 //this.inlogGegevens = this.firebaseData.getAuthGegevens;
                 //console.log(this.inlogGegevens)
                 this.title = 'Gebruikersoverzicht';
+                if (!this.currentAuth) {
+                    this.$state.go('login');
+                }
                 this.getUser();
                 this.activate();
             };
             Gebruiker.prototype.userOpslaan = function () {
-                var authData = this.firebaseData.getAuthGegevens;
-                this.Ref.child('users').child(authData.uid).update({
+                this.Ref.child('users').child(this.currentAuth.uid).update({
                     'voorNaam': this.user.voorNaam,
                     'achterNaam': this.user.achterNaam,
                     'email': this.user.email
                 });
-                //alert(this.user.voorNaam) 
             };
             Gebruiker.prototype.getUser = function () {
-                var authData = this.firebaseData.getAuthGegevens;
-                if (!authData) {
-                    this.$state.go('login');
-                }
-                else {
-                    this.Ref.child('users').child(authData.uid).once('value', function (snapshot) {
-                        Gebruiker.prototype.makeUser(snapshot.val());
-                    });
-                }
+                this.Ref.child('users').child(this.currentAuth.uid).once('value', function (snapshot) {
+                    Gebruiker.prototype.makeUser(snapshot.val());
+                });
             };
             Gebruiker.prototype.makeUser = function (data) {
                 var _achterNaam;
@@ -50,8 +46,9 @@ var app;
                  * deze gebruik ik nu om geguser wat zichtbaar te maken voor ontwikkeling
                  * hierna gewoon var x = data gebruiken
                  */
-                Gebruiker.prototype.gegUser = data;
-                var x = Gebruiker.prototype.gegUser;
+                //Gebruiker.prototype.gegUser = data;
+                this.gegUser = data;
+                var x = this.gegUser;
                 //alert(x.achterNaam)
                 switch (x.provider) {
                     case 'password':
@@ -113,10 +110,11 @@ var app;
                         else {
                             _email = x.email;
                         }
-                    //break;
+                        break;
                     default:
+                        break;
                 }
-                Gebruiker.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+                this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
             };
             Gebruiker.prototype.activate = function () {
                 this.logger.info('Gebruikersoverzicht');
@@ -128,7 +126,13 @@ var app;
             };
             Gebruiker.controllerId = 'Gebruiker';
             /* @ngInject */
-            Gebruiker.$inject = ['logger', 'firebaseData', 'Auth', 'Ref', '$state'];
+            Gebruiker.$inject = ['logger',
+                'firebaseData',
+                'Auth',
+                'Ref',
+                '$state',
+                'currentAuth'
+            ];
             return Gebruiker;
         })();
         angular

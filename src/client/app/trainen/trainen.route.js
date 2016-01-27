@@ -11,7 +11,7 @@
         routerHelper.configureStates(getStates());
     }
 
-    function getStates() {
+    function getStates(Auth) {
         return [
             {
                 state: 'trainen',
@@ -20,6 +20,12 @@
                     templateUrl: 'app/trainen/trainen.html',
                     controller: 'Trainen',
                     controllerAs: 'vm',
+                    resolve: {
+                        'currentAuth': ['Auth', function (Auth) {
+
+                            return Auth.$waitForAuth();
+                        }]
+                    },
                     title: 'trainen',
                     settings: {
                         nav: 25,

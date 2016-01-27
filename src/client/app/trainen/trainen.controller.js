@@ -5,9 +5,22 @@
         .module('app.trainen')
         .controller('Trainen', Trainen);
 
-    Trainen.$inject = ['logger','_', 'firebaseData', 'uiGridConstants', '$state', 'blogic'];
+    Trainen.$inject = ['logger',
+    '_', 
+    'firebaseData', 
+    'uiGridConstants', 
+    '$state', 
+    'blogic',
+    'currentAuth'];
     /* @ngInject */
-    function Trainen(logger, _, firebaseData, uiGridConstants, $state, blogic) {
+    function Trainen(
+        logger, 
+        _, 
+        firebaseData, 
+        uiGridConstants, 
+        $state, 
+        blogic,
+        currentAuth) {
         var vm = this;
         //var _ = window._;
         vm.datum = new Date();
@@ -81,23 +94,26 @@
 
         function activate() {
             //Is de gebruiker ingelogd?
-            if (!firebaseData.getIngelogd) {
-                //$state.reload();
+            // if (!firebaseData.getIngelogd) {
+            //     //$state.reload();
+            //     $state.go('login');
+            // }
+            //else {
+            // Haal de inloggegevens op
+            vm.authData = currentAuth;
+            if (!vm.authData) {
                 $state.go('login');
-            }
-            else {
-                // Haal de inloggegevens op
-                vm.authData = firebaseData.getAuthGegevens;
+            } else { 
                 vm.trainingen.$loaded(function () {
-                    //berekenRecords(vm.trainingen);
-                    vm.openWorkoutsKlaar = blogic.getOpenstaandeWorkouts(vm.trainingen, vm.oefeningen, vm.authData.uid);
-                    if (vm.openWorkoutsKlaar.length != 0) {
-                        vm.workoutsTonen = true;
-                    }
-                    vm.records = blogic.getRecords(vm.trainingen, vm.oefeningen, vm.authData.uid);
-                    //console.log(vm.records);
-                });
-            }
+                //berekenRecords(vm.trainingen);
+                vm.openWorkoutsKlaar = blogic.getOpenstaandeWorkouts(vm.trainingen, vm.oefeningen, vm.authData.uid);
+                if (vm.openWorkoutsKlaar.length != 0) {
+                    vm.workoutsTonen = true;
+                }
+                vm.records = blogic.getRecords(vm.trainingen, vm.oefeningen, vm.authData.uid);
+                //console.log(vm.records);
+            });
+           }
         }
     }
 })();

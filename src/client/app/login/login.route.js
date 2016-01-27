@@ -21,6 +21,12 @@
                     controller: 'Login',
                     controllerAs: 'vm',
                     title: 'inloggen',
+                    resolve: {
+                        'currentAuth': ['Auth', function (Auth) {
+                            //alert('ik wil inloggen');
+                            return Auth.$waitForAuth();
+                        }]
+                    },
                     settings: {
                         nav: 99,
                         content: '<i class="fa fa-sign-in"></i> Inloggen'

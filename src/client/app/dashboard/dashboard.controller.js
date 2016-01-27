@@ -6,10 +6,10 @@
         .controller('DashboardController', DashboardController);
 
     DashboardController.$inject = ['dataservice', 'logger','_',
-        'firebaseData', '$q', '$state', 'uiGridConstants', 'blogic'];
+        'firebaseData', '$q', '$state', 'uiGridConstants', 'blogic','currentAuth'];
     /* @ngInject */
     function DashboardController(dataservice, logger, _ ,firebaseData
-        , $q, $state, uiGridConstants, blogic) {
+        , $q, $state, uiGridConstants, blogic,currentAuth) {
 
         var vm = this;
         //var _ = window._;
@@ -125,7 +125,7 @@
 
         function activate() {
             //Is de gebruiker ingelogd?
-            if (!firebaseData.getIngelogd) {
+            if (!currentAuth) {
                 //$state.reload();
                 $state.go('login');
             }

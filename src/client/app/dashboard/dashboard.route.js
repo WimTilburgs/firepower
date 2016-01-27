@@ -11,7 +11,7 @@
         routerHelper.configureStates(getStates());
     }
 
-    function getStates() {
+    function getStates(Auth) {
         return [
             {
                 state: 'dashboard',
@@ -20,6 +20,12 @@
                     templateUrl: 'app/dashboard/dashboard.html',
                     controller: 'DashboardController',
                     controllerAs: 'vm',
+                    resolve: {
+                        'currentAuth': ['Auth', function (Auth) {
+
+                            return Auth.$waitForAuth();
+                        }]
+                    },
                     title: 'dashboard',
                     settings: {
                         nav: 30,

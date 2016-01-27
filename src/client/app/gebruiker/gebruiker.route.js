@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -11,7 +11,7 @@
         routerHelper.configureStates(getStates());
     }
 
-    function getStates() {
+    function getStates(Auth) {
         return [
             {
                 state: 'gebruiker',
@@ -20,11 +20,18 @@
                     templateUrl: 'app/gebruiker/gebruiker.html',
                     controller: 'Gebruiker',
                     controllerAs: 'vm',
+                    resolve: {
+                        'currentAuth': ['Auth', function (Auth) {
+
+                            return Auth.$waitForAuth();
+                        }]
+                    },
                     title: 'gebruiker',
                     settings: {
                         nav: 25,
                         content: '<i class="fa fa-user"></i> Ik'
                     }
+
                 }
             }
         ];

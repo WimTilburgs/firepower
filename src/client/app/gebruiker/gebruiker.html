@@ -41,8 +41,8 @@
                                             </div>
                                         </div>
                                         <!--Einde invoergroep-->
-                                        
-                                         <!--Een tekstregelinvoer groep-->
+
+                                        <!--Een tekstregelinvoer groep-->
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Achternaam</label>
                                             <div class="col-sm-9">
@@ -50,7 +50,7 @@
                                             </div>
                                         </div>
                                         <!--Einde invoergroep-->
-                                        
+
                                         <!--Een tekstregelinvoer groep-->
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">e-mail</label>
@@ -58,33 +58,48 @@
                                                 <input type="text" placeholder="e-mail ...." ng-model="vm.user.email" class="form-control" />
                                             </div>
                                         </div>
-                                         <!--Einde invoergroep-->
-                                    </fieldset>
-                                </form>
-                            </div>
-                            <br/>
-                            <div class="row">
-                                <div class="col-sm-offset-3 col-sm-9">
-                                    <input type="submit" class="btn btn-primary" ng-click="vm.userOpslaan()" value="Opslaan" />
+                                        <!--Einde invoergroep-->
                                    
-                                </div>
+                                    
+
+                                        <!-- radiobuttons -->
+                                       <div class="form-group">
+                                          <div class="col-sm-3">
+                                          <button type="button" class="btn btn-primary" ng-model="singleModel"  uib-btn-checkbox btn=checked="true"" btn-checkbox-true="1" btn-checkbox-false="0">
+                                                <span ng-show="singleModel===0">Vrouw</span>
+                                                <span ng-show="singleModel===1">Man</span>
+                                            </button>
+                                            </div>
+                                            <div class="col-sm-9">
+
+                                              <input type="text" disabled ng-show="singleModel==0" value="Man" class="form-control"  >
+                                              <input type="text" disabled ng-show="singleModel==1" value="Vrouw"  class="form-control" >
+                                              </div>
+                                              </div>
+                               </fieldset>
                                 <br/>
-                                
+                                <div class="row">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        <input type="submit" class="btn btn-primary" ng-click="vm.userOpslaan()" value="Opslaan" />
+
+                                    </div>
+                                    <br/>
+
+                                </div>
+                                <h4>{{vm.user.naam}}</h4>
+                                <p>{{vm.user.voorNaam}}</p>
+
+                                <p>{{vm.user.achterNaam}}</p>
+                                <pre>{{vm.user}}</pre>
+                                <pre>{{vm.gegUser.google.cachedUserProfile.family_name| json}}</pre>
+                                <pre>{{vm.gegUser | json}}</pre>
                             </div>
-                            <h4>{{vm.user.naam}}</h4>
-                            <p>{{vm.user.voorNaam}}</p>
-                            
-                            <p>{{vm.user.achterNaam}}</p>
-                            <pre>{{vm.user}}</pre>
-                            <pre>{{vm.gegUser.google.cachedUserProfile.family_name| json}}</pre>
-                            <pre>{{vm.gegUser | json}}</pre>
-                        </div>
-                        <div class="widget-foot">
-                            <div class="clearfix"></div>
+                            <div class="widget-foot">
+                                <div class="clearfix"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 </section>

@@ -19,7 +19,7 @@
         vm.toonTrainingen = false;
 
         // Haal de inloggegevens op
-        vm.authData = firebaseData.getAuthGegevens;
+        vm.authData = currentAuth;
         vm.kiesOverzicht = kiesOverzicht;
 
         vm.oefeningen = firebaseData.getOefeningen;
@@ -131,6 +131,9 @@
             }
 
             vm.trainingen.$loaded(function () {
+                if (!currentAuth) {
+                    return;
+                }
                 //berekenRecords(vm.trainingen);
                 vm.gridRecords.data = blogic.getRecords(vm.trainingen, vm.oefeningen, vm.authData.uid);
 

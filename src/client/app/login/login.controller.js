@@ -73,25 +73,34 @@
                     password: vm.gebruiker.wachtwoord
                 }).then(function (authData) {
                     //console.log('login gelukt ' + authData.uid);
-                    
-                    gebruikerOpslaan(authData);
-                    //window.location.reload(true);
-                    //$state.go('home');
+                    //gebruikerOpslaan(authData);
+                    window.location.reload(true);
+                    $state.go('home');
                 })
+            } else {
+                Auth.$authWithOAuthPopup(provider).then(function (authData) {
+
+                    // vm.ingelogd = true;
+                    // console.log('Nieuwe inlog', authData);
+                    // window.location.reload(true);
+                    // $state.go('home');
+                    //gebruikerOpslaan(authData);
+                    window.location.reload(true);
+                    $state.go('home');
+                }).catch(function (error) {
+                    //dit werkt nog niet
+                    if (error.code === 'TRANSPORT_UNAVAILABLE') {
+                        // fall-back to browser redirects, and pick up the session
+                        // automatically when we come back to the origin page
+                        Auth.$authWithOAuthRedirect(provider).then(function (authData) { 
+                            window.location.reload(true);
+                            $state.go('home');
+                        });
+                        //console.log('Authentication failed:', error);
+                    }
+                });
             }
-            Auth.$authWithOAuthPopup(provider).then(function (authData) {
-
-                // vm.ingelogd = true;
-                // console.log('Nieuwe inlog', authData);
-                // window.location.reload(true);
-                // $state.go('home');
-                gebruikerOpslaan(authData);
-                //window.location.reload(true);
-                //$state.go('home');
-            });
-        }
-
-
+        };
 
         activate();
 

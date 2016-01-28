@@ -1,29 +1,30 @@
 ///<reference path="../../../../typings/angularjs/angular.d.ts"/>
 ///<reference path="../core/app.domain.ts"/>
+///<reference path="../core/user.service.ts"/>
 var app;
 (function (app) {
     var controller;
     (function (controller) {
         var Gebruiker = (function () {
-            function Gebruiker(logger, firebaseData, Auth, Ref, $state, currentAuth) {
+            function Gebruiker(logger, firebaseData, Auth, Ref, $state, currentAuth, userService) {
                 this.logger = logger;
                 this.firebaseData = firebaseData;
                 this.Auth = Auth;
                 this.Ref = Ref;
                 this.$state = $state;
                 this.currentAuth = currentAuth;
+                this.userService = userService;
                 this.init();
             }
             Gebruiker.prototype.init = function () {
-                //this.getUser();
-                //this.user = new app.domain.User('Tilburgs' , 'Wim');
-                //this.inlogGegevens = this.firebaseData.getAuthGegevens;
-                //console.log(this.inlogGegevens)
                 this.title = 'Gebruikersoverzicht';
+                this.singleModel = 0;
                 if (!this.currentAuth) {
                     this.$state.go('login');
                 }
-                this.getUser();
+                this.user = this.userService.getUserAsync();
+                this.gegUser = this.firebaseData.getGebruiker;
+                //this.getUser();
                 this.activate();
             };
             Gebruiker.prototype.userOpslaan = function () {
@@ -34,6 +35,9 @@ var app;
                 });
             };
             Gebruiker.prototype.getUser = function () {
+                if (!this.currentAuth) {
+                    return;
+                }
                 this.Ref.child('users').child(this.currentAuth.uid).once('value', function (snapshot) {
                     Gebruiker.prototype.makeUser(snapshot.val());
                 });
@@ -111,18 +115,33 @@ var app;
                             _email = x.email;
                         }
                         break;
-                    default:
+                    //default:
+                    case undefined:
+                        if (!x.achterNaam) {
+                            _achterNaam = '';
+                        }
+                        else {
+                            _achterNaam = x.achterNaam;
+                        }
+                        if (!x.voorNaam) {
+                            _voorNaam = '';
+                        }
+                        else {
+                            _voorNaam = x.voorNaam;
+                        }
+                        if (!x.email) {
+                            _email = '';
+                        }
+                        else {
+                            _email = x.email;
+                        }
+                        break;
                         break;
                 }
                 this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
             };
             Gebruiker.prototype.activate = function () {
                 this.logger.info('Gebruikersoverzicht');
-                //     this.gegUser.$loaded(function () {
-                //     console.log(this.gegUser);
-                //     var test = 'Tilburgs'
-                //     Gebruiker.prototype.user = new app.domain.User(test,'wim');
-                // })
             };
             Gebruiker.controllerId = 'Gebruiker';
             /* @ngInject */
@@ -131,7 +150,8 @@ var app;
                 'Auth',
                 'Ref',
                 '$state',
-                'currentAuth'
+                'currentAuth',
+                'userService'
             ];
             return Gebruiker;
         })();

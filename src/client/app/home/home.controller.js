@@ -5,9 +5,9 @@
         .module('app.home')
         .controller('Home', Home);
 
-    Home.$inject = ['$q', 'dataservice', 'logger'];
+    Home.$inject = [];
     /* @ngInject */
-    function Home($q, dataservice, logger) {
+    function Home() {
         var vm = this;
         vm.news = {
             title: 'FirePower Techniek',
@@ -19,18 +19,6 @@
 
         activate();
 
-        function activate() {
-            // var promises = [getMessageCount()];
-            // return $q.all(promises).then(function() {
-            //     logger.info('Activated Dashboard View');
-            // });
-        }
-
-        // function getMessageCount() {
-        //     return dataservice.getMessageCount().then(function (data) {
-        //         vm.messageCount = data;
-        //         return vm.messageCount;
-        //     });
-        // }
+        function activate() {}
     }
 })();

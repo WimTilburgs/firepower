@@ -17,6 +17,7 @@ module app.core {
             'Auth',
             'Ref',
             '$state',
+            '$timeout'
 
         ];
 
@@ -25,25 +26,111 @@ module app.core {
             private firebaseData: any,
             private Auth: any,
             private Ref: any,
-            private $state: any
+            private $state: any,
+            private $timeout: any
         ) {
-            //getUser()
+            
+            //console.log(this.Ref.child('users'))
         }
 
-        getUser(): app.domain.IUser {
+        getTest(): app.domain.IUser {
 
             var _achterNaam: string = 'achternaam';
             var _email: string = 'email';
             var _voorNaam: string = 'voornaam';
+
             return this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+
+        }
+
+        serviceMethod() {
+            return this.$timeout(function() {
+                return {
+                    property: app.core.UserService.prototype.user
+                };
+            }, 1000);
+        }
+
+        getUserAsync() {
+            var _achterNaam: string = '';
+            var _email: string = '';
+            var _voorNaam: string = '';
+            //var user = app.core.UserService.prototype.user;
+            var authData = this.Auth.$getAuth();
+            if (!authData) {
+                app.core.UserService.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+                return app.core.UserService.prototype.user;
+            }
+            var loadedUser = this.firebaseData.getGebruiker;
+            loadedUser.$loaded().then(function(response) {
+
+                return response;
+
+            })
+
+            angular.forEach(loadedUser, function(value, key) {
+                
+                //console.log(key, value);
+                if (key == 'voorNaam') {
+                    _voorNaam = value
+                };
+                if (key == 'achterNaam') {
+                    _achterNaam = value
+                };
+                if (key == 'email') {
+                    _email = value
+                };
+
+
+            });
+            //alert(_achterNaam)
+            app.core.UserService.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+            //console.log(app.core.UserService.prototype.user);
+            //return app.core.UserService.prototype.user;
+            console.log('hier is de loaded user');
+            console.log(loadedUser);
+            console.log('de user');
+            console.log(app.core.UserService.prototype.user);
+            //return loadedUser;
+            return app.core.UserService.prototype.user;
+        }
+
+
+        getUser(): app.domain.IUser {
+
+            //var promise =
+            var _achterNaam: string = 'achternaam';
+            var _email: string = 'email';
+            var _voorNaam: string = 'voornaam';
+            //return this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
             var authData = this.Auth.$getAuth();
             if (authData) {
-                this.Ref.child('users').child(authData.uid).once('value', function(snapshot) {
-                   return UserService.prototype.user = new app.domain.User('z', 'y', 'x');
-                });
+                var loadedUser = this.firebaseData.getGebruiker;
+                loadedUser.$loaded().then(function() {
+
+                    angular.forEach(loadedUser, function(value, key) {
+                        //console.log(key, value);
+                        if (key == 'voorNaam') {
+                            _voorNaam = value
+                        };
+                        if (key == 'achterNaam') {
+                            _achterNaam = value
+                        };
+                        if (key == 'email') {
+                            _email = value
+                        };
+
+
+                    });
+                    app.core.UserService.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+                    //console.log(this.user);
+                    return this.user;
+                })
+
             } else {
-                alert('else');
-               return this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+                //alert('else');
+                //return null;
+                return this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
             }
         }
 

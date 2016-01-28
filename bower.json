@@ -31,7 +31,7 @@
     "firebase": "~2.3.2",
     "angularfire": "~1.1.3",
     "angular-ui-grid": "*",
-    "angular-bootstrap": "~1.1.0"
+    "angular-bootstrap": "~1.1.1"
   },
   "resolutions": {
     "angular": "1.3.17"

@@ -29,6 +29,8 @@
             getMetingSoorten: getMetingSoorten(),
             getIngelogd: getIngelogd(),
             getOefeningen: getOefeningen(),
+            getOneRepMaxen: getOneRepMaxen(),
+            getOneRepMaxenPerGebruiker: getOneRepMaxenPerGebruiker,
             getHalterSchijven: getHalterSchijven(),
             getTrainingsMethodes: getTrainingsMethodes(),
             getTrainingsSchemas: getTrainingsSchemas(),
@@ -53,7 +55,14 @@
         function getOefeningen() {
             return $firebaseArray(Ref.child('oefeningen'));
         }
-
+        function getOneRepMaxen() {
+            return $firebaseArray(Ref.child('oneRepMaxen'));
+        }
+        
+        function getOneRepMaxenPerGebruiker(userUid) {
+            return $firebaseArray(Ref.child('oneRepMaxen').orderByChild('gebruikerUid').equalTo(userUid));
+        }
+        
         function getHalterSchijven() {
             return $firebaseArray(Ref.child('halterSchijven'));
         }

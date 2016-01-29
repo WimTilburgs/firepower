@@ -57,7 +57,7 @@ var app;
                     ;
                 });
                 //alert(_achterNaam)
-                app.core.UserService.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+                app.core.UserService.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam, loadedUser.$id);
                 //console.log(app.core.UserService.prototype.user);
                 //return app.core.UserService.prototype.user;
                 console.log('hier is de loaded user');

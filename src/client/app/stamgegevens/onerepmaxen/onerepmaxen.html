@@ -1,0 +1,127 @@
+<section class="mainbar">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget wgreen">
+                        <div ht-widget-header title="{{vm.title + vm.user.naam }}" allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+
+                            <div class="row">
+                             
+                                <table class="table table-bordered table-responsive table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Omschrijving</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="m in vm.oefeningen | orderBy: 'omschrijving'" ng-click="vm.oefeningSelecteren(m)">
+                                            <td>
+                                                {{m.omschrijving }}
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <br />
+                            </div>
+                           
+                            <table class="table table-bordered table-responsive table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Oefening</th>
+                                        <th>Gebruiker</th>
+                                        <th>Datum</th>
+                                        <th>1Rm</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr ng-repeat="m in vm.filteredOneRepMaxen | orderBy: 'oefeningOmschrijving'" ng-click="vm.oneRepMaxSelecteren(m)">
+                                        <td>
+                                            {{m.oefeningOmschrijving }}
+                                        </td>
+                                        <td>
+                                            {{m.gebruikerNaam}}
+                                        </td>
+                                        <td>
+                                            {{m.datum | date}}
+                                        </td>
+                                        <td>
+                                            {{m.orm}}
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <br />
+                        </div>
+
+                        <div class="row">
+                            <form class="form-horizontal" role="form">
+                                <fieldset>
+                                    <legend ng-show="vm.toonButtonNieuw">OneRepMax Toevoegen</legend>
+                                    <legend ng-show="!vm.toonButtonNieuw">OneRepMax Wijzigen</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Gebruiker</label>
+                                        <div class="col-sm-9">
+                                            <input type="text"  disabled ng-model="vm.user.naam"
+                                            class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Oefening</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" placeholder="omschrijving oefening ...." disabled ng-model="vm.oefening.omschrijving"
+                                            class="form-control"  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Datum</label>
+                                        <div class="col-sm-9">
+                                            <input type="date" ng-model="vm.oneRepMax.datum" class="form-control" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">1 rep max</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" placeholder="1rm in kg ...." ng-model="vm.oneRepMax.orm" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </form>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-sm-offset-3 col-sm-9" ng-show="!vm.toonButtonNieuw">
+                                <input type="submit" class="btn btn-primary" ng-click="vm.oefeningWijzigen()" value="Wijzigen" />
+                                <input type="submit" class="btn btn-primary" ng-click="vm.oefeningOpslaanTonen()" value="Nieuw" />
+                                <button class="btn btn-danger btn-sm" ng-click="vm.oefeningVerwijderen()">Verwijderen</button>
+                            </div>
+                            <br/>
+                            <div class="row col-sm-offset-3 col-sm-9" ng-show="vm.toonButtonNieuw">
+                                <input type="submit" class="btn btn-primary" ng-click="vm.oneRepMaxOpslaan()" value="Opslaan" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-foot">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        </div>
+    </section>
+</section>

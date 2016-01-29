@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.login')
+        .module('app.stamgegevens')
         .run(appRun);
 
     appRun.$inject = ['routerHelper'];
@@ -10,16 +10,17 @@
     function appRun(routerHelper) {
         routerHelper.configureStates(getStates());
     }
+
     /* @ngInject */
     getStates.$inject = ['Auth']
     function getStates(Auth) {
         return [
             {
-                state: 'gebruiker',
+                state: 'onerepmaxen',
                 config: {
-                    url: '/gebruiker',
-                    templateUrl: 'app/gebruiker/gebruiker.html',
-                    controller: 'Gebruiker',
+                    url: '/onerepmaxen',
+                    templateUrl: 'app/stamgegevens/onerepmaxen/onerepmaxen.html',
+                    controller: 'OneRepMaxen',
                     controllerAs: 'vm',
                     resolve: {
                         'currentAuth': ['Auth', function (Auth) {
@@ -27,12 +28,7 @@
                             return Auth.$waitForAuth();
                         }]
                     },
-                    title: 'gebruiker',
-                    settings: {
-                        nav: 25,
-                        content: '<i class="fa fa-user"></i> Ik'
-                    }
-
+                    title: 'OneRepMaxen'
                 }
             }
         ];

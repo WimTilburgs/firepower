@@ -14,11 +14,11 @@
     'currentAuth'];
     /* @ngInject */
     function Trainen(
-        logger, 
-        _, 
-        firebaseData, 
-        uiGridConstants, 
-        $state, 
+        logger,
+        _,
+        firebaseData,
+        uiGridConstants,
+        $state,
         blogic,
         currentAuth) {
         var vm = this;
@@ -93,13 +93,6 @@
         activate();
 
         function activate() {
-            //Is de gebruiker ingelogd?
-            // if (!firebaseData.getIngelogd) {
-            //     //$state.reload();
-            //     $state.go('login');
-            // }
-            //else {
-            // Haal de inloggegevens op
             vm.authData = currentAuth;
             if (!vm.authData) {
                 $state.go('login');

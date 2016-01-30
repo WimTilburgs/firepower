@@ -18,6 +18,7 @@ var app;
                 this._ = _;
                 this.gridOneRepMaxen = {};
                 this.toonButtonNieuw = true;
+                this.toonInvoerScherm = false;
                 this.init();
             }
             OneRepMaxen.prototype.init = function () {
@@ -28,13 +29,16 @@ var app;
                 this.gebruiker = this.firebaseData.getGebruiker;
                 this.oefeningen = this.firebaseData.getOefeningen;
                 this.oneRepMaxen = this.firebaseData.getOneRepMaxenPerGebruiker(this.currentAuth.uid);
-                this.filteredOneRepMaxen = this.oneRepMaxen;
+                //this.filteredOneRepMaxen = this.oneRepMaxen;
+                this.oefening = null;
                 this.activate();
             };
             OneRepMaxen.prototype.oefeningSelecteren = function (m) {
                 this.oefening = m;
                 this.filteredOneRepMaxen = _.filter(this.oneRepMaxen, { 'oefeningUid': m.$id });
                 this.oneRepMax = null;
+                this.toonButtonNieuw = true;
+                this.toonInvoerScherm = true;
             };
             OneRepMaxen.prototype.oneRepMaxSelecteren = function (m) {
                 //this.oneRepMax.datum 
@@ -49,11 +53,39 @@ var app;
                     this.logger.error('selecteer een oefening!');
                     return;
                 }
-                var orm = new app.domain.OneRepMax(this.oefening.$id, this.oefening.omschrijving, this.user.uid, this.user.voorNaam + ' ' + this.user.achterNaam, this.oneRepMax.datum.getTime(), this.oneRepMax.orm, null);
-                //console.log(orm);
-                this.oneRepMaxen.$add(orm);
-                this.filteredOneRepMaxen = this.oneRepMaxen;
+                this.oneRepMaxWegschrijven('nieuw');
+            };
+            OneRepMaxen.prototype.oneRepMaxWijzigen = function () {
+                this.oneRepMaxWegschrijven('wijzigen');
+            };
+            OneRepMaxen.prototype.oneRepMaxVerwijderen = function () {
+                this.oneRepMaxWegschrijven('verwijderen');
+            };
+            OneRepMaxen.prototype.oneRepMaxOpslaanTonen = function () {
+                this.toonButtonNieuw = true;
                 this.oneRepMax = null;
+            };
+            OneRepMaxen.prototype.oneRepMaxWegschrijven = function (actie) {
+                var orm = new app.domain.OneRepMax(this.oefening.$id, this.oefening.omschrijving, this.user.uid, this.user.voorNaam + ' ' + this.user.achterNaam, this.oneRepMax.datum.getTime(), this.oneRepMax.orm, null);
+                switch (actie) {
+                    case 'nieuw':
+                        //alert(actie);
+                        this.oneRepMaxen.$add(orm);
+                        break;
+                    case 'wijzigen':
+                        //alert(actie);
+                        this.oneRepMaxen.$save(orm);
+                        this.toonButtonNieuw = true;
+                        break;
+                    case 'verwijderen':
+                        this.oneRepMaxen.$remove(this.oneRepMax);
+                        this.toonButtonNieuw = true;
+                        break;
+                    default:
+                        break;
+                }
+                this.oneRepMax = null;
+                this.filteredOneRepMaxen = this.oneRepMaxen;
             };
             OneRepMaxen.prototype.activate = function () {
                 this.logger.info('OnerepMax view');

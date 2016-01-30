@@ -11,7 +11,7 @@
         var vm = this;
         vm.title = 'Onderhoud stamgegevens';
         //vm.trainingen = firebaseData.getTrainingenPerGebruiker('cor.roos@chello.nl');
-        vm.trainingen = firebaseData.getTrainingenPerGebruiker('johan.brouwer@gmail.com');
+        vm.trainingen = firebaseData.getTrainingenPerGebruiker('wim3025@hotmail.com');
         vm.authData = firebaseData.getAuthGegevens;
 
         activate();

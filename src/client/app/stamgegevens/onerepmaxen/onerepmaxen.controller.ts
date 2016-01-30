@@ -14,6 +14,7 @@ module app.controller {
         oneRepMax: app.domain.OneRepMax;
         title: string;
         toonButtonNieuw: boolean;
+        toonInvoerScherm: boolean;
         user: app.domain.IUser;
 
         activate: () => void;
@@ -28,6 +29,7 @@ module app.controller {
         oefening: any;
         oefeningen: any;
         toonButtonNieuw: boolean = true;
+        toonInvoerScherm: boolean = false;
         oneRepMax: app.domain.OneRepMax;
         oneRepMaxen: any;
         filteredOneRepMaxen: any;
@@ -68,9 +70,9 @@ module app.controller {
             this.gebruiker = this.firebaseData.getGebruiker;
             this.oefeningen = this.firebaseData.getOefeningen;
             this.oneRepMaxen = this.firebaseData.getOneRepMaxenPerGebruiker(this.currentAuth.uid);
-            this.filteredOneRepMaxen = this.oneRepMaxen;
+            //this.filteredOneRepMaxen = this.oneRepMaxen;
+            this.oefening = null; 
             
-           
             
             this.activate();
         }
@@ -78,7 +80,9 @@ module app.controller {
         oefeningSelecteren(m): void {
             this.oefening = m;
             this.filteredOneRepMaxen = _.filter(this.oneRepMaxen,{'oefeningUid': m.$id})
-            this.oneRepMax = null;
+            this.oneRepMax = null; 
+            this.toonButtonNieuw = true;
+            this.toonInvoerScherm = true;
         }
         oneRepMaxSelecteren(m): void {
             //this.oneRepMax.datum 
@@ -95,7 +99,24 @@ module app.controller {
                 this.logger.error('selecteer een oefening!');
                 return;
             }
+            this.oneRepMaxWegschrijven('nieuw');       
+        }
+        
+        oneRepMaxWijzigen(): void {
+            this.oneRepMaxWegschrijven('wijzigen');
+        }
+        
+        oneRepMaxVerwijderen(): void {
+            this.oneRepMaxWegschrijven('verwijderen');
+        }
+        
+        oneRepMaxOpslaanTonen(): void {
+            this.toonButtonNieuw = true;
+            this.oneRepMax = null; 
             
+        }
+        
+        private oneRepMaxWegschrijven(actie: string):void {
             var orm = new app.domain.OneRepMax(
                 this.oefening.$id,
                 this.oefening.omschrijving,
@@ -104,10 +125,32 @@ module app.controller {
                 this.oneRepMax.datum.getTime(),
                 this.oneRepMax.orm,
                 null);
-                //console.log(orm);
-                this.oneRepMaxen.$add(orm);
+                switch (actie) {
+                    
+                    case 'nieuw':
+                    //alert(actie);
+                    this.oneRepMaxen.$add(orm);
+                    break;
+                    
+                    case 'wijzigen':
+                    //alert(actie);
+                    this.oneRepMaxen.$save(orm);
+                    
+                    this.toonButtonNieuw = true;
+                    break;
+                    
+                    case 'verwijderen':
+                    this.oneRepMaxen.$remove(this.oneRepMax);
+                    this.toonButtonNieuw = true;
+                    break;
+                    
+                    default:
+                    break;
+                }
+                
+               this.oneRepMax = null; 
                 this.filteredOneRepMaxen = this.oneRepMaxen;
-                this.oneRepMax = null;
+                
         }
         
         activate(): void {

@@ -10,7 +10,7 @@
     function appRun(routerHelper) {
         routerHelper.configureStates(getStates());
     }
-
+    getStates.$inject = ['Auth']  
     function getStates(Auth) {
         return [
             {

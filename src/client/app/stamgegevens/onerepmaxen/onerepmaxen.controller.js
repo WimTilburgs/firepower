@@ -35,7 +35,8 @@ var app;
             };
             OneRepMaxen.prototype.oefeningSelecteren = function (m) {
                 this.oefening = m;
-                this.filteredOneRepMaxen = _.filter(this.oneRepMaxen, { 'oefeningUid': m.$id });
+                this.filteredOneRepMaxen = _.filter(this.oneRepMaxen, { 'oefeningUid': this.oefening.$id });
+                this.filteredOneRepMaxen = _.orderBy(this.filteredOneRepMaxen, ['datum'], ['desc']);
                 this.oneRepMax = null;
                 this.toonButtonNieuw = true;
                 this.toonInvoerScherm = true;
@@ -74,7 +75,8 @@ var app;
                         break;
                     case 'wijzigen':
                         //alert(actie);
-                        this.oneRepMaxen.$save(orm);
+                        this.oneRepMaxen.$save(orm).then(function () {
+                        });
                         this.toonButtonNieuw = true;
                         break;
                     case 'verwijderen':

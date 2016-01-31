@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.gebruiker')
+        .module('app.workouts')
         .run(appRun);
 
     appRun.$inject = ['routerHelper'];
@@ -15,11 +15,11 @@
     function getStates(Auth) {
         return [
             {
-                state: 'gebruiker',
+                state: 'workouts',
                 config: {
-                    url: '/gebruiker',
-                    templateUrl: 'app/gebruiker/gebruiker.html',
-                    controller: 'Gebruiker',
+                    url: '/workouts',
+                    templateUrl: 'app/workouts/workoutsgenereren.html',
+                    controller: 'Workouts',
                     controllerAs: 'vm',
                     resolve: {
                         'currentAuth': ['Auth', function (Auth) {
@@ -27,10 +27,10 @@
                             return Auth.$waitForAuth();
                         }]
                     },
-                    title: 'gebruiker',
+                    title: 'workouts',
                     settings: {
                         nav: 25,
-                        content: '<i class="fa fa-user"></i> Ik'
+                        content: '<i class="fa fa-heart"></i> Workouts'
                     }
 
                 }

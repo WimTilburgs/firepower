@@ -1,0 +1,124 @@
+<section id="home-view" class="mainbar">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="today-datas">
+                        <li class="blightblue">
+                            <div class="pull-left"><i class="fa fa-user"></i></div>
+                            <div class="datas-text pull-right">
+                                <span class="bold">Welkom </span>{{vm.user.naam}}
+                            </div>
+                            <div class="clearfix"></div>
+                        </li>
+
+                        <li class="borange" ng-click="vm.toonTrainingenGenereren= true; vm.toonStap1=true ; vm.toonStap2=false">
+                            <div class="pull-left"><i class="fa fa-heart"></i></div>
+                            <div class="datas-text pull-right">
+                                <span class="bold">Trainingen genereren</span>
+                            </div>
+                            <div class="clearfix"></div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <!--Trainingen genereren blok-->
+           
+                <div class="row" ng-show="vm.toonTrainingenGenereren">
+                    <div class="col-md-12">
+                        <div class="widget wgreen">
+                            <div ht-widget-header title="{{vm.stap1Title}}" allow-collapse="true"></div>
+                            <div class="widget-content text-info">
+                                <!--stap 1 blok-->
+                                <div ng-show="vm.toonStap1">
+                                    <!--TrainingsMethode selectieblok-->
+                                    <div ng-show="!vm.gefilterdTrainingsSchema.length">
+
+                                        <div class="panel panel-default" ng-repeat="trainingsMethode in vm.trainingsMethodes">
+                                            <div class="panel-heading">
+                                                <h5>Methode</h5> {{trainingsMethode.omschrijving}}
+                                            </div>
+                                            <div class="panel-body">
+                                                <button class="btn btn-primary" ng-click="vm.bekijkSchema(trainingsMethode)">Bekijk</button>
+
+                                            </div>
+                                        </div>
+                                        <p ng-show="!toonSchema">* Amrap staat voor 'As Much Reps As Possible' vertaald doe zoveel reps als je kan
+                                            in die set. (wel in good form uiteraard).</p>
+                                    </div>
+                                    <!--TrainingsMethode geselecteerdblok-->
+                                    <div ng-show="vm.gefilterdTrainingsSchema.length">
+                                        <h4>Schema voor: {{vm.geselecteerdeTrainingsMethode.omschrijving}}</h4>
+                                        <button " class="btn btn-success " ng-click="vm.selecteerTrainingsMethode() ">Selecteer</button>
+                                        <button class="btn btn-danger " ng-click="vm.anuleerTrainingsMethode() ">Anuleer</button>
+                            </div>
+                            <!--Toon TrainingsSchema blok-->
+                            <div ng-show="vm.gefilterdTrainingsSchema.length ">
+
+                                <p>Onderstaand schema wordt gegenereerd voor elke oefening (Bench Press, Squat, Overhead Press
+                                    en Deadlift)</p>
+                                <table class="table table-bordered table-responsive table-striped ">
+                                    <thead>
+                                        <tr>
+                                            <th>Workout/set</th>
+
+
+                                            <th>%OneRepMax</th>
+                                            <th>Aantal Reps</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="trainingsSchema in vm.gefilterdTrainingsSchema ">
+                                            <td>
+                                                {{trainingsSchema.workoutNummer}}/{{trainingsSchema.setNummer}}
+                                            </td>
+
+                                            <td>
+                                                {{trainingsSchema.percentage+"% "}}
+                                            </td>
+                                            <td ng-show="!trainingsSchema.amrap ">
+                                                {{trainingsSchema.aantalReps}}
+                                            </td>
+                                            <td ng-show="trainingsSchema.amrap ">
+                                                Amrap*
+                                            </td>
+
+
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                                <p>* Amrap staat voor 'As Much Reps As Possible' vertaald doe zoveel reps als je kan in die
+                                    set. (wel in good form uiteraard).</p>
+                            </div>
+
+                        </div>
+                        </div>
+                       
+                </div>
+            </div>
+             </div>
+                        <!--Einde stap 1 blok-->
+                        
+             <div class="row " ng-show="vm.toonStap2 ">
+                <div class="col-md-12 ">
+                    <div class="widget wblue ">
+                        <div ht-widget-header title="{{vm.stap2Title}} " allow-collapse="true "></div>
+                            <div class="widget-content text-info ">
+                                
+                       </div>
+                        </div>      
+                        
+                     </div>
+                </div>
+             </div>
+    </div>
+
+    </section>
+</section>

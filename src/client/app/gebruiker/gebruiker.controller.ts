@@ -8,7 +8,7 @@ module app.controller {
         inlogGegevens: any;
         activate: () => void;
         userOpslaan: () => void;
-        gegUser: any;
+        gebruiker: any;
         singleModel: number;
     }
 
@@ -17,7 +17,7 @@ module app.controller {
         title: string;
         user: app.domain.IUser;
         inlogGegevens: any;
-        gegUser: any;
+        gebruiker: any;
         singleModel: number;
         /* @ngInject */
         static $inject = ['logger',
@@ -26,7 +26,7 @@ module app.controller {
             'Ref',
             '$state',
             'currentAuth',
-            'userService'
+            
         ];
         constructor(
             
@@ -35,8 +35,8 @@ module app.controller {
             private Auth: any,
             private Ref: any,
             private $state: any,
-            private currentAuth: any,
-            private userService: any) {
+            private currentAuth: any
+            ) {
             this.init();
         }
         private init() {
@@ -46,9 +46,7 @@ module app.controller {
                 this.$state.go('login');
             }
             
-            this.user = this.userService.getUserAsync();
-            this.gegUser = this.firebaseData.getGebruiker;
-            //this.getUser();
+            this.gebruiker = this.firebaseData.getGebruiker;
             this.activate();
         }
 
@@ -61,124 +59,34 @@ module app.controller {
                 });
         }
 
-        private getUser(): void {
-            if (!this.currentAuth) {
-                return;
-            }
-            this.Ref.child('users').child(this.currentAuth.uid).once('value', function(snapshot) {
-                  Gebruiker.prototype.makeUser(snapshot.val())             
-            });
-        }
-
-        private makeUser(data) {
-            var _achterNaam: string;
-            var _email: string;
-            var _voorNaam: string;
+        test():void {
            
-            /**
-             * deze gebruik ik nu om geguser wat zichtbaar te maken voor ontwikkeling
-             * hierna gewoon var x = data gebruiken
-             */
-            //Gebruiker.prototype.gegUser = data;
-            this.gegUser = data;
-            var x = this.gegUser;
-            //alert(x.achterNaam)
-            switch (x.provider) {
-                case 'password':
-
-                    if (!x.achterNaam) {
-                        _achterNaam = '';
-                    }
-                    else {
-                        _achterNaam = x.achterNaam;
-                    }
-                    if (!x.voorNaam) {
-                        _voorNaam = '';
-                    }
-                    else {
-                        _voorNaam = x.voorNaam;
-                    }
-                    if (!x.email) {
-                        _email = x.password.email;
-                    }
-                    else {
-                        _email = x.email;
-                    }
-                    break;
-
-                case 'facebook':
-                    if (!x.achterNaam) {
-                        _achterNaam = x.facebook.cachedUserProfile.last_name;
-                    }
-                    else {
-                        _achterNaam = x.achterNaam;
-                    }
-                    if (!x.voorNaam) {
-                        _voorNaam = x.facebook.cachedUserProfile.first_name;
-                    }
-                    else {
-                        _voorNaam = x.voorNaam;
-                    }
-                    if (!x.email) {
-                        _email = x.facebook.cachedUserProfile.email;
-                    }
-                    else {
-                        _email = x.email;
-                    }
-
-                    break;
-
-                case 'google':
-                    if (x.achterNaam === undefined) {
-                        _achterNaam = x.google.cachedUserProfile.family_name;
-                    }
-                    else {
-                        _achterNaam = x.achterNaam;
-                    }
-                    if (!x.voorNaam) {
-                        _voorNaam = x.google.cachedUserProfile.given_name;
-                    }
-                    else {
-                        _voorNaam = x.voorNaam;
-                    }
-                    if (!x.email) {
-                        _email = '';
-                    }
-                    else {
-                        _email = x.email;
-                    }
-
-                    break;
-
-                //default:
-                case undefined:
-                if (!x.achterNaam) {
-                        _achterNaam = '';
-                    }
-                    else {
-                        _achterNaam = x.achterNaam;
-                    }
-                    if (!x.voorNaam) {
-                        _voorNaam = '';
-                    }
-                    else {
-                        _voorNaam = x.voorNaam;
-                    }
-                    if (!x.email) {
-                        _email = '';
-                    }
-                    else {
-                        _email = x.email;
-                    }
-                    break;
-                    break;
-            }
-
-            this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+            this.$state.go('gebruiker.trainen');
         }
 
         activate(): void {
             this.logger.info('Gebruikersoverzicht');
+            this.gebruiker.$loaded().then(function(response) {
+                var _achterNaam: string = '';
+                var _email: string = '';
+                var _voorNaam: string = '';
+                var _uid: string = ''
+
+                angular.forEach(response, function(value, key) {
+                
+                    //console.log(key, value);
+                    if (key == 'voorNaam') {
+                        _voorNaam = value
+                    };
+                    if (key == 'achterNaam') {
+                        _achterNaam = value
+                    };
+                    if (key == 'email') {
+                        _email = value
+                    };
+                });
+                Gebruiker.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam,response.$id);
+            })
         }
     }
 

@@ -1,106 +1,32 @@
 <section id="home-view" class="mainbar">
     <section class="matter">
         <div class="container">
-            <!--<div class="row">
+            <div class="row">
                 <div class="col-md-12">
                     <ul class="today-datas">
                         <li class="blightblue">
-                            <div class="pull-left"><i class="fa fa-plane"></i></div>
+                            <div class="pull-left"><i class="fa fa-user"></i></div>
                             <div class="datas-text pull-right">
-                                <span class="bold">May 18 - 19, 2015</span> Castle Resort, Neverland
+                                <span class="bold">Welkom </span>{{vm.user.naam}}
                             </div>
                             <div class="clearfix"></div>
                         </li>
 
-                        <li class="borange">
-                            <div class="pull-left"><i class="fa fa-envelope"></i></div>
+                        <li class="borange" ng-click="vm.test()">
+                            <div class="pull-left"><i class="fa fa-heart"></i></div>
                             <div class="datas-text pull-right">
-                                <span class="bold">{{vm.messageCount}}</span> Messages
+                                <span class="bold">{{vm.messageCount}}</span> trainingen genereren
                             </div>
                             <div class="clearfix"></div>
                         </li>
 
                     </ul>
                 </div>
-            </div>-->
-            <div class="row">
-
-                <div class="col-md-12">
-                    <div class="widget wgreen">
-                        <div ht-widget-header title="{{vm.title}}" allow-collapse="true"></div>
-                        <div class="widget-content text-center text-info">
-                            <div class="row">
-                                <form class="form-horizontal" role="form">
-                                    <fieldset>
-                                        <legend>{{'Welkom ' + vm.user.voorNaam + ' ' + vm.user.achterNaam}}</legend>
-                                        
-                                        <!--Een tekstregelinvoer groep-->
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">Voornaam</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" placeholder="voornaam ...." ng-model="vm.user.voorNaam" class="form-control" />
-                                            </div>
-                                        </div>
-                                        <!--Einde invoergroep-->
-
-                                        <!--Een tekstregelinvoer groep-->
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">Achternaam</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" placeholder="achternaam ...." ng-model="vm.user.achterNaam" class="form-control" />
-                                            </div>
-                                        </div>
-                                        <!--Einde invoergroep-->
-
-                                        <!--Een tekstregelinvoer groep-->
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">e-mail</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" placeholder="e-mail ...." ng-model="vm.user.email" class="form-control" />
-                                            </div>
-                                        </div>
-                                        <!--Einde invoergroep-->
-                                   
-                                    
-
-                                        <!-- radiobuttons -->
-                                       <div class="form-group">
-                                          <div class="col-sm-3">
-                                          <button type="button" class="btn btn-primary" ng-model="singleModel"  uib-btn-checkbox btn=checked="true"" btn-checkbox-true="1" btn-checkbox-false="0">
-                                                <span ng-show="singleModel===0">Vrouw</span>
-                                                <span ng-show="singleModel===1">Man</span>
-                                            </button>
-                                            </div>
-                                            <div class="col-sm-9">
-
-                                              <input type="text" disabled ng-show="singleModel==0" value="Man" class="form-control"  >
-                                              <input type="text" disabled ng-show="singleModel==1" value="Vrouw"  class="form-control" >
-                                              </div>
-                                              </div>
-                               </fieldset>
-                                <br/>
-                                <div class="row">
-                                    <div class="col-sm-offset-3 col-sm-9">
-                                        <input type="submit" class="btn btn-primary" ng-click="vm.userOpslaan()" value="Opslaan" />
-
-                                    </div>
-                                    <br/>
-
-                                </div>
-                                <h4>{{vm.user.naam}}</h4>
-                                <p>{{vm.user.voorNaam}}</p>
-
-                                <p>{{vm.user.achterNaam}}</p>
-                                <pre>{{vm.user}}</pre>
-                                <pre>{{vm.gegUser.google.cachedUserProfile.family_name| json}}</pre>
-                                <pre>{{vm.gegUser | json}}</pre>
-                            </div>
-                            <div class="widget-foot">
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <div ui-view></div>
             </div>
     </section>
 </section>
+                    
+               
+          

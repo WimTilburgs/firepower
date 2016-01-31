@@ -79,7 +79,8 @@ module app.controller {
 
         oefeningSelecteren(m): void {
             this.oefening = m;
-            this.filteredOneRepMaxen = _.filter(this.oneRepMaxen,{'oefeningUid': m.$id})
+            this.filteredOneRepMaxen = _.filter(this.oneRepMaxen,{'oefeningUid': this.oefening.$id});
+            this.filteredOneRepMaxen = _.orderBy(this.filteredOneRepMaxen, ['datum'],['desc'])
             this.oneRepMax = null; 
             this.toonButtonNieuw = true;
             this.toonInvoerScherm = true;
@@ -134,7 +135,9 @@ module app.controller {
                     
                     case 'wijzigen':
                     //alert(actie);
-                    this.oneRepMaxen.$save(orm);
+                    this.oneRepMaxen.$save(orm).then(function(){
+                        
+                    });
                     
                     this.toonButtonNieuw = true;
                     break;
@@ -149,7 +152,7 @@ module app.controller {
                 }
                 
                this.oneRepMax = null; 
-                this.filteredOneRepMaxen = this.oneRepMaxen;
+               this.filteredOneRepMaxen = this.oneRepMaxen;
                 
         }
         

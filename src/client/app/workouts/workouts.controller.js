@@ -1,40 +1,48 @@
 ///<reference path="../../../../typings/angularjs/angular.d.ts"/>
+///<reference path="../../../../typings/lodash/lodash.d.ts"/>
 ///<reference path="../core/app.domain.ts"/>
 ///<reference path="../core/user.service.ts"/>
 var app;
 (function (app) {
     var controller;
     (function (controller) {
-        var Gebruiker = (function () {
-            function Gebruiker(logger, firebaseData, Auth, Ref, $state, currentAuth) {
+        var Workouts = (function () {
+            function Workouts(logger, firebaseData, Ref, $state, currentAuth, _) {
                 this.logger = logger;
                 this.firebaseData = firebaseData;
-                this.Auth = Auth;
                 this.Ref = Ref;
                 this.$state = $state;
                 this.currentAuth = currentAuth;
+                this._ = _;
+                this.toonTrainingenGenereren = false;
+                this.toonStap1 = false;
+                this.toonStap2 = false;
                 this.init();
             }
-            Gebruiker.prototype.init = function () {
-                this.title = 'Gebruikersoverzicht';
-                this.singleModel = 0;
+            Workouts.prototype.init = function () {
+                this.stap1Title = 'Stap 1: selecteer een methode.';
+                this.stap2Title = 'Stap 2: bepaal je 1 rep max.';
                 if (!this.currentAuth) {
                     this.$state.go('login');
                 }
+                this.trainingsMethodes = this.firebaseData.getTrainingsMethodes;
+                this.trainingsSchemas = this.firebaseData.getTrainingsSchemas;
                 this.gebruiker = this.firebaseData.getGebruiker;
                 this.activate();
             };
-            Gebruiker.prototype.userOpslaan = function () {
-                this.Ref.child('users').child(this.currentAuth.uid).update({
-                    'voorNaam': this.user.voorNaam,
-                    'achterNaam': this.user.achterNaam,
-                    'email': this.user.email
-                });
+            Workouts.prototype.bekijkSchema = function (m) {
+                this.geselecteerdeTrainingsMethode = m;
+                this.gefilterdTrainingsSchema = _.filter(this.trainingsSchemas, { 'trainingsMethodeId': this.geselecteerdeTrainingsMethode.$id });
             };
-            Gebruiker.prototype.test = function () {
-                this.$state.go('gebruiker.trainen');
+            Workouts.prototype.selecteerTrainingsMethode = function () {
+                this.toonStap1 = false;
+                this.toonStap2 = true;
+                this.stap1Title = "Methode = " + this.geselecteerdeTrainingsMethode.omschrijving;
             };
-            Gebruiker.prototype.activate = function () {
+            Workouts.prototype.anuleerTrainingsMethode = function () {
+                this.gefilterdTrainingsSchema = {};
+            };
+            Workouts.prototype.activate = function () {
                 this.logger.info('Gebruikersoverzicht');
                 this.gebruiker.$loaded().then(function (response) {
                     var _achterNaam = '';
@@ -56,22 +64,22 @@ var app;
                         }
                         ;
                     });
-                    Gebruiker.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam, response.$id);
+                    Workouts.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam, response.$id);
                 });
             };
-            Gebruiker.controllerId = 'Gebruiker';
+            Workouts.controllerId = 'Workouts';
             /* @ngInject */
-            Gebruiker.$inject = ['logger',
+            Workouts.$inject = ['logger',
                 'firebaseData',
-                'Auth',
                 'Ref',
                 '$state',
                 'currentAuth',
+                '_'
             ];
-            return Gebruiker;
+            return Workouts;
         })();
         angular
-            .module('app.gebruiker')
-            .controller(Gebruiker.controllerId, Gebruiker);
+            .module('app.workouts')
+            .controller(Workouts.controllerId, Workouts);
     })(controller = app.controller || (app.controller = {}));
 })(app || (app = {}));

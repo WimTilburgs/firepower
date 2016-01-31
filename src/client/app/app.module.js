@@ -16,6 +16,7 @@
         'app.login',
         'app.stamgegevens',
         'app.trainen',
+        'app.workouts',
     ])
  .constant('_',window._);
 })();

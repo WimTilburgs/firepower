@@ -1,3 +1,5 @@
+///<reference path="../../../../typings/lodash/lodash.d.ts"/>
+
 module app.domain {
     export interface IUser {
         
@@ -7,6 +9,8 @@ module app.domain {
         //geslacht: string;
         voorNaam: string; 
         uid?: string;
+        
+        getUser(gebruiker:any): IUser; 
     }  
     export class User implements IUser {
         naam: string;
@@ -19,7 +23,25 @@ module app.domain {
         ){
             this.naam = voorNaam + ' ' + achterNaam;
         }
-        export = app.domain;
+       getUser(gebruiker): IUser {
+           var _achterNaam: string;
+            var _email: string;
+            var _voorNaam: string;
+
+            angular.forEach(gebruiker, function(value, key) {
+                //console.log(key, value);
+                if (key == 'voorNaam') {
+                    _voorNaam = value
+                };
+                if (key == 'achterNaam') {
+                    _achterNaam = value
+                };
+                if (key == 'email') {
+                    _email = value
+                };
+            });
+            return new User(_achterNaam, _email, _voorNaam,gebruiker.$id);
+       }
     }
     
     export interface IOneRepMax {
@@ -42,6 +64,8 @@ module app.domain {
             public orm: number,
             public uid?: string
         ) {}
+        
+        
     }
     
 }

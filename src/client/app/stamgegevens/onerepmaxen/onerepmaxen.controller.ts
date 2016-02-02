@@ -1,7 +1,7 @@
 ///<reference path="../../../../../typings/angularjs/angular.d.ts"/>
 ///<reference path="../../../../../typings/lodash/lodash.d.ts"/>
 ///<reference path="../../core/app.domain.ts"/>
-///<reference path="../../core/user.service.ts"/>
+///<reference path="../../core/firebase.data.ts"/>
 
 module app.controller {
     interface IOneRepMaxen {
@@ -41,23 +41,17 @@ module app.controller {
         
         /* @ngInject */
         static $inject = ['logger',
-            'firebaseData',
-            'Auth',
-            'Ref',
+            'fireData',
             '$state',
             'currentAuth',
-            'userService',
             '_'
         ];
         constructor(
 
             private logger: any,
-            private firebaseData: any,
-            private Auth: any,
-            private Ref: any,
+            private fireData: app.core.FireData,
             private $state: any,
             private currentAuth: any,
-            private userService: any,
             private _: any) {
             this.init();
         }
@@ -67,9 +61,17 @@ module app.controller {
             if (!this.currentAuth) {
                 this.$state.go('login');
             }
-            this.gebruiker = this.firebaseData.getGebruiker;
-            this.oefeningen = this.firebaseData.getOefeningen;
-            this.oneRepMaxen = this.firebaseData.getOneRepMaxenPerGebruiker(this.currentAuth.uid);
+            
+            this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
+             this.gebruiker.$loaded().then(function(response) {
+                OneRepMaxen.prototype.user = app.domain.User.prototype.getUser(response);
+            })
+            
+            this.oefeningen = this.fireData.getOefeningen();
+            this.oefeningen.$loaded( function(response){
+                //alert(response[0].omschrijving)
+            })
+            this.oneRepMaxen = this.fireData.getOneRepMaxenPerGebruiker(this.currentAuth.uid);
             //this.filteredOneRepMaxen = this.oneRepMaxen;
             this.oefening = null; 
             
@@ -158,27 +160,7 @@ module app.controller {
         
         activate(): void {
             this.logger.info('OnerepMax view');
-            this.gebruiker.$loaded().then(function(response) {
-                var _achterNaam: string = '';
-                var _email: string = '';
-                var _voorNaam: string = '';
-                var _uid: string = ''
-
-                angular.forEach(response, function(value, key) {
-                
-                    //console.log(key, value);
-                    if (key == 'voorNaam') {
-                        _voorNaam = value
-                    };
-                    if (key == 'achterNaam') {
-                        _achterNaam = value
-                    };
-                    if (key == 'email') {
-                        _email = value
-                    };
-                });
-                OneRepMaxen.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam,response.$id);
-            })
+           
         }
     }
 

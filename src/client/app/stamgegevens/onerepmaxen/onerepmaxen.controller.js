@@ -1,20 +1,17 @@
 ///<reference path="../../../../../typings/angularjs/angular.d.ts"/>
 ///<reference path="../../../../../typings/lodash/lodash.d.ts"/>
 ///<reference path="../../core/app.domain.ts"/>
-///<reference path="../../core/user.service.ts"/>
+///<reference path="../../core/firebase.data.ts"/>
 var app;
 (function (app) {
     var controller;
     (function (controller) {
         var OneRepMaxen = (function () {
-            function OneRepMaxen(logger, firebaseData, Auth, Ref, $state, currentAuth, userService, _) {
+            function OneRepMaxen(logger, fireData, $state, currentAuth, _) {
                 this.logger = logger;
-                this.firebaseData = firebaseData;
-                this.Auth = Auth;
-                this.Ref = Ref;
+                this.fireData = fireData;
                 this.$state = $state;
                 this.currentAuth = currentAuth;
-                this.userService = userService;
                 this._ = _;
                 this.gridOneRepMaxen = {};
                 this.toonButtonNieuw = true;
@@ -26,9 +23,15 @@ var app;
                 if (!this.currentAuth) {
                     this.$state.go('login');
                 }
-                this.gebruiker = this.firebaseData.getGebruiker;
-                this.oefeningen = this.firebaseData.getOefeningen;
-                this.oneRepMaxen = this.firebaseData.getOneRepMaxenPerGebruiker(this.currentAuth.uid);
+                this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
+                this.gebruiker.$loaded().then(function (response) {
+                    OneRepMaxen.prototype.user = app.domain.User.prototype.getUser(response);
+                });
+                this.oefeningen = this.fireData.getOefeningen();
+                this.oefeningen.$loaded(function (response) {
+                    //alert(response[0].omschrijving)
+                });
+                this.oneRepMaxen = this.fireData.getOneRepMaxenPerGebruiker(this.currentAuth.uid);
                 //this.filteredOneRepMaxen = this.oneRepMaxen;
                 this.oefening = null;
                 this.activate();
@@ -91,38 +94,13 @@ var app;
             };
             OneRepMaxen.prototype.activate = function () {
                 this.logger.info('OnerepMax view');
-                this.gebruiker.$loaded().then(function (response) {
-                    var _achterNaam = '';
-                    var _email = '';
-                    var _voorNaam = '';
-                    var _uid = '';
-                    angular.forEach(response, function (value, key) {
-                        //console.log(key, value);
-                        if (key == 'voorNaam') {
-                            _voorNaam = value;
-                        }
-                        ;
-                        if (key == 'achterNaam') {
-                            _achterNaam = value;
-                        }
-                        ;
-                        if (key == 'email') {
-                            _email = value;
-                        }
-                        ;
-                    });
-                    OneRepMaxen.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam, response.$id);
-                });
             };
             OneRepMaxen.controllerId = 'OneRepMaxen';
             /* @ngInject */
             OneRepMaxen.$inject = ['logger',
-                'firebaseData',
-                'Auth',
-                'Ref',
+                'fireData',
                 '$state',
                 'currentAuth',
-                'userService',
                 '_'
             ];
             return OneRepMaxen;

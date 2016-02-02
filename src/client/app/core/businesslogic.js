@@ -68,10 +68,15 @@
             if (openWorkouts.length > 0) {
                 _.forEach(OefeningenSqlId, function (value, key) {
                     var temp = _.filter(openWorkouts, { 'oefeningId': value });
-                    openWorkoutsKlaar.push(temp[0]);
-                    openWorkoutsKlaar = _.orderBy(openWorkoutsKlaar, ['workoutNummer', 'oefeningOmschrijving']);
+                    //console.log(temp);
+                    if (temp[0]) {
+                        openWorkoutsKlaar.push(temp[0]);
+                        openWorkoutsKlaar = _.orderBy(openWorkoutsKlaar, ['workoutNummer', 'oefeningOmschrijving']);
+                    }
                 });
             }
+            
+            //console.log(openWorkoutsKlaar);
             return openWorkoutsKlaar;
         }
 

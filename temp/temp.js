@@ -115,3 +115,56 @@ private getUser(): void {
 
             this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
         }
+        
+         "users": {
+     // "$user_id": {
+        // grants write access to the owner of this user account
+        // whose uid must exactly match the key ($user_id)
+       // ".write": "$user_id === auth.uid",
+       ".write": true,
+        ".read": true
+      //}
+    },
+    
+    "halterSchijven": {
+       ".write": true,
+        ".read": true
+    
+   },
+    
+    "metingSoorten": {
+      
+        ".write": true,
+        ".read": true
+      
+    },
+    "oefeningen": {
+      
+        ".write": true,
+        ".read": true
+      
+    },
+    "oneRepMaxen": {
+      
+        ".write": true,
+        ".read": true
+      
+    },
+    "trainingen": {
+       ".write": true,
+        ".read": true
+    
+   },
+    
+    "trainingsMethodes": {
+       ".write": true,
+        ".read": true
+    
+   },
+    "trainingsSchemas": {
+       ".write": true,
+        ".read": true
+    
+   }
+   
+  }

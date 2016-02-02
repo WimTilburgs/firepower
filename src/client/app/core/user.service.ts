@@ -33,43 +33,13 @@ module app.core {
             //console.log(this.Ref.child('users'))
         }
 
-        getTest(): app.domain.IUser {
+        getUser(gebruiker): app.domain.IUser {
 
-            var _achterNaam: string = 'achternaam';
-            var _email: string = 'email';
-            var _voorNaam: string = 'voornaam';
+            var _achterNaam: string;
+            var _email: string;
+            var _voorNaam: string;
 
-            return this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
-
-        }
-
-        serviceMethod() {
-            return this.$timeout(function() {
-                return {
-                    property: app.core.UserService.prototype.user
-                };
-            }, 1000);
-        }
-
-        getUserAsync() {
-            var _achterNaam: string = '';
-            var _email: string = '';
-            var _voorNaam: string = '';
-            //var user = app.core.UserService.prototype.user;
-            var authData = this.Auth.$getAuth();
-            if (!authData) {
-                app.core.UserService.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam);
-                return app.core.UserService.prototype.user;
-            }
-            var loadedUser = this.firebaseData.getGebruiker;
-            loadedUser.$loaded().then(function(response) {
-
-                return response;
-
-            })
-
-            angular.forEach(loadedUser, function(value, key) {
-                
+            angular.forEach(gebruiker, function(value, key) {
                 //console.log(key, value);
                 if (key == 'voorNaam') {
                     _voorNaam = value
@@ -83,55 +53,10 @@ module app.core {
 
 
             });
-            //alert(_achterNaam)
-            app.core.UserService.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam,loadedUser.$id);
-            //console.log(app.core.UserService.prototype.user);
-            //return app.core.UserService.prototype.user;
-            console.log('hier is de loaded user');
-            console.log(loadedUser);
-            console.log('de user');
-            console.log(app.core.UserService.prototype.user);
-            //return loadedUser;
-            return app.core.UserService.prototype.user;
-        }
-
-
-        getUser(): app.domain.IUser {
-
-            //var promise =
-            var _achterNaam: string = 'achternaam';
-            var _email: string = 'email';
-            var _voorNaam: string = 'voornaam';
-            //return this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
-            var authData = this.Auth.$getAuth();
-            if (authData) {
-                var loadedUser = this.firebaseData.getGebruiker;
-                loadedUser.$loaded().then(function() {
-
-                    angular.forEach(loadedUser, function(value, key) {
-                        //console.log(key, value);
-                        if (key == 'voorNaam') {
-                            _voorNaam = value
-                        };
-                        if (key == 'achterNaam') {
-                            _achterNaam = value
-                        };
-                        if (key == 'email') {
-                            _email = value
-                        };
-
-
-                    });
-                    app.core.UserService.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam);
-                    //console.log(this.user);
-                    return this.user;
-                })
-
-            } else {
-                //alert('else');
-                //return null;
-                return this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
-            }
+            //app.core.UserService.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam,gebruiker.$id);
+            //console.log(this.user);
+            //return this.user;
+            return new app.domain.User(_achterNaam, _email, _voorNaam,gebruiker.$id);
         }
 
         private makeUser(data) {

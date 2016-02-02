@@ -11,9 +11,6 @@
     function Stamgegevens(logger, firebaseData, $rootScope, userService) {
         var vm = this;
         vm.title = 'Login';
-        vm.metingSoorten = firebaseData.metingSoorten;
-
-        vm.gebruiker = userService.getUserAsync();
 
         activate();
 

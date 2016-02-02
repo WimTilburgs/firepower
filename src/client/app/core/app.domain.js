@@ -1,3 +1,4 @@
+///<reference path="../../../../typings/lodash/lodash.d.ts"/>
 var app;
 (function (app) {
     var domain;
@@ -8,9 +9,29 @@ var app;
                 this.email = email;
                 this.voorNaam = voorNaam;
                 this.uid = uid;
-                this.export = app.domain;
                 this.naam = voorNaam + ' ' + achterNaam;
             }
+            User.prototype.getUser = function (gebruiker) {
+                var _achterNaam;
+                var _email;
+                var _voorNaam;
+                angular.forEach(gebruiker, function (value, key) {
+                    //console.log(key, value);
+                    if (key == 'voorNaam') {
+                        _voorNaam = value;
+                    }
+                    ;
+                    if (key == 'achterNaam') {
+                        _achterNaam = value;
+                    }
+                    ;
+                    if (key == 'email') {
+                        _email = value;
+                    }
+                    ;
+                });
+                return new User(_achterNaam, _email, _voorNaam, gebruiker.$id);
+            };
             return User;
         })();
         domain.User = User;

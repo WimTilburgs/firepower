@@ -33,25 +33,52 @@ module app.controller {
         private init() {
             this.title = 'Onderhoud Trainingsschemas';
             this.trainingsSchemas = this.fireData.haalTrainingsSchemas(this.$stateParams.id);
-            //this.geselecteerdeTrainingsSchema.amrap = false;
             this.activate();
         }
         
-        trainingsSchemaOpslaan() {
+        trainingsSchemaSelecteren(schema): void {
+            this.geselecteerdeTrainingsSchema = schema;
+            this.toonButtonNieuw = false;
+        }
+        
+        trainingsSchemaOpslaanTonen(): void {
+            this.geselecteerdeTrainingsSchema = null;
+            this.toonButtonNieuw = true;
+        }
+        
+        trainingsSchemaOpslaan(): void {
             
-            if (!this.geselecteerdeTrainingsSchema.amrap) {
-                this.geselecteerdeTrainingsSchema.amrap = false;
+            var schema = this.trainingsSchemaClassMaken(this.geselecteerdeTrainingsSchema);
+            this.trainingsSchemas.$add(schema);
+            this.geselecteerdeTrainingsSchema = null;
+        }
+        
+       trainingsSchemaWijzigen(): void {
+           
+            var schema = this.trainingsSchemaClassMaken(this.geselecteerdeTrainingsSchema);
+            //bij schema guid nog toevoegen
+            console.log(schema);
+            this.trainingsSchemas.$save(this.geselecteerdeTrainingsSchema)
+            //this.geselecteerdeTrainingsSchema = null;
+            //this.toonButtonNieuw = true;
+        }
+        
+        /**
+         * Pakt de velden van het model van het invoerformulier en maakt hiermee de typescript class
+         * Hiermee maak ik zeker dat de opgeslagen gegevens voldoen aan de class.
+         */
+        trainingsSchemaClassMaken(schema:app.domain.ITrainingsSchemas): app.domain.TrainingsSchemas {
+            if (!schema.amrap) {
+                schema.amrap = false;
             }
             var nieuwSchema = new app.domain.TrainingsSchemas(
-                this.geselecteerdeTrainingsSchema.workoutNummer,
-                this.geselecteerdeTrainingsSchema.setNummer,
-                this.geselecteerdeTrainingsSchema.percentage,
-                this.geselecteerdeTrainingsSchema.aantalReps,
-                this.geselecteerdeTrainingsSchema.amrap);
-            this.trainingsSchemas.$add(nieuwSchema);
-            //this.geselecteerdeTrainingsSchema = null;
+                schema.workoutNummer,
+                schema.setNummer,
+                schema.percentage,
+                schema.aantalReps,
+                schema.amrap);
+                return nieuwSchema;
         }
-       
         
         
         activate(): void {

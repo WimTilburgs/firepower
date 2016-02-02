@@ -63,6 +63,21 @@ module app.core {
             return this.$firebaseArray(this.ref.child('trainingsMethodes'));
         }
         
+        /**
+         * Haal alle TrainingsMethodes
+         */
+        haalTrainingsMethodes(): any {
+            return this.$firebaseArray(this.ref.child('stamGegevens').child('trainingsMethodes'));
+        }
+        
+        /**
+         * Haal alle TrainingsSchemas behorende bij een trainingsMethodes
+         * parameter is de trainingsMethodeUid
+         */
+        haalTrainingsSchemas(methodeUid: string): any {
+            return this.$firebaseArray(this.ref.child('stamGegevens').child('trainingsMethodes').child(methodeUid).child('trainingsSchemas'));
+        }
+        
         getTrainingsSchemas(): any {
             return this.$firebaseArray(this.ref.child('trainingsSchemas'));
         }

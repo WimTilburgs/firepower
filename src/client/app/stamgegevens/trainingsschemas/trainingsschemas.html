@@ -10,16 +10,23 @@
                                 <table class="table table-bordered table-responsive table-hover">
                                     <thead>
                                         <tr>
+                                            <th>Workoutnummer</th>
+                                            <th>Setnummer</th>
                                             <th>Percentage</th>
                                             <th>Aantal Reps</th>
                                             <th>Amrap</th>
-                                            <th>Workoutnummer</th>
-                                            <th>Setnummer</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         <tr ng-repeat="m in vm.trainingsSchemas | orderBy: 'omschrijving'" ng-click="vm.trainingsSchemaSelecteren(m)">
+                                            <td>
+                                                {{m.workoutNummer}}
+                                            </td>
+                                            <td>
+                                                {{m.setNummer}}
+                                            </td>
                                             <td>
                                                 {{m.percentage }}
                                             </td>
@@ -29,19 +36,14 @@
                                             <td>
                                                 {{m.amrap }}
                                             </td>
-                                            <td>
-                                                {{m.workoutNummer}}
-                                            </td>
-                                            <td>
-                                                {{m.setNummer}}
-                                            </td>
+                                           
 
                                         </tr>
                                     </tbody>
                                 </table>
 
                                 <br />
-                              
+
                             </div>
 
                             <div class="row">
@@ -50,40 +52,44 @@
                                         <legend ng-show="vm.toonButtonNieuw">Trainingsschema Toevoegen</legend>
                                         <legend ng-show="!vm.toonButtonNieuw">Trainingsschema Wijzigen</legend>
                                         <div class="form-group">
+                                            <label class="col-sm-3 control-label">Workoutnummer</label>
+                                            <div class="col-sm-9">
+                                                <input type="number" placeholder="workoutnummer ...." ng-model="vm.geselecteerdeTrainingsSchema.workoutNummer" class="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Setnummer</label>
+                                            <div class="col-sm-9">
+                                                <input type="number" placeholder="setnummer ...." ng-model="vm.geselecteerdeTrainingsSchema.setNummer" class="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="col-sm-3 control-label">Percentage</label>
                                             <div class="col-sm-9">
                                                 <input type="number" placeholder="percentage ...." ng-model="vm.geselecteerdeTrainingsSchema.percentage" class="form-control"
                                                 />
                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Aantal reps</label>
+                                            <div class="col-sm-9">
+                                                <input type="number" placeholder="aantal reps ...." ng-model="vm.geselecteerdeTrainingsSchema.aantalReps" class="form-control"
+                                                />
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Aantal reps</label>
-                                                <div class="col-sm-9">
-                                                    <input type="number" placeholder="aantal reps ...." ng-model="vm.geselecteerdeTrainingsSchema.aantalReps" class="form-control"/>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Amrap</label>
-                                                 <div class="col-sm-9">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Amrap</label>
+                                            <div class="col-sm-9">
                                                 <input type="checkbox" ng-model="vm.geselecteerdeTrainingsSchema.amrap" class="form-control" />
                                             </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Workoutnummer</label>
-                                                <div class="col-sm-9">
-                                                    <input type="number" placeholder="workoutnummer ...." ng-model="vm.geselecteerdeTrainingsSchema.workoutNummer" class="form-control"/>
-                                                </div>
-                                            </div>
-                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label">Setnummer</label>
-                                                <div class="col-sm-9">
-                                                    <input type="number" placeholder="setnummer ...." ng-model="vm.geselecteerdeTrainingsSchema.setNummer" class="form-control"/>
-                                                </div>
-                                            </div>
+                                        </div>
 
-                                           
 
-                                       
+
+
+
 
                                     </fieldset>
                                 </form>

@@ -7,6 +7,7 @@
                         <div ht-widget-header title={{vm.title}} allow-collapse="true"></div>
                         <div class="widget-content text-center text-info">
                             <div class="row">
+                                <pre>{{vm.trainingsMethodes}}</pre>
                                 <table class="table table-bordered table-responsive table-hover">
                                     <thead>
                                         <tr>
@@ -22,7 +23,7 @@
                                             </td>
                                           
                                             <td>
-                                                 <a ui-sref="trainingsschemas({id: m.$id, oms: m.omschrijving})"><h3>Trainingsschema</h3></a>
+                                                 <a ui-sref="trainingsschemas({id: m.$id})">Trainingsschema</a>
                                             </td>
                                         </tr>
                                     </tbody>

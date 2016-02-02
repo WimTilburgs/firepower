@@ -21,8 +21,8 @@ module app.controller {
         
         oefeningen: any;
 
-        oneRepMaxen: any;
-        oneRepMaxenPerOefening: any;
+        oneRepMaxen: app.domain.OneRepMax;
+        oneRepMaxenPerOefening: app.domain.OneRepMax[];
 
         trainingsMethodes: any;
         geselecteerdeTrainingsMethode: any; //hier moeten uiteraard nog klasses voor komen
@@ -56,61 +56,43 @@ module app.controller {
             if (!this.currentAuth) {
                 this.$state.go('login');
             }
-            
-            //this.oefeningen = this.fireData.getOefeningen();
-            //this.oefeningen = this.fbRoot
             this.trainingsMethodes = this.fireData.getTrainingsMethodes();
             this.trainingsSchemas = this.fireData.getTrainingsSchemas();
             this.fbRoot = this.fireData.getRoot();
             this.fbRoot.$loaded().then(function(response) {
                 var repmax = {};
-                var repmaxen = {}
-                var oefeningen = {};
                 var temp = [];
-                //console.log(response);
+
                 angular.forEach(response, function(value, key) {
+
                     if (value.$id === 'oefeningen') {
                         Workouts.prototype.oefeningen = value;
-                        oefeningen = value;
                     }
                     if (value.$id === 'oneRepMaxen') {
                         Workouts.prototype.oneRepMaxen = value;
-                        repmaxen = value;
-                        //Workouts.prototype.oneRepMaxenPerOefening = value;
                     }
-                    //console.log(key, value.$id);
-                    //Workouts.prototype.oefeningen = response[2];
-                    //var temp = response[2];
-                    //console.log(temp);
+
                 })
-                angular.forEach(Workouts.prototype.oefeningen,function(value,key){
-                    console.log(key , value);
-                    //if(value.$id === 'oefeningUid') {}
-                    //console.log(value)
-                    repmax = _(repmaxen).filter({ 'oefeningUid': key }).maxBy('orm');
-                    temp.push(repmax);
+                angular.forEach(Workouts.prototype.oefeningen, function(value, key) {
+                    repmax = _(Workouts.prototype.oneRepMaxen).filter({ 'oefeningUid': key }).maxBy('orm');
+                    if (repmax) {
+                        temp.push(repmax);
+                    }
                     //console.log(temp);
-                    //Workouts.prototype.oneRepMaxenPerOefening = temp;
+                    Workouts.prototype.oneRepMaxenPerOefening = temp;
                 })
-                
+
             })
+            if (!this.currentAuth) {
+                return;
+            }
             this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
+            
             this.gebruiker.$loaded().then(function(response) {
 
                 Workouts.prototype.user = app.domain.User.prototype.getUser(response);
                 //Workouts.prototype.userService.getUser(response) //app.core.UserService.prototype.getUser(response);
             })
-            
-            //this.oneRepMaxen = this.fireData.getOneRepMaxenPerGebruiker(this.currentAuth.uid);
-            //this.oneRepMaxen.$loaded().then(function (response) {
-                
-               
-            //var result  = _(response).orderBy('percentage','desc').take(2).value();
-               
-            //var xoefenTemp = _.map(oefenTemp,oefenTemp.$id); 
-           
-
-
 
             this.activate();
         }
@@ -118,14 +100,9 @@ module app.controller {
         bekijkSchema(m): void {
 
             this.geselecteerdeTrainingsMethode = m;
+            console.log(this.geselecteerdeTrainingsMethode);
             this.gefilterdTrainingsSchema = _.filter(this.trainingsSchemas, { 'trainingsMethodeId': this.geselecteerdeTrainingsMethode.$id })
-            var people = [
-                { name: 'Wim', age: 55 },
-                { name: 'Sammy', age: 16 },
-                { name: 'Saida', age: 51 }
-
-            ]
-
+            console.log(this.gefilterdTrainingsSchema);
         }
 
         selecteerTrainingsMethode(): void {

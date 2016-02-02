@@ -9,9 +9,9 @@ module app.controller {
         gridOneRepMaxen: any;
         oefening: any;
         oefeningen: any;
-        filteredOneRepMaxen: app.domain.OneRepMax[];
-        oneRepMaxen: app.domain.OneRepMax[];
-        oneRepMax: app.domain.OneRepMax;
+        filteredOneRepMaxen: app.domain.IOneRepMax[];
+        oneRepMaxen: any;
+        oneRepMax: app.domain.IOneRepMax;
         title: string;
         toonButtonNieuw: boolean;
         toonInvoerScherm: boolean;
@@ -25,12 +25,12 @@ module app.controller {
     class OneRepMaxen implements IOneRepMaxen {
         static controllerId = 'OneRepMaxen';
         gebruiker: any;
-        gridOneRepMaxen: any = {};
+        gridOneRepMaxen: any;
         oefening: any;
         oefeningen: any;
         toonButtonNieuw: boolean = true;
         toonInvoerScherm: boolean = false;
-        oneRepMax: app.domain.OneRepMax;
+        oneRepMax: app.domain.IOneRepMax;
         oneRepMaxen: any;
         filteredOneRepMaxen: any;
         

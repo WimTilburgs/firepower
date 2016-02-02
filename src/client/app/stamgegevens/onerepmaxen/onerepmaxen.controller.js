@@ -13,7 +13,6 @@ var app;
                 this.$state = $state;
                 this.currentAuth = currentAuth;
                 this._ = _;
-                this.gridOneRepMaxen = {};
                 this.toonButtonNieuw = true;
                 this.toonInvoerScherm = false;
                 this.init();

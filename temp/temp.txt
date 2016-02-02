@@ -168,3 +168,10 @@ private getUser(): void {
    }
    
   }
+  
+  var people = [
+                { name: 'Wim', age: 55 },
+                { name: 'Sammy', age: 16 },
+                { name: 'Saida', age: 51 }
+
+            ]

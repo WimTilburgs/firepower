@@ -1,4 +1,5 @@
 ///<reference path="../../../../typings/lodash/lodash.d.ts"/>
+///<reference path="../core/app.domain.trainingsSchemas.ts"/>
 var app;
 (function (app) {
     var domain;
@@ -48,5 +49,12 @@ var app;
             return OneRepMax;
         })();
         domain.OneRepMax = OneRepMax;
+        var TrainingsMethodes = (function () {
+            function TrainingsMethodes(omschrijving) {
+                this.omschrijving = omschrijving;
+            }
+            return TrainingsMethodes;
+        })();
+        domain.TrainingsMethodes = TrainingsMethodes;
     })(domain = app.domain || (app.domain = {}));
 })(app || (app = {}));

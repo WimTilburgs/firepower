@@ -35,6 +35,19 @@ var app;
             FireData.prototype.getTrainingsMethodes = function () {
                 return this.$firebaseArray(this.ref.child('trainingsMethodes'));
             };
+            /**
+             * Haal alle TrainingsMethodes
+             */
+            FireData.prototype.haalTrainingsMethodes = function () {
+                return this.$firebaseArray(this.ref.child('stamGegevens').child('trainingsMethodes'));
+            };
+            /**
+             * Haal alle TrainingsSchemas behorende bij een trainingsMethodes
+             * parameter is de trainingsMethodeUid
+             */
+            FireData.prototype.haalTrainingsSchemas = function (methodeUid) {
+                return this.$firebaseArray(this.ref.child('stamGegevens').child('trainingsMethodes').child(methodeUid).child('trainingsSchemas'));
+            };
             FireData.prototype.getTrainingsSchemas = function () {
                 return this.$firebaseArray(this.ref.child('trainingsSchemas'));
             };

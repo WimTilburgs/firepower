@@ -16,7 +16,7 @@
             {
                 state: 'trainingsschemas',
                 config: {
-                    url: '/trainingsschemas?id&oms',
+                    url: '/trainingsschemas?id',
                     templateUrl: 'app/stamgegevens/trainingsschemas/trainingsschemas.html',
                     controller: 'TrainingsSchemas',
                     controllerAs: 'vm',

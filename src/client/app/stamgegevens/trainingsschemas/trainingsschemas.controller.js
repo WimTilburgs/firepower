@@ -29,28 +29,28 @@ var app;
                 this.toonButtonNieuw = true;
             };
             TrainingsSchemas.prototype.trainingsSchemaOpslaan = function () {
-                var schema = this.trainingsSchemaClassMaken(this.geselecteerdeTrainingsSchema);
-                this.trainingsSchemas.$add(schema);
-                this.geselecteerdeTrainingsSchema = null;
-            };
-            TrainingsSchemas.prototype.trainingsSchemaWijzigen = function () {
-                var schema = this.trainingsSchemaClassMaken(this.geselecteerdeTrainingsSchema);
-                //bij schema guid nog toevoegen
-                console.log(schema);
-                this.trainingsSchemas.$save(this.geselecteerdeTrainingsSchema);
-                //this.geselecteerdeTrainingsSchema = null;
-                //this.toonButtonNieuw = true;
-            };
-            /**
-             * Pakt de velden van het model van het invoerformulier en maakt hiermee de typescript class
-             * Hiermee maak ik zeker dat de opgeslagen gegevens voldoen aan de class.
-             */
-            TrainingsSchemas.prototype.trainingsSchemaClassMaken = function (schema) {
+                var schema = this.geselecteerdeTrainingsSchema;
                 if (!schema.amrap) {
                     schema.amrap = false;
                 }
                 var nieuwSchema = new app.domain.TrainingsSchemas(schema.workoutNummer, schema.setNummer, schema.percentage, schema.aantalReps, schema.amrap);
-                return nieuwSchema;
+                this.trainingsSchemas.$add(schema);
+                this.geselecteerdeTrainingsSchema = null;
+            };
+            TrainingsSchemas.prototype.trainingsSchemaWijzigen = function () {
+                this.trainingsSchemas.$save(this.geselecteerdeTrainingsSchema);
+            };
+            TrainingsSchemas.prototype.trainingsSchemaVerwijderen = function () {
+                this.trainingsSchemas.$remove(this.geselecteerdeTrainingsSchema);
+                // .then(function (data){
+                //     console.log(data);
+                // })
+                // .catch(function (error) {
+                //     console.log(error);
+                //     TrainingsSchemas.prototype.logger.info(error);
+                // })
+                this.geselecteerdeTrainingsSchema = null;
+                this.toonButtonNieuw = true;
             };
             TrainingsSchemas.prototype.activate = function () {
                 this.logger.info('trainingsSchemasView wordt getoond');
@@ -65,7 +65,7 @@ var app;
             return TrainingsSchemas;
         })();
         angular
-            .module('app.workouts')
+            .module('app.stamgegevens')
             .controller(TrainingsSchemas.controllerId, TrainingsSchemas);
     })(controller = app.controller || (app.controller = {}));
 })(app || (app = {}));

@@ -64,6 +64,13 @@ module app.core {
         }
         
         /**
+         * Haal alle oefeningen
+         */
+        haalOefeningen(): any {
+            return this.$firebaseArray(this.ref.child('stamGegevens').child('oefeningen'));
+        }
+        
+        /**
          * Haal alle TrainingsMethodes
          */
         haalTrainingsMethodes(): any {

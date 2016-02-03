@@ -1,6 +1,7 @@
 ///<reference path="../../../../typings/lodash/lodash.d.ts"/>
 
 ///<reference path="../core/app.domain.trainingsSchemas.ts"/>
+///<reference path="../core/app.domain.oefeningen.ts"/>
 module app.domain {
     export interface IUser {
 

@@ -36,6 +36,12 @@ var app;
                 return this.$firebaseArray(this.ref.child('trainingsMethodes'));
             };
             /**
+             * Haal alle oefeningen
+             */
+            FireData.prototype.haalOefeningen = function () {
+                return this.$firebaseArray(this.ref.child('stamGegevens').child('oefeningen'));
+            };
+            /**
              * Haal alle TrainingsMethodes
              */
             FireData.prototype.haalTrainingsMethodes = function () {

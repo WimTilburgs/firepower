@@ -42,7 +42,12 @@ module app.controller {
         }
         
         trainingsMethodeOpslaan(): void {
-            this.trainingsMethodes.$add(this.geselecteerdeTrainingsMethode);
+            var methode = this.geselecteerdeTrainingsMethode;
+            var nieuweMethode = new app.domain.TrainingsMethodes(
+                methode.omschrijving
+            )
+            
+            this.trainingsMethodes.$add(methode);
             this.geselecteerdeTrainingsMethode = null;
         }
         

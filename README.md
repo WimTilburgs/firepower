@@ -2,6 +2,8 @@
 
 ##An application to help you get stronger!
 
+>Work on this project has stopped. I am now learning new syntax for Angular 2 and then I will redo everything here but with Angular 2.
+
 **Generated from HotTowel Angular**
 
 >*Opinionated Angular style guide for teams by [@john_papa](//twitter.com/john_papa)*

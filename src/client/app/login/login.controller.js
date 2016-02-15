@@ -11,7 +11,8 @@
         'Auth',
         '$state',
         'Ref',
-        'currentAuth'];
+        'currentAuth'
+        ];
     /* @ngInject */
     function Login(logger, firebaseData, Auth, $state, Ref, currentAuth) {
         var vm = this;
@@ -76,7 +77,9 @@
                     //gebruikerOpslaan(authData);
                     window.location.reload(true);
                     $state.go('home');
-                })
+                }).catch(function(error) {
+                    console.log(error);
+                    })
             } else {
                 Auth.$authWithOAuthPopup(provider).then(function (authData) {
 

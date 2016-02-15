@@ -2,6 +2,8 @@
     'use strict';
 
     angular.module('app', [
+        'ngMaterial',
+        'ngMessages',
         'ui.grid',
         'ui.grid.edit',
         'ui.bootstrap',

@@ -1,5 +1,5 @@
 {
-  "firebase": "firepower",
+  "firebase": "powerweb",
   "public": "build",
   "ignore": [
     "firebase.json",

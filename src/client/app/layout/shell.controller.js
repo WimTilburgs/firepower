@@ -9,9 +9,9 @@
     /* @ngInject */
     function ShellController($rootScope, $timeout, config, logger) {
         var vm = this;
-        vm.busyMessage = 'Please wait ...';
-        console.log(vm.gebruiker)
-        vm.isBusy = true;
+        //vm.busyMessage = 'Please wait ...';
+        //console.log(vm.gebruiker)
+        //vm.isBusy = true;
         $rootScope.showSplash = true;
         vm.navline = {
             title: config.appTitle,
@@ -22,8 +22,8 @@
         activate();
 
         function activate() {
-            logger.success(config.appTitle + ' loaded!', null);
-            hideSplash();
+            //logger.success(config.appTitle + ' loaded!', null);
+           // hideSplash();
         }
 
         function hideSplash() {

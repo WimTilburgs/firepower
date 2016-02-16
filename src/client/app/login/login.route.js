@@ -12,6 +12,7 @@
     }
 
     function getStates() {
+        
         return [
             {
                 state: 'login',
@@ -29,7 +30,7 @@
                     },
                     settings: {
                         nav: 99,
-                        content: '<i class="fa fa-sign-in"></i> Inloggen'
+                        content: '<i class="fa fa-sign-in"></i> Inloggen' 
                     }
                 }
             }

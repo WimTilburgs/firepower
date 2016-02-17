@@ -1,0 +1,77 @@
+<md-subheader class="md-primary ">
+    {{vm.stap1Title}}</md-subheader>
+
+<md-subheader class="md-primary " ng-show="vm.toon1Rm">
+    {{vm.stap2Title}}</md-subheader>    
+<md-content class="md-padding" layout-xs="column" layout="row" ng-show="vm.toonMethodes">
+    <!--<div flex-xs flex-gt-xs="50" layout="column">-->
+    <md-card ng-repeat="trainingsMethode in vm.trainingsMethodes" class="md-whiteframe-z2">
+        <md-subheader class="md-primary md-hue-1">Trainingsmethode</md-subheader>
+
+        <!--<md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{trainingsMethode.omschrijving}}</span>
+          </md-card-title-text>
+        </md-card-title>-->
+        <md-card-content>
+            <h6 class="md-subhead">{{trainingsMethode.omschrijving}}</h6>
+
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-click="vm.selecteerTrainingsMethode(trainingsMethode)">Kies</md-button>
+            <md-button ng-click="vm.bekijkSchema(trainingsMethode)">Schema</md-button>
+        </md-card-actions>
+    </md-card>
+
+</md-content>
+
+
+<md-content class="md-padding" layout-xs="column" layout="row" ng-show="vm.toon1Rm">
+    <!--<div flex-xs flex-gt-xs="50" layout="column">-->
+    <md-card ng-repeat="oefening in vm.oneRepMaxenPerOefening" class="md-whiteframe-z2">
+        <md-subheader class="md-primary md-hue-1">Oefening</md-subheader>
+
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{oefening.oefeningOmschrijving}}</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <p>{{'Huidige 1rm '+oefening.orm+'kg'}}</p>
+
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+            <md-button>Kies</md-button>
+            <md-button ng-click="vm.bekijkSchema(trainingsMethode)">Schema</md-button>
+        </md-card-actions>
+    </md-card>
+
+</md-content>
+
+<md-content class="md-padding" layout="column" layout-align="space-between left">
+    <pre>{{vm.schemaGegroepeerdPerWorkout}}</pre>
+    <md-card ng-repeat="(workoutNummer, sets) in vm.schemaGegroepeerdPerWorkout" " class="md-whiteframe-z2 ">
+       <md-subheader class="md-primary md-hue-1 ">Workoutnummer {{workoutNummer}}</md-subheader>
+        <!--<md-card-title>
+          <md-card-title-text>
+            <span class="md-headline ">{{trainingsMethode.omschrijving}}</span>
+          </md-card-title-text>
+        </md-card-title>-->
+        
+       <md-card-content ng-repeat="set in sets ">
+           <div layout="row ">
+    <div flex="33 "> Set : {{set.setNummer}}</div>
+    <div flex="33 ">{{set.percentage+'% '}}</div>
+    <div flex="33 "><span ng-show="!set.amrap "> {{set.aantalReps + 'reps'}} </span>
+    <span ng-show="set.amrap "> amrap 
+         <md-tooltip md-direction="left ">
+                            As Much Reps As Possible (amrap) doe zoveel mogelijk reps
+                        </md-tooltip>
+    </span>
+    </div>
+  </div>
+         <!--<p> Set : {{set.setNummer}}  {{set.percentage+'% '}} <span ng-show="!set.amrap
+    "> {{set.aantalReps + 'reps'}} </span><span ng-show="set.amrap "> amrap </span></p>-->
+        </md-card-content>
+      </md-card>
+</md-content>

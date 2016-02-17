@@ -1,5 +1,11 @@
+<div ng-show="!vm.toonInloggen" style="margin-top: 150px">
+    <div class="col-sm-6 col-sm-offset-6 social-login">
+        <a class="btn btn-link-1 btn-link-1-twitter" ng-click="vm.afmelden()" href="#">
+            <i class="fa fa-sign-out"></i> Afmelden</a>
+    </div>
+</div>
 
-<div flex layout="row" layout-align="center center" style="padding-top:50px">
+<div ng-show="vm.toonInloggen" flex layout="row" layout-align="center center" style="padding-top:50px">
     <div flex-xs="95" flex-sm="90" flex-gt-sm="85" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z3">
         <md-toolbar>
             <h1 class="md-subhead">{{vm.title}}</h1> </md-toolbar>
@@ -14,22 +20,23 @@
                         <div ng-message="required">Verplicht veld.</div>
                         <div ng-message="pattern">Ongeldig e-mail adres.</div>
                     </div>
-                    
+
                     <pre>loginForm.myEmail.$error = {{ loginForm.myEmail.$error | json }}</pre>
-                  
+
                 </md-input-container>
                 <md-input-container class="md-block ">
                     <label>Wachtwoord:</label>
                     <input type="password" required name="myWachtWoord" ng-model="vm.gebruiker.wachtwoord">
-                     <div ng-messages="loginForm.myWachtWoord.$error" multiple md-auto-hide="true">
+                    <div ng-messages="loginForm.myWachtWoord.$error" multiple md-auto-hide="true">
                         <div ng-message="required">Verplicht veld.</div>
-                       
+
                     </div>
                 </md-input-container>
 
                 <section layout="row " layout-xs="column " layout-align="center center " layout-wrap>
 
-                    <md-button ng-disabled="loginForm.$invalid" class="md-fab md-primary md-hue-2 " style="background: #4862a3; " aria-label="Inloggen met eMail" ng-click="vm.inloggen( 'password') ">
+                    <md-button ng-disabled="loginForm.$invalid" class="md-fab md-primary md-hue-2 " style="background: #4862a3; " aria-label="Inloggen met eMail"
+                    ng-click="vm.inloggen( 'password') ">
                         <md-tooltip md-direction="left ">
                             Aanmelden met Email
                         </md-tooltip>

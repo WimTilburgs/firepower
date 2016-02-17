@@ -28,13 +28,17 @@ var app;
             FireData.prototype.getOneRepMaxen = function () {
                 return this.$firebaseArray(this.ref.child('oneRepMaxen'));
             };
+            // getOneRepMaxenPerGebruiker(userUid): any{
+            //     return this.$firebaseArray(this.ref.child('oneRepMaxen')
+            //     .orderByChild('gebruikerUid').equalTo(userUid));
+            // }
             FireData.prototype.getOneRepMaxenPerGebruiker = function (userUid) {
-                return this.$firebaseArray(this.ref.child('oneRepMaxen')
-                    .orderByChild('gebruikerUid').equalTo(userUid));
+                return this.$firebaseArray(this.ref.child('users').child(userUid).child('oneRepMaxen'));
+                //.orderByChild('gebruikerUid').equalTo(userUid));
             };
-            FireData.prototype.getTrainingsMethodes = function () {
-                return this.$firebaseArray(this.ref.child('trainingsMethodes'));
-            };
+            // getTrainingsMethodes(): any {
+            //     return this.$firebaseArray(this.ref.child('trainingsMethodes'));
+            // }
             /**
              * Haal alle oefeningen
              */

@@ -18,7 +18,7 @@
                 state: 'workouts',
                 config: {
                     url: '/workouts',
-                    templateUrl: 'app/workouts/workoutsgenereren.html',
+                    templateUrl: 'app/workouts/workoutsgenereren.1.html',
                     controller: 'Workouts',
                     controllerAs: 'vm',
                     resolve: {
@@ -32,6 +32,7 @@
                         nav: 25,
                         content: '<i class="fa fa-heart"></i> Workouts'
                     }
+                    
 
                 }
             }

@@ -57,7 +57,9 @@
 
         <md-list>
             <md-list-item ng-repeat="r in vm.navRoutes">
-                <md-button ui-sref="{{r.name}}" ng-bind-html="r.settings.content" aria-label="r.setting.content"></md-button>
+                <md-button ui-sref="{{r.name}}"  ng-bind-html="r.settings.content" aria-label="r.setting.content" 
+                ng-class="vm.isCurrent(r)"></md-button>
+
 
             </md-list-item>
         </md-list>

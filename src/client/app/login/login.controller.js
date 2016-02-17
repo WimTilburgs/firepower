@@ -78,6 +78,7 @@
                     window.location.reload(true);
                     $state.go('home');
                 }).catch(function(error) {
+                    logger.error('Inloggen mislukt')
                     console.log(error);
                     })
             } else {

@@ -23,10 +23,56 @@
                     </ul>
                 </div>
             </div>
+            <md-content class="md-padding" layout-xs="column" layout="row">
+    <div flex-xs flex-gt-xs="50" layout="column">
+      <md-card ng-repeat="trainingsMethode in vm.trainingsMethodes">
+        <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Action buttons</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+         <p>{{trainingsMethode.omschrijving}}</p>
+          
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button>Action 1</md-button>
+          <md-button>Action 2</md-button>
+        </md-card-actions>
+      </md-card>
+     
+    </div>
+  </md-content>
+            
+            
             <!--Trainingen genereren blok-->
-             <pre>{{vm.trainingsMethodes | json}}</pre>
-           <!--<pre>{{vm.oefeningen |json}}</pre>
-           <pre>{{vm.fbRoot |json}}</pre>-->
+            <md-subheader class="md-no-sticky">Kies een methode</md-subheader>
+             <md-divider></md-divider>
+            <md-list>
+                <md-list-item ng-repeat="trainingsMethode in vm.trainingsMethodes" class="md-2-line">
+                    <p>{{trainingsMethode.omschrijving}}</p>
+                    </md-list-item>
+                </md-list>
+            
+            <md-divider></md-divider>
+  <md-subheader class="md-no-sticky">Kies een methode</md-subheader>
+  
+  
+  
+  <md-list-item ng-repeat="trainingsMethode in vm.trainingsMethodes" class="secondary-button">
+    <md-checkbox ng-model="message.selected"></md-checkbox>
+    <p>{{trainingsMethode.omschrijving}}</p>
+    <md-button class="md-secondary"  aria-label="Schema details tonen"  ng-click="doSecondaryAction($event)">Toon schema
+        <md-tooltip md-direction="left ">
+                           Schema details tonen
+                        </md-tooltip>
+        </md-button>
+    
+  </md-list-item>
+   <md-divider></md-divider>
+   
+   <pre>{{vm.oneRepMaxenPerOefening}}</pre>
                 <div class="row" ng-show="vm.toonTrainingenGenereren">
                     <div class="col-md-12">
                         <div class="widget wgreen">

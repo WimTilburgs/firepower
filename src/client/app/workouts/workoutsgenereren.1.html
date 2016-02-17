@@ -2,7 +2,11 @@
     {{vm.stap1Title}}</md-subheader>
 
 <md-subheader class="md-primary " ng-show="vm.toon1Rm">
-    {{vm.stap2Title}}</md-subheader>    
+    {{vm.stap2Title}}</md-subheader>  
+    <!--<div ng-repeat="trainingsMethode in vm.trainingsMethodes">
+        <pre>{{trainingsMethode.trainingsSchemas | json}}</pre>  
+    </div>
+      <pre>{{vm.trainingsMethodes[0].trainingsSchemas | json}}</pre>  -->
 <md-content class="md-padding" layout-xs="column" layout="row" ng-show="vm.toonMethodes">
     <!--<div flex-xs flex-gt-xs="50" layout="column">-->
     <md-card ng-repeat="trainingsMethode in vm.trainingsMethodes" class="md-whiteframe-z2">
@@ -49,7 +53,7 @@
 </md-content>
 
 <md-content class="md-padding" layout="column" layout-align="space-between left">
-    <pre>{{vm.schemaGegroepeerdPerWorkout}}</pre>
+    
     <md-card ng-repeat="(workoutNummer, sets) in vm.schemaGegroepeerdPerWorkout" " class="md-whiteframe-z2 ">
        <md-subheader class="md-primary md-hue-1 ">Workoutnummer {{workoutNummer}}</md-subheader>
         <!--<md-card-title>

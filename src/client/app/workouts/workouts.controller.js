@@ -18,7 +18,6 @@ var app;
                 this.toonTrainingenGenereren = false;
                 this.kijkSchema = false;
                 this.toon1Rm = false;
-                this.schemaGegroepeerdPerWorkout = {};
                 this.init();
             }
             Workouts.prototype.init = function () {
@@ -26,7 +25,10 @@ var app;
                     this.$state.go('login');
                 }
                 this.trainingsMethodes = this.fireData.haalTrainingsMethodes();
-                this.trainingsSchemas = this.fireData.getTrainingsSchemas();
+                //this.trainingsSchemas = this.fireData.getTrainingsSchemas();
+                this.trainingsMethodes.$loaded(function (response) {
+                    console.log(response);
+                });
                 //           this.fbRoot = this.fireData.getRoot();
                 //             this.fbRoot.$loaded().then(function(response) {
                 //                 var repmax = {};
@@ -96,16 +98,28 @@ var app;
                 });
                 this.activate();
             };
+            //schemaGegroepeerdPerWorkout: any = {}
             Workouts.prototype.bekijkSchema = function (m) {
                 this.kijkSchema = true;
-                this.geselecteerdeTrainingsMethode = m;
-                console.log(this.geselecteerdeTrainingsMethode);
-                this.gefilterdTrainingsSchema = _.filter(this.trainingsSchemas, { 'trainingsMethodeId': this.geselecteerdeTrainingsMethode.$id });
-                this.schemaGegroepeerdPerWorkout = _.chain(this.gefilterdTrainingsSchema)
+                // this.geselecteerdeTrainingsMethode = m;
+                // console.log(this.geselecteerdeTrainingsMethode);
+                // this.gefilterdTrainingsSchema = _.filter(this.trainingsSchemas, { 'trainingsMethodeId': this.geselecteerdeTrainingsMethode.$id })
+                // this.schemaGegroepeerdPerWorkout = _.chain(this.gefilterdTrainingsSchema)
+                //     .groupBy("workoutNummer")
+                //     .value();
+                // console.log(this.gefilterdTrainingsSchema);
+                // console.log(this.schemaGegroepeerdPerWorkout);
+                // console.log(m);
+                var temp = [];
+                console.log(m.trainingsSchemas);
+                angular.forEach(m.trainingsSchemas, function (value, key) {
+                    temp.push(value);
+                    //.filter({currentAuth.uid});
+                });
+                console.log(temp);
+                this.schemaGegroepeerdPerWorkout = _.chain(temp)
                     .groupBy("workoutNummer")
                     .value();
-                console.log(this.gefilterdTrainingsSchema);
-                console.log(this.schemaGegroepeerdPerWorkout);
             };
             Workouts.prototype.selecteerTrainingsMethode = function (methode) {
                 this.toonMethodes = false;

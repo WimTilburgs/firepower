@@ -27,7 +27,7 @@ module app.controller {
 
         trainingsMethodes: any;
         geselecteerdeTrainingsMethode: any; //hier moeten uiteraard nog klasses voor komen
-        
+        schemaGegroepeerdPerWorkout: any;
         trainingsSchemas: any;
         gefilterdTrainingsSchema: any;
        
@@ -54,38 +54,41 @@ module app.controller {
             this.init();
         }
         private init() {
-            
+
             if (!this.currentAuth) {
                 this.$state.go('login');
             }
             this.trainingsMethodes = this.fireData.haalTrainingsMethodes();
-            this.trainingsSchemas = this.fireData.getTrainingsSchemas();
+            //this.trainingsSchemas = this.fireData.getTrainingsSchemas();
+            this.trainingsMethodes.$loaded(function(response) {
+                console.log(response)
+            })
 
- //           this.fbRoot = this.fireData.getRoot();
-//             this.fbRoot.$loaded().then(function(response) {
-//                 var repmax = {};
-//                 var temp = [];
-// 
-//                 angular.forEach(response, function(value, key) {
-// 
-//                     if (value.$id === 'oefeningen') {
-//                         Workouts.prototype.oefeningen = value;
-//                     }
-//                     // if (value.$id === 'oneRepMaxen') {
-//                     //     Workouts.prototype.oneRepMaxen = value;
-//                     // }
-// 
-//                 })
-//                 //                 angular.forEach(Workouts.prototype.oefeningen, function(value, key) {
-//                 //                     repmax = _(Workouts.prototype.oneRepMaxen).filter({ 'oefeningUid': key }).maxBy('orm');
-//                 //                     if (repmax) {
-//                 //                         temp.push(repmax);
-//                 //                     }
-//                 // 
-//                 //                     Workouts.prototype.oneRepMaxenPerOefening = temp;//.filter({currentAuth.uid});
-//                 //                 })
-// 
-//             })
+            //           this.fbRoot = this.fireData.getRoot();
+            //             this.fbRoot.$loaded().then(function(response) {
+            //                 var repmax = {};
+            //                 var temp = [];
+            // 
+            //                 angular.forEach(response, function(value, key) {
+            // 
+            //                     if (value.$id === 'oefeningen') {
+            //                         Workouts.prototype.oefeningen = value;
+            //                     }
+            //                     // if (value.$id === 'oneRepMaxen') {
+            //                     //     Workouts.prototype.oneRepMaxen = value;
+            //                     // }
+            // 
+            //                 })
+            //                 //                 angular.forEach(Workouts.prototype.oefeningen, function(value, key) {
+            //                 //                     repmax = _(Workouts.prototype.oneRepMaxen).filter({ 'oefeningUid': key }).maxBy('orm');
+            //                 //                     if (repmax) {
+            //                 //                         temp.push(repmax);
+            //                 //                     }
+            //                 // 
+            //                 //                     Workouts.prototype.oneRepMaxenPerOefening = temp;//.filter({currentAuth.uid});
+            //                 //                 })
+            // 
+            //             })
             // if (!this.currentAuth) {
             //     return;
             // }
@@ -137,17 +140,31 @@ module app.controller {
 
             this.activate();
         }
-        schemaGegroepeerdPerWorkout: any = {}
+        
+        //schemaGegroepeerdPerWorkout: any = {}
         bekijkSchema(m): void {
             this.kijkSchema = true;
-            this.geselecteerdeTrainingsMethode = m;
-            console.log(this.geselecteerdeTrainingsMethode);
-            this.gefilterdTrainingsSchema = _.filter(this.trainingsSchemas, { 'trainingsMethodeId': this.geselecteerdeTrainingsMethode.$id })
-            this.schemaGegroepeerdPerWorkout = _.chain(this.gefilterdTrainingsSchema)
+            // this.geselecteerdeTrainingsMethode = m;
+            // console.log(this.geselecteerdeTrainingsMethode);
+            // this.gefilterdTrainingsSchema = _.filter(this.trainingsSchemas, { 'trainingsMethodeId': this.geselecteerdeTrainingsMethode.$id })
+            // this.schemaGegroepeerdPerWorkout = _.chain(this.gefilterdTrainingsSchema)
+            //     .groupBy("workoutNummer")
+            //     .value();
+            // console.log(this.gefilterdTrainingsSchema);
+            // console.log(this.schemaGegroepeerdPerWorkout);
+            // console.log(m);
+            var temp = [];
+            console.log(m.trainingsSchemas);
+            angular.forEach(m.trainingsSchemas, function(value, key) {
+                temp.push(value);
+                            
+
+                //.filter({currentAuth.uid});
+            })
+            console.log(temp);
+             this.schemaGegroepeerdPerWorkout = _.chain(temp)
                 .groupBy("workoutNummer")
                 .value();
-            console.log(this.gefilterdTrainingsSchema);
-            console.log(this.schemaGegroepeerdPerWorkout);
         }
 
         selecteerTrainingsMethode(methode): void {

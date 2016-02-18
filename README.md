@@ -2,7 +2,8 @@
 
 ##An application to help you get stronger!
 
->Work on this project has stopped. I am now learning new syntax for Angular 2 and then I will redo everything here but with Angular 2.
+>This project is to learn Angular, Firebase and Angular Material. The original style of HotTowel has been removed 
+and is being replaced by a more Angular Material based style.
 
 **Generated from HotTowel Angular**
 

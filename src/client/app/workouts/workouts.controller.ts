@@ -16,7 +16,7 @@ module app.controller {
         toon1Rm: boolean = false;
        
         //oneRepMaxen: app.domain.OneRepMax[];
-        oneRepMaxenPerOefening: app.domain.OneRepMaxen[];
+        oneRepMaxenPerOefening: app.domain.IOneRepMaxen[];
 
         trainingsMethodes: any;
         geselecteerdeTrainingsMethode: any; //hier moeten uiteraard nog klasses voor komen
@@ -60,25 +60,7 @@ module app.controller {
             this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
 
             this.gebruiker.$loaded().then(function(response) {
-
-                var maxen = [];
-                angular.forEach(response.oneRepMaxen, function(value, key) {
-                    var max = new app.domain.OneRepMaxen(value.oefeningUid, value.oefeningOmschrijving, '', '', value.datum, value.orm, key);
-                    maxen.push(max);
-                })
-                console.log(maxen)
-                var oefeningen = _.map(maxen, 'oefeningUid');
-                oefeningen = _.uniq(oefeningen);
-                console.log(oefeningen)
-                var repmaxen = []
-                angular.forEach(oefeningen, function(value, key) {
-                    var repmax = _(maxen).filter({ 'oefeningUid': value }).maxBy('datum');
-                    if (repmax) {
-                        repmaxen.push(repmax);
-                    }
-
-                })
-                Workouts.prototype.oneRepMaxenPerOefening = repmaxen;
+                Workouts.prototype.oneRepMaxenPerOefening = app.domain.OneRepMaxen.prototype.getActueleOneRepMaxen(response.oneRepMaxen)
             })
 
             this.activate();

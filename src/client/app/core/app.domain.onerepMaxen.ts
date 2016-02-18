@@ -23,27 +23,31 @@ module app.domain {
             public uid?: string
         ) { }
         
-        getActueleOneRepMaxen(repMaxen) : IOneRepMaxen {
-            
+        /**
+         * Deze functie geeft de Onerepmax van deze gebruiker met de meest
+         * actuele datum per oefening.
+         */
+        getActueleOneRepMaxen(repMaxen) : IOneRepMaxen[] {    
 
                 var maxen = [];
                 angular.forEach(repMaxen, function(value, key) {
                     //var max = new app.domain.OneRepMaxen(value.oefeningUid, value.oefeningOmschrijving, '', '', value.datum, value.orm, key);
                     maxen.push(value);
                 })
-                //console.log(maxen)
-                var oefeningen = _.map(maxen, 'oefeningUid');
+               var oefeningen = _.map(maxen, 'oefeningUid');
                 oefeningen = _.uniq(oefeningen);
-                console.log(oefeningen)
-                var repmaxen : IOneRepMaxen;
+                var returnMax  = [];
                 angular.forEach(oefeningen, function(value, key) {
                     var repmax = _(maxen).filter({ 'oefeningUid': value }).maxBy('datum');
                     if (repmax) {
-                        repMaxen = new OneRepMaxen(repmax.oefeningUid, repmax.oefeningOmschrijving, '', '', repmax.datum, repmax.orm)
+                        returnMax.push(new OneRepMaxen(repmax.oefeningUid, repmax.oefeningOmschrijving, '', '', repmax.datum, repmax.orm,''));
+
+                        //var returnMax = new OneRepMaxen(repmax.oefeningUid, repmax.oefeningOmschrijving, '', '', repmax.datum, repmax.orm,'');
+                        //repMaxen.push(returnMax)
                     }
 
                 })
-                return repmaxen;
+                return returnMax;
           
         }
     }

@@ -9,9 +9,9 @@ module app.controller {
         gridOneRepMaxen: any;
         oefening: any;
         oefeningen: any;
-        filteredOneRepMaxen: app.domain.IOneRepMax[];
+        filteredOneRepMaxen: app.domain.IOneRepMaxen[];
         oneRepMaxen: any;
-        oneRepMax: app.domain.IOneRepMax;
+        oneRepMax: app.domain.IOneRepMaxen;
         title: string;
         toonButtonNieuw: boolean;
         toonInvoerScherm: boolean;
@@ -30,7 +30,7 @@ module app.controller {
         oefeningen: any;
         toonButtonNieuw: boolean = true;
         toonInvoerScherm: boolean = false;
-        oneRepMax: app.domain.IOneRepMax;
+        oneRepMax: app.domain.IOneRepMaxen;
         oneRepMaxen: any;
         filteredOneRepMaxen: any;
         
@@ -120,7 +120,7 @@ module app.controller {
         }
         
         private oneRepMaxWegschrijven(actie: string):void {
-            var orm = new app.domain.OneRepMax(
+            var orm = new app.domain.OneRepMaxen(
                 this.oefening.$id,
                 this.oefening.omschrijving,
                 this.user.uid,

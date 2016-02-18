@@ -2,6 +2,7 @@
 
 ///<reference path="../core/app.domain.trainingsSchemas.ts"/>
 ///<reference path="../core/app.domain.oefeningen.ts"/>
+///<reference path="../core/app.domain.onerepMaxen.ts"/>
 module app.domain {
     export interface IUser {
 
@@ -46,27 +47,7 @@ module app.domain {
         }
     }
 
-    export interface IOneRepMax {
-        oefeningUid: string;
-        oefeningOmschrijving: string;
-        gebruikerUid: string;
-        gebruikerNaam: string;
-        datum: any;
-        orm: number;
-        uid?: string;
-    }
 
-    export class OneRepMax implements IOneRepMax {
-        constructor(
-            public oefeningUid: string,
-            public oefeningOmschrijving: string,
-            public gebruikerUid: string,
-            public gebruikerNaam: string,
-            public datum: any,
-            public orm: number,
-            public uid?: string
-        ) { }
-    }
 
     export interface ITrainingsMethodes {
         omschrijving: string

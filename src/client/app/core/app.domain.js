@@ -1,6 +1,7 @@
 ///<reference path="../../../../typings/lodash/lodash.d.ts"/>
 ///<reference path="../core/app.domain.trainingsSchemas.ts"/>
 ///<reference path="../core/app.domain.oefeningen.ts"/>
+///<reference path="../core/app.domain.onerepMaxen.ts"/>
 var app;
 (function (app) {
     var domain;
@@ -37,19 +38,6 @@ var app;
             return User;
         })();
         domain.User = User;
-        var OneRepMax = (function () {
-            function OneRepMax(oefeningUid, oefeningOmschrijving, gebruikerUid, gebruikerNaam, datum, orm, uid) {
-                this.oefeningUid = oefeningUid;
-                this.oefeningOmschrijving = oefeningOmschrijving;
-                this.gebruikerUid = gebruikerUid;
-                this.gebruikerNaam = gebruikerNaam;
-                this.datum = datum;
-                this.orm = orm;
-                this.uid = uid;
-            }
-            return OneRepMax;
-        })();
-        domain.OneRepMax = OneRepMax;
         var TrainingsMethodes = (function () {
             function TrainingsMethodes(omschrijving) {
                 this.omschrijving = omschrijving;

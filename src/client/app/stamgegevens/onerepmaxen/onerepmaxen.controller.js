@@ -69,7 +69,7 @@ var app;
                 this.oneRepMax = null;
             };
             OneRepMaxen.prototype.oneRepMaxWegschrijven = function (actie) {
-                var orm = new app.domain.OneRepMax(this.oefening.$id, this.oefening.omschrijving, this.user.uid, this.user.voorNaam + ' ' + this.user.achterNaam, this.oneRepMax.datum.getTime(), this.oneRepMax.orm, null);
+                var orm = new app.domain.OneRepMaxen(this.oefening.$id, this.oefening.omschrijving, this.user.uid, this.user.voorNaam + ' ' + this.user.achterNaam, this.oneRepMax.datum.getTime(), this.oneRepMax.orm, null);
                 switch (actie) {
                     case 'nieuw':
                         //alert(actie);

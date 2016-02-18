@@ -32,7 +32,7 @@ var app;
                 this.gebruiker.$loaded().then(function (response) {
                     var maxen = [];
                     angular.forEach(response.oneRepMaxen, function (value, key) {
-                        var max = new app.domain.OneRepMax(value.oefeningUid, value.oefeningOmschrijving, '', '', value.datum, value.orm, key);
+                        var max = new app.domain.OneRepMaxen(value.oefeningUid, value.oefeningOmschrijving, '', '', value.datum, value.orm, key);
                         maxen.push(max);
                     });
                     console.log(maxen);

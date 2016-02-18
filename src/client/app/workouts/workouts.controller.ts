@@ -61,27 +61,29 @@ module app.controller {
 
             this.gebruiker.$loaded().then(function(response) {
 
-                var temp = [];
+                var maxen = [];
                 angular.forEach(response.oneRepMaxen, function(value, key) {
-                    temp.push(value);
+                    var max = new app.domain.OneRepMax(value.oefeningUid, value.oefeningOmschrijving, '', '', value.datum, value.orm, key);
+                    maxen.push(maxen);
                 })
-
-                var oefeningen = _.map(temp, 'oefeningUid');
-                oefeningen = _.sortedUniq(oefeningen);
-                var tijdelijk = []
+                console.log(maxen)
+                var oefeningen = _.map(maxen, 'oefeningUid');
+                oefeningen = _.uniq(oefeningen);
+                console.log(oefeningen)
+                var repmaxen = []
                 angular.forEach(oefeningen, function(value, key) {
-                    var repmax = _(temp).filter({ 'oefeningUid': value }).maxBy('orm');
+                    var repmax = _(maxen).filter({ 'oefeningUid': value }).maxBy('datum');
                     if (repmax) {
-                        tijdelijk.push(repmax);
+                        repmaxen.push(repmax);
                     }
 
                 })
-                Workouts.prototype.oneRepMaxenPerOefening = tijdelijk;
+                Workouts.prototype.oneRepMaxenPerOefening = repmaxen;
             })
 
             this.activate();
         }
-        
+
         haalSchemaUitTrainingsMethode(tmethode) {
             var schemas = [];
             angular.forEach(tmethode.trainingsSchemas, function(value, key) {
@@ -96,11 +98,11 @@ module app.controller {
                 .groupBy("workoutNummer")
                 .value();
         }
-        
+
         toonSchemaMetOefening1rm(oefening) {
-        this.geselecteerdeOefening1rm = oefening.orm ;
-        this.bekijkSchema(this.geselecteerdeTrainingsMethode);
-    }
+            this.geselecteerdeOefening1rm = oefening.orm;
+            this.bekijkSchema(this.geselecteerdeTrainingsMethode);
+        }
 
         selecteerTrainingsMethode(tmethode): void {
             this.toonMethodes = false;

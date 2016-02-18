@@ -64,7 +64,7 @@ module app.controller {
                 var maxen = [];
                 angular.forEach(response.oneRepMaxen, function(value, key) {
                     var max = new app.domain.OneRepMax(value.oefeningUid, value.oefeningOmschrijving, '', '', value.datum, value.orm, key);
-                    maxen.push(maxen);
+                    maxen.push(max);
                 })
                 console.log(maxen)
                 var oefeningen = _.map(maxen, 'oefeningUid');

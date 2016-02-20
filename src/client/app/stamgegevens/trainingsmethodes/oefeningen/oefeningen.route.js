@@ -14,14 +14,13 @@
     function getStates() {
         return [
             {
-                state: 'trainingsschemas',
+                state: 'trainingsoefeningen',
                 config: {
-                    url: '/trainingsschemas?id',
-                    templateUrl: 'app/stamgegevens/trainingsschemas/trainingsschemas.html',
-                    controller: 'TrainingsSchemas',
+                    url: '/trainingsmethodes/oefeningen?id',
+                    templateUrl: 'app/stamgegevens/trainingsmethodes/oefeningen/oefeningen.html',
+                    controller: 'TrainingsOefeningen',
                     controllerAs: 'vm',
-                    title: 'trainingsschemas',
-                    authenticate: true
+                   
                 }
             }
         ];

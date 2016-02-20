@@ -1,0 +1,38 @@
+<a ui-sref='trainingsmethodes'>Terug naar methode</a>
+
+<md-subheader class="md-no-sticky">Selecteer oefeningen</md-subheader>
+
+<md-list-item ng-repeat="oefening in vm.oefeningenPerMethode">
+    <div flex="25"> {{ oefening.omschrijving }}</div>
+    <div flex="45">{{oefening.ophoogGewicht}}</div>
+    <md-divider></md-divider>
+</md-list-item>
+
+
+
+<md-content layout-padding>
+    <form name="oefeningenForm">
+     <div layout-gt-sm="row">
+         
+          
+         
+         
+          <md-input-container class="md-block" flex-gt-sm>
+           <label>Oefening</label>
+            <md-select ng-model="test.id">
+                <md-option ng-repeat="oefening in vm.oefeningen" value="{{oefening.$id}}">
+                    {{oefening.omschrijving}}
+                </md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+             <label>Ophoog gewicht:</label>
+            <input type="number" required  name="ophoogGewicht" ng-model="test.ophoogGewicht">
+            <div ng-messages="oefeningenForm.ophoogGewicht.$error" multiple md-auto-hide="true">
+                <div ng-message="required">Verplicht veld.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <md-button ng-click="vm.oefeningOpslaan(test)">Opslaan</md-button>
+        </form>
+</md-content>

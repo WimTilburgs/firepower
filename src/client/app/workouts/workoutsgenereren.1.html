@@ -24,9 +24,10 @@
 
 
 <md-content class="md-padding" layout-xs="column" layout="row" ng-show="vm.toon1Rm">
-
-    <md-card ng-repeat="oefening in vm.oneRepMaxenPerOefening" class="md-whiteframe-z2">
-        <md-subheader class="md-primary md-hue-1">{{oefening.oefeningOmschrijving}}</md-subheader>
+ 
+    <md-card ng-repeat="oefening in vm.oefeningenPerMethode" class="md-whiteframe-z2">
+       
+        <md-subheader class="md-primary md-hue-1">{{oefening.omschrijving}}</md-subheader>
 
         <md-card-title>
           <md-card-title-text>

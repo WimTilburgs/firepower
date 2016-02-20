@@ -1,7 +1,4 @@
-///<reference path="../../../../../typings/angularjs/angular.d.ts"/>
-///<reference path="../../../../../typings/lodash/lodash.d.ts"/>
-///<reference path="../../core/app.domain.ts"/>
-///<reference path="../../core/firebase.data.ts"/>
+///<reference path="../../../../../../typings/tsd.d.ts"/>
 var app;
 (function (app) {
     var controller;
@@ -42,18 +39,11 @@ var app;
             };
             TrainingsSchemas.prototype.trainingsSchemaVerwijderen = function () {
                 this.trainingsSchemas.$remove(this.geselecteerdeTrainingsSchema);
-                // .then(function (data){
-                //     console.log(data);
-                // })
-                // .catch(function (error) {
-                //     console.log(error);
-                //     TrainingsSchemas.prototype.logger.info(error);
-                // })
                 this.geselecteerdeTrainingsSchema = null;
                 this.toonButtonNieuw = true;
             };
             TrainingsSchemas.prototype.activate = function () {
-                this.logger.info('trainingsSchemasView wordt getoond');
+                //this.logger.info('trainingsSchemasView wordt getoond');
             };
             TrainingsSchemas.controllerId = 'TrainingsSchemas';
             /* @ngInject */

@@ -52,12 +52,18 @@ var app;
                 return this.$firebaseArray(this.ref.child('stamGegevens').child('trainingsMethodes'));
             };
             /**
-             * Haal alle TrainingsSchemas behorende bij een trainingsMethodes
+             * Haal alle oefeningen behorende bij een trainingsMethodes
              * parameter is de trainingsMethodeUid
              */
+            FireData.prototype.haalOefeningenPerMethode = function (methodeUid) {
+                return this.$firebaseArray(this.ref.child('stamGegevens').child('trainingsMethodes').child(methodeUid).child('oefeningen'));
+            };
             FireData.prototype.haalTrainingsSchemas = function (methodeUid) {
                 return this.$firebaseArray(this.ref.child('stamGegevens').child('trainingsMethodes').child(methodeUid).child('trainingsSchemas'));
             };
+            /**
+             * Depreciated gebruik haalTrainingsSchemas
+             */
             FireData.prototype.getTrainingsSchemas = function () {
                 return this.$firebaseArray(this.ref.child('trainingsSchemas'));
             };

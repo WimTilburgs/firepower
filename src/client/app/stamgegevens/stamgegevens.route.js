@@ -21,12 +21,6 @@
                     controller: 'Stamgegevens',
                     controllerAs: 'vm',
                     title: 'Stamgegevens',
-                    resolve:{
-                        login: function() {
-                            //alert('resolve mij');
-                            //$state.transitionTo('login');
-                        }
-                    },
                     settings: {
                         nav: 40,
                         content: '<i class="fa fa-lock"></i> Stamgegevens'

@@ -1,7 +1,7 @@
-///<reference path="../../../../../typings/angularjs/angular.d.ts"/>
-///<reference path="../../../../../typings/lodash/lodash.d.ts"/>
+///<reference path="../../../../../typings/tsd.d.ts"/>
+
 ///<reference path="../../core/app.domain.ts"/>
-///<reference path="../../core/firebase.data.ts"/>
+
 
 module app.controller {
     interface IOneRepMaxen {
@@ -67,7 +67,7 @@ module app.controller {
                 OneRepMaxen.prototype.user = app.domain.User.prototype.getUser(response);
             })
             
-            this.oefeningen = this.fireData.getOefeningen();
+            this.oefeningen = this.fireData.haalOefeningen();
             this.oefeningen.$loaded( function(response){
                 //alert(response[0].omschrijving)
             })

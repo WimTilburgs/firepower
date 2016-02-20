@@ -7,74 +7,101 @@
                         <div ht-widget-header title={{vm.title}} allow-collapse="true"></div>
                         <div class="widget-content text-center text-info">
                             <div class="row">
-                              
+
                                 <table class="table table-bordered table-responsive table-hover">
                                     <thead>
                                         <tr>
                                             <th>Omschrijving</th>
-                                             <th>Actie</th>
+                                            <th>Actie</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
-                                        <tr ng-repeat="m in vm.trainingsMethodes | orderBy: 'omschrijving'" >
+                                        <tr ng-repeat="m in vm.trainingsMethodes | orderBy: 'omschrijving'">
                                             <td ng-click="vm.trainingsMethodeSelecteren(m)">
                                                 {{m.omschrijving }}
                                             </td>
-                                          
+
                                             <td>
-                                                 <a ui-sref="trainingsschemas({id: m.$id})">Klik voor schema</a>
+                                                <div layout="column" flex-sm="100" flex="33" layout-align="center center">
+
+                                                    <md-menu md-offset="0 -7">
+                                                        <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                                                            <i class="fa fa-bars"></i>
+                                                        </md-button>
+                                                        <md-menu-content width="4">
+
+                                                            <md-menu-item>
+                                                                <md-button>
+                                                                    <a ui-sref="trainingsschemas({id: m.$id})">Onderhoud schemas</a>
+                                                                </md-button>
+                                                            </md-menu-item>
+                                                            <md-menu-item>
+                                                                <md-button >
+                                                                    <a ui-sref="trainingsoefeningen({id: m.$id})">Onderhoud oefeningen</a>
+                                                                </md-button>
+                                                            </md-menu-item>
+                                                        </md-menu-content>
+                                                    </md-menu>
+                                                </div>
                                             </td>
+
                                         </tr>
                                     </tbody>
                                 </table>
 
                                 <br />
                             </div>
-                          
-                          <div role="tabpanel">
-                              <!-- Nav tabs -->
-                             
-                            <div class="row">
-                                <form class="form-horizontal" role="form">
-                                    <fieldset>
-                                        <legend ng-show="vm.toonButtonNieuw">Trainingsmethode Toevoegen</legend>
-                                        <legend ng-show="!vm.toonButtonNieuw">Trainingsmethode Wijzigen</legend>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">Omschrijving</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" placeholder="omschrijving ...." ng-model="vm.geselecteerdeTrainingsMethode.omschrijving" class="form-control"
-                                                />
+
+                            <md-divider></md-divider>
+                         
+                           
+
+                            </div>
+                            <div role="tabpanel">
+                                <!-- Nav tabs -->
+
+                                <div class="row">
+                                    <form class="form-horizontal" role="form">
+                                        <fieldset>
+                                            <legend ng-show="vm.toonButtonNieuw">Trainingsmethode Toevoegen</legend>
+                                            <legend ng-show="!vm.toonButtonNieuw">Trainingsmethode Wijzigen</legend>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Omschrijving</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" placeholder="omschrijving ...." ng-model="vm.geselecteerdeTrainingsMethode.omschrijving" class="form-control"
+                                                    />
+                                                </div>
+
                                             </div>
 
-                                        </div>
- 
-                                    </fieldset>
-                                </form>
-                            </div>
-                            <br/>
-                            <div class="row">
-                                <div class="col-sm-offset-3 col-sm-9" ng-show="!vm.toonButtonNieuw">
-                                    <input type="submit" class="btn btn-primary" ng-click="vm.trainingsMethodeWijzigen()" value="Wijzigen" />
-                                    <input type="submit" class="btn btn-primary" ng-click="vm.trainingsMethodeOpslaanTonen()" value="Nieuw" />
-                                    <button class="btn btn-danger btn-sm" ng-click="vm.trainingsMethodeVerwijderen()">Verwijderen</button>
+                                        </fieldset>
+                                    </form>
                                 </div>
                                 <br/>
-                                <div class="row col-sm-offset-3 col-sm-9" ng-show="vm.toonButtonNieuw">
-                                    <input type="submit" class="btn btn-primary" ng-click="vm.trainingsMethodeOpslaan()" value="Opslaan" />
+                                <div class="row">
+                                    <div class="col-sm-offset-3 col-sm-9" ng-show="!vm.toonButtonNieuw">
+                                        <input type="submit" class="btn btn-primary" ng-click="vm.trainingsMethodeWijzigen()" value="Wijzigen" />
+                                        <input type="submit" class="btn btn-primary" ng-click="vm.trainingsMethodeOpslaanTonen()" value="Nieuw" />
+                                        <button class="btn btn-danger btn-sm" ng-click="vm.trainingsMethodeVerwijderen()">Verwijderen</button>
+                                    </div>
+                                    <br/>
+                                    <div class="row col-sm-offset-3 col-sm-9" ng-show="vm.toonButtonNieuw">
+                                        <input type="submit" class="btn btn-primary" ng-click="vm.trainingsMethodeOpslaan()" value="Opslaan" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                          <pre>{{vm.trainingsMethodes | json}}</pre>
-                        <div class="widget-foot">
-                            <div class="clearfix"></div>
+
+                            <div class="widget-foot">
+                                <div class="clearfix"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
+
             </div>
 
-
-
-        </div>
     </section>
 </section>

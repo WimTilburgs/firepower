@@ -1,8 +1,6 @@
-///<reference path="../../../../../typings/angularjs/angular.d.ts"/>
-///<reference path="../../../../../typings/lodash/lodash.d.ts"/>
-///<reference path="../../core/app.domain.ts"/>
+///<reference path="../../../../../../typings/tsd.d.ts"/>
 
-///<reference path="../../core/firebase.data.ts"/>
+
 module app.controller {
 
     class TrainingsSchemas {
@@ -66,18 +64,11 @@ module app.controller {
         trainingsSchemaWijzigen(): void {
 
             this.trainingsSchemas.$save(this.geselecteerdeTrainingsSchema);
-                
+
         }
 
         trainingsSchemaVerwijderen(): void {
             this.trainingsSchemas.$remove(this.geselecteerdeTrainingsSchema);
-                // .then(function (data){
-                //     console.log(data);
-                // })
-                // .catch(function (error) {
-                //     console.log(error);
-                //     TrainingsSchemas.prototype.logger.info(error);
-                // })
             this.geselecteerdeTrainingsSchema = null;
             this.toonButtonNieuw = true;
 
@@ -85,7 +76,7 @@ module app.controller {
 
 
         activate(): void {
-            this.logger.info('trainingsSchemasView wordt getoond');
+            //this.logger.info('trainingsSchemasView wordt getoond');
 
         }
     }

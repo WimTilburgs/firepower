@@ -25,11 +25,12 @@ var app;
             };
             Oefeningen.prototype.oefeningOpslaan = function () {
                 var oefening = this.geselecteerdeOefening;
-                var nieuweOefening = new app.domain.Oefeningen(oefening.omschrijving, oefening.afkorting, oefening.barbellGewicht, oefening.sqlId);
+                var nieuweOefening = new app.domain.Oefeningen(oefening.omschrijving, oefening.afkorting, oefening.barbellGewicht, oefening.sqlId, 0);
                 this.oefeningen.$add(oefening);
                 this.geselecteerdeOefening = null;
             };
             Oefeningen.prototype.oefeningWijzigen = function () {
+                this.geselecteerdeOefening.ophoogGewicht = 0;
                 this.oefeningen.$save(this.geselecteerdeOefening);
                 this.geselecteerdeOefening = null;
                 this.toonButtonNieuw = true;

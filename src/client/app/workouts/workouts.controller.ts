@@ -1,8 +1,4 @@
-///<reference path="../../../../typings/angularjs/angular.d.ts"/>
-///<reference path="../../../../typings/lodash/lodash.d.ts"/>
-///<reference path="../core/app.domain.ts"/>
-///<reference path="../core/user.service.ts"/>
-///<reference path="../core/firebase.data.ts"/>
+///<reference path="../../../../typings/tsd.d.ts"/>
 module app.controller {
 
     class Workouts {
@@ -14,18 +10,12 @@ module app.controller {
         gebruiker: any;
         toonMethodes: boolean = true;
         toon1Rm: boolean = false;
-       
-        //oneRepMaxen: app.domain.OneRepMax[];
-        oneRepMaxenPerOefening: app.domain.IOneRepMaxen[];
+        oefeningenPerMethode: any;
 
         trainingsMethodes: any;
         geselecteerdeTrainingsMethode: any; //hier moeten uiteraard nog klasses voor komen
         schemaGegroepeerdPerWorkout: any;
         geselecteerdeTrainingsSchemas: any;
-        gefilterdTrainingsSchema: any;
-        geselecteerdeOefening1rm: number = 0;
-       
-       
        
         /* @ngInject */
         static $inject = ['logger',
@@ -33,7 +23,7 @@ module app.controller {
             'currentAuth',
             '_',
             'fireData',
-            'userService'
+            'Ref'
 
         ];
         constructor(
@@ -42,7 +32,8 @@ module app.controller {
             private $state: any,
             private currentAuth: any,
             private _: any,
-            private fireData: app.core.FireData
+            private fireData: app.core.FireData,
+            private Ref
 
         ) {
             this.init();
@@ -52,50 +43,59 @@ module app.controller {
             if (!this.currentAuth) {
                 this.$state.go('login');
             }
+            //this.oneRepMaxenPerMethodeOefening;
             this.trainingsMethodes = this.fireData.haalTrainingsMethodes();
-            
-            // if (!this.currentAuth) {
-            //     return;
-            // }
-            this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
+
+            if (!this.currentAuth) {
+                return;
+            } else {
+                this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
+            }
 
             this.gebruiker.$loaded().then(function(response) {
-                Workouts.prototype.oneRepMaxenPerOefening = app.domain.OneRepMaxen.prototype.getActueleOneRepMaxen(response.oneRepMaxen)
+                //Workouts.prototype.oneRepMaxenPerOefening = app.domain.OneRepMaxen.prototype.getActueleOneRepMaxen(response.oneRepMaxen)
             })
 
             this.activate();
         }
 
-        haalSchemaUitTrainingsMethode(tmethode) {
-            var schemas = [];
-            angular.forEach(tmethode.trainingsSchemas, function(value, key) {
-                schemas.push(value);
-            })
-            return schemas;
-        }
 
         bekijkSchema(tmethode): void {
-            var schemas = this.haalSchemaUitTrainingsMethode(tmethode)
-            this.schemaGegroepeerdPerWorkout = _.chain(schemas)
-                .groupBy("workoutNummer")
-                .value();
-        }
 
-        toonSchemaMetOefening1rm(oefening) {
-            this.geselecteerdeOefening1rm = oefening.orm;
-            this.bekijkSchema(this.geselecteerdeTrainingsMethode);
-        }
+            var refSchema = this.Ref.child('stamGegevens').child('trainingsMethodes').child(tmethode.$id).child('trainingsSchemas');
+            refSchema.once("value", function(snapshot) {
+                console.log(snapshot.val());
+                Workouts.prototype.schemaGegroepeerdPerWorkout = _.chain(snapshot.val())
+                    .groupBy("workoutNummer")
+                    .value();
+            }, function(errorObject) {
+                console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
+            });
 
+        }
+        
         selecteerTrainingsMethode(tmethode): void {
+
+            var refOefeningen = this.Ref.child('stamGegevens').child('trainingsMethodes').child(tmethode.$id).child('oefeningen');
+            refOefeningen.once("value", function(snapshot) {
+                //console.log(snapshot.val());
+                //Workouts.prototype.oefeningenPerMethode = snapshot.val();
+                console.log(snapshot.val());
+                snapshot.forEach(function(repMaxSnap){
+                    console.log(repMaxSnap.val().oefeningId)
+                })
+
+            }, function(errorObject) {
+                console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
+            });
             this.toonMethodes = false;
             this.toon1Rm = true;
             this.geselecteerdeTrainingsMethode = tmethode;
-            //this.geselecteerdeTrainingsSchemas = this.haalSchemaUitTrainingsMethode(tmethode)
             this.stap1Title = "Geselecteerde methode = " + tmethode.omschrijving;
         }
 
         activate(): void {
-            this.logger.info('Workouts');
+
 
         }
     }

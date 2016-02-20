@@ -49,13 +49,15 @@ module app.controller {
                 oefening.omschrijving,
                 oefening.afkorting,
                 oefening.barbellGewicht,
-                oefening.sqlId
+                oefening.sqlId,
+                0
             )
             this.oefeningen.$add(oefening);
             this.geselecteerdeOefening = null;
         }
         
         oefeningWijzigen() {
+            this.geselecteerdeOefening.ophoogGewicht = 0;
             this.oefeningen.$save(this.geselecteerdeOefening)
             this.geselecteerdeOefening = null;
             this.toonButtonNieuw = true;

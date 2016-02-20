@@ -1,18 +1,24 @@
-///<reference path="../../../../../typings/angularjs/angular.d.ts"/>
-///<reference path="../../../../../typings/lodash/lodash.d.ts"/>
-///<reference path="../../core/app.domain.ts"/>
-///<reference path="../../core/firebase.data.ts"/>
+///<reference path="../../../../../typings/tsd.d.ts"/>
 var app;
 (function (app) {
     var controller;
     (function (controller) {
         var TrainingsMethodes = (function () {
-            function TrainingsMethodes(logger, $state, _, fireData) {
+            function TrainingsMethodes(logger, $state, _, fireData, $mdDialog) {
                 this.logger = logger;
                 this.$state = $state;
                 this._ = _;
                 this.fireData = fireData;
+                this.$mdDialog = $mdDialog;
                 this.toonButtonNieuw = true;
+                this.toonWijzigMethode = true;
+                //voorbeeld uit Angular Material om een dialoog te tonen na menuklik
+                this.announceClick = function (index) {
+                    this.$mdDialog.show(this.$mdDialog.alert()
+                        .title('You clicked!')
+                        .textContent('You clicked the menu item at index ' + index)
+                        .ok('Nice'));
+                };
                 this.init();
             }
             TrainingsMethodes.prototype.init = function () {
@@ -20,6 +26,7 @@ var app;
                 this.activate();
             };
             TrainingsMethodes.prototype.trainingsMethodeSelecteren = function (methode) {
+                this.toonWijzigMethode = true;
                 this.geselecteerdeTrainingsMethode = methode;
                 this.toonButtonNieuw = false;
             };
@@ -43,6 +50,16 @@ var app;
                 this.geselecteerdeTrainingsMethode = null;
                 this.toonButtonNieuw = true;
             };
+            // methodeOefeningenOpslaan(): void {
+            //     var test = _.filter(this.oefeningen,{'selected' : true});
+            //     this.oefeningenPerMethode.$add(test);
+            //     console.log(test);
+            // }
+            TrainingsMethodes.prototype.toonOefeningenKeuze = function (methode) {
+                this.toonWijzigMethode = false;
+                this.oefeningenPerMethode = this.fireData.haalOefeningenPerMethode(methode.$id);
+                console.log(this.oefeningenPerMethode);
+            };
             TrainingsMethodes.prototype.activate = function () {
                 this.logger.info('trainingsMethodesView wordt getoond');
             };
@@ -51,12 +68,14 @@ var app;
             TrainingsMethodes.$inject = ['logger',
                 '$state',
                 '_',
-                'fireData'
+                'fireData',
+                '$mdDialog'
             ];
             return TrainingsMethodes;
         })();
+        controller.TrainingsMethodes = TrainingsMethodes;
         angular
-            .module('app.workouts')
+            .module('app.stamgegevens')
             .controller(TrainingsMethodes.controllerId, TrainingsMethodes);
     })(controller = app.controller || (app.controller = {}));
 })(app || (app = {}));

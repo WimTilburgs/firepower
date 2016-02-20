@@ -83,13 +83,19 @@ module app.core {
         }
         
         /**
-         * Haal alle TrainingsSchemas behorende bij een trainingsMethodes
+         * Haal alle oefeningen behorende bij een trainingsMethodes
          * parameter is de trainingsMethodeUid
          */
+        haalOefeningenPerMethode(methodeUid: string): any {
+            return this.$firebaseArray(this.ref.child('stamGegevens').child('trainingsMethodes').child(methodeUid).child('oefeningen'));
+        }
+        
         haalTrainingsSchemas(methodeUid: string): any {
             return this.$firebaseArray(this.ref.child('stamGegevens').child('trainingsMethodes').child(methodeUid).child('trainingsSchemas'));
         }
-        
+        /**
+         * Depreciated gebruik haalTrainingsSchemas
+         */
         getTrainingsSchemas(): any {
             return this.$firebaseArray(this.ref.child('trainingsSchemas'));
         }

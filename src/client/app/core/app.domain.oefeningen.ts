@@ -8,6 +8,7 @@ module app.domain {
         afkorting: string;
         barbellGewicht: number;
         sqlId: number;
+        ophoogGewicht: number;
     }
 
     export class Oefeningen implements IOefeningen {
@@ -17,8 +18,9 @@ module app.domain {
             public omschrijving: string,
             public afkorting: string,
             public barbellGewicht: number,
-            public sqlId: number
-
+            public sqlId: number,
+            public ophoogGewicht: number,
+            public uid?: string
         ) { }
     }
 }

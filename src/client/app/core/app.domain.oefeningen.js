@@ -4,11 +4,13 @@ var app;
     var domain;
     (function (domain) {
         var Oefeningen = (function () {
-            function Oefeningen(omschrijving, afkorting, barbellGewicht, sqlId) {
+            function Oefeningen(omschrijving, afkorting, barbellGewicht, sqlId, ophoogGewicht, uid) {
                 this.omschrijving = omschrijving;
                 this.afkorting = afkorting;
                 this.barbellGewicht = barbellGewicht;
                 this.sqlId = sqlId;
+                this.ophoogGewicht = ophoogGewicht;
+                this.uid = uid;
             }
             return Oefeningen;
         })();

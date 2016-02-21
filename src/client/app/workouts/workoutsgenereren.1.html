@@ -31,11 +31,11 @@
 
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">{{'1 rep max '+oefening.orm+'kg'}}</span>
+            <span class="md-headline">{{'1 rep max '+oefening.orm+' kg'}}</span>
           </md-card-title-text>
         </md-card-title>
         <md-card-content>
-            <p>{{'Huidige 1rm '+oefening.orm+'kg'}}</p>
+            <span class="md-headline">Voorstel : {{oefening.orm+oefening.ophoogGewicht}} kg</span>
 
         </md-card-content>
         <md-card-actions layout="row" layout-align="end center">
@@ -46,7 +46,7 @@
 
 </md-content>
 
-<md-content class="md-padding" layout="column" layout-align="space-between left">
+<md-content class="md-padding" layout="column" layout-align="space-between left" ng-show="vm.toonSchema">
     
     <md-card ng-repeat="(workoutNummer, sets) in vm.schemaGegroepeerdPerWorkout" " class="md-whiteframe-z2 ">
        <md-subheader class="md-primary md-hue-1 ">Workoutnummer {{workoutNummer}}</md-subheader>
@@ -72,4 +72,5 @@
     
         </md-card-content>
       </md-card>
+      <pre>{{vm.gebruiker |json}}</pre>
 </md-content>

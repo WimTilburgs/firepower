@@ -69,7 +69,7 @@ module app.controller {
             
             this.oefeningen = this.fireData.haalOefeningen();
             this.oefeningen.$loaded( function(response){
-                //alert(response[0].omschrijving)
+                alert(response[0].omschrijving)
             })
             this.oneRepMaxen = this.fireData.getOneRepMaxenPerGebruiker(this.currentAuth.uid);
             //this.filteredOneRepMaxen = this.oneRepMaxen;

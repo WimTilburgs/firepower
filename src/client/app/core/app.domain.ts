@@ -3,6 +3,7 @@
 ///<reference path="../core/app.domain.trainingsSchemas.ts"/>
 ///<reference path="../core/app.domain.oefeningen.ts"/>
 ///<reference path="../core/app.domain.onerepMaxen.ts"/>
+///<reference path="../core/app.domain.trainingen.ts"/>
 module app.domain {
     export interface IUser {
 

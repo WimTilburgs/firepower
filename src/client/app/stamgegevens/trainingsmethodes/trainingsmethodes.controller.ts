@@ -72,15 +72,7 @@ module app.controller {
             this.geselecteerdeTrainingsMethode = null;
             this.toonButtonNieuw = true;
         }
-        //voorbeeld uit Angular Material om een dialoog te tonen na menuklik
-        announceClick = function(index) {
-            this.$mdDialog.show(
-                this.$mdDialog.alert()
-                    .title('You clicked!')
-                    .textContent('You clicked the menu item at index ' + index)
-                    .ok('Nice')
-            );
-        };
+       
         
         // methodeOefeningenOpslaan(): void {
         //     var test = _.filter(this.oefeningen,{'selected' : true});

@@ -12,13 +12,6 @@ var app;
                 this.$mdDialog = $mdDialog;
                 this.toonButtonNieuw = true;
                 this.toonWijzigMethode = true;
-                //voorbeeld uit Angular Material om een dialoog te tonen na menuklik
-                this.announceClick = function (index) {
-                    this.$mdDialog.show(this.$mdDialog.alert()
-                        .title('You clicked!')
-                        .textContent('You clicked the menu item at index ' + index)
-                        .ok('Nice'));
-                };
                 this.init();
             }
             TrainingsMethodes.prototype.init = function () {

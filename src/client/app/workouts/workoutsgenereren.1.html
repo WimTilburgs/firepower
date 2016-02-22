@@ -2,14 +2,14 @@
     {{vm.stap1Title}}</md-subheader>
 
 <md-subheader class="md-primary " ng-show="vm.toon1Rm">
-    {{vm.stap2Title}}</md-subheader>  
+    {{vm.stap2Title}}</md-subheader>
 
 <md-content class="md-padding" layout-xs="column" layout="row" ng-show="vm.toonMethodes">
- 
+
     <md-card ng-repeat="trainingsMethode in vm.trainingsMethodes" class="md-whiteframe-z2">
         <md-subheader class="md-primary md-hue-1">Trainingsmethode</md-subheader>
 
-      
+
         <md-card-content>
             <h6 class="md-subhead">{{trainingsMethode.omschrijving}}</h6>
 
@@ -22,55 +22,146 @@
 
 </md-content>
 
+<div ng-show="vm.toon1Rm">
+<md-content class="md-padding" layout="column" layout-gt-sm="row" >
 
-<md-content class="md-padding" layout-xs="column" layout="row" ng-show="vm.toon1Rm">
- 
     <md-card ng-repeat="oefening in vm.oefeningenPerMethode" class="md-whiteframe-z2">
-       
-        <md-subheader class="md-primary md-hue-1">{{oefening.omschrijving}}</md-subheader>
 
+        <md-subheader class="md-primary md-hue-1">{{oefening.omschrijving}}</md-subheader>
         <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">{{'1 rep max '+oefening.orm+' kg'}}</span>
-          </md-card-title-text>
+            <md-card-title-text>
+                <span class="md-headline">{{'1 rep max '+oefening.orm+' kg'}}</span>
+            </md-card-title-text>
         </md-card-title>
         <md-card-content>
-            <span class="md-headline">Voorstel : {{oefening.orm+oefening.ophoogGewicht}} kg</span>
-
+            <!--<span class="md-headline">Voorstel : {{oefening.orm+oefening.ophoogGewicht}} kg</span>-->
         </md-card-content>
-        <md-card-actions layout="row" layout-align="end center">
-            <md-button>Kies</md-button>
-            <md-button ng-click="vm.toonSchemaMetOefening1rm(oefening)">Schema</md-button>
+        <md-card-actions layout="row" layout-align="end end">
+            <md-button ng-click="vm.oneRepMaxDetails(oefening)">Details</md-button>
         </md-card-actions>
     </md-card>
 
+            
 </md-content>
 
+     <md-button ng-click="vm.trainingsVoorstelGenereren()" class="md-raised md-primary">TrainingsVoorstel genereren</md-button>
+ </div>
+
+
+
 <md-content class="md-padding" layout="column" layout-align="space-between left" ng-show="vm.toonSchema">
-    
+
     <md-card ng-repeat="(workoutNummer, sets) in vm.schemaGegroepeerdPerWorkout" " class="md-whiteframe-z2 ">
        <md-subheader class="md-primary md-hue-1 ">Workoutnummer {{workoutNummer}}</md-subheader>
-        <!--<md-card-title>
-          <md-card-title-text>
-            <span class="md-headline ">{{trainingsMethode.omschrijving}}</span>
-          </md-card-title-text>
-        </md-card-title>-->
-        
+       
        <md-card-content ng-repeat="set in sets ">
            <div layout="row ">
-    <div flex="25"> Set : {{set.setNummer}}</div>
-    <div flex="25">{{set.percentage+'% '}}</div>
-    <div flex="25"><span ng-show="!set.amrap "> {{set.aantalReps + 'reps'}} </span>
+    <div flex="25 "> Set : {{set.setNummer}}</div>
+    <div flex="25 ">{{set.percentage+'% '}}</div>
+    <div flex="25 "><span ng-show="!set.amrap "> {{set.aantalReps + 'reps'}} </span>
     <span ng-show="set.amrap "> amrap 
          <md-tooltip md-direction="left ">
                             As Much Reps As Possible (amrap) doe zoveel mogelijk reps
          </md-tooltip>
     </span>
     </div>
-    <div flex="25" ng-show="vm.geselecteerdeOefening1rm > 0">{{(vm.geselecteerdeOefening1rm * (set.percentage/100) /2.5| number:0)*2.5}}</div>
-  </div>
-    
+    <div flex="25 " ng-show="vm.geselecteerdeOefening1rm> 0">{{(vm.geselecteerdeOefening1rm * (set.percentage/100) /2.5| number:0)*2.5}}</div>
+        </div>
+
         </md-card-content>
-      </md-card>
-      <pre>{{vm.gebruiker |json}}</pre>
+    </md-card>
+    <pre>{{vm.gebruiker |json}}</pre>
+</md-content>
+
+<md-content class="md-padding" layout="column" layout-align="space-between left" ng-show="vm.toonDetails">
+
+    <md-card class="md-whiteframe-z2">
+
+        <md-subheader class="md-primary md-hue-1">{{vm.oefening.omschrijving}} </md-subheader>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">One Rep Max bepalen  </span>
+            </md-card-title-text>
+            <md-button class="md-icon-button md-primary" aria-label="OneRepMaxCalculator" ng-click="vm.toonCalculator()">
+                <i class="fa fa-calculator"></i>
+            </md-button>
+        </md-card-title>
+        <md-card-content>
+            <div layout="row">
+                <div flex="30">
+                    <span>{{'1 rep max '+vm.oefening.orm+' kg'}}</span>
+                </div>
+                <div flex="25">
+                    <span>Voorstel : {{vm.oefening.OneRepMaxVoorstel}} kg</span>
+                </div>
+                <div flex="45">
+                    <span>Laagste haltergewicht : {{vm.gewichtKleinsteHalterSchijf}} kg</span>
+                </div>
+            </div>
+            <!--OneRepMaxCalculator-->
+
+            <md-card class="md-whiteframe-z2" flex="75" ng-show="vm.toon1RepMaxCalculator">
+                <md-subheader class="md-primary md-hue-1">1 Rep Max Calculator
+
+                    <md-button class="md-icon-button md-primary" aria-label="OneRepMaxCalculator" ng-click="vm.calculatorAnuleren()">
+                        <i class="fa fa-times"></i>
+                    </md-button>
+                </md-subheader>
+                <md-card-content>
+                    <form name="oneRepMaxCalculator" ng-model="vm.calculator" ng-submit="vm.submitCalculator(vm.calculator[0])">
+
+                        <h1>Berekende 1 Rep Max : {{(vm.calculator[0].gewicht*(vm.calculator[0].aantal*0.033 +1)) | number:0 }} kg</h1>
+                        <div layout="column">
+
+
+                            <md-input-container class="md-block" flex="25">
+                                <label>Aantal:</label>
+                                <input type="number" required name="aantal" ng-model="vm.calculator[0].aantal">
+
+                            </md-input-container>
+                            <md-input-container class="md-block" flex="25">
+                                <label>Gewicht:</label>
+                                <input type="number" required name="aantal" ng-model="vm.calculator[0].gewicht">
+
+                            </md-input-container>
+                        </div>
+                </md-card-content>
+
+                <md-card-actions layout="row" layout-align="end end">
+                    <md-button ng-click="vm.calculatorAnuleren()">Anuleren</md-button>
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Toepassen">Toepassen</md-button>
+                </md-card-actions>
+                </form>
+            </md-card>
+
+
+            <form name="oneRepMaxForm">
+                <div layout-gt-sm="row">
+
+
+                    <md-input-container class="md-block" flex="25">
+                        <label>1 rep max:</label>
+                        <input type="number" required name="oneRepMax" ng-model="vm.oefening.OneRepMaxVoorstel">
+                        <div flex="25" ng-messages="oneRepMaxForm.oneRepMax.$error" multiple md-auto-hide="true">
+                            <div ng-message="required">Verplicht veld.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+            </form>
+
+
+
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="start end">
+            <md-button ng-click="vm.repMaxInstellen(vm.oefening)" class="md-raised md-primary">{{vm.oefening.OneRepMaxVoorstel}}kg Instellen</md-button>
+            <md-button ng-click="vm.detailsAnuleren()">Anuleren</md-button>
+
+        </md-card-actions>
+    </md-card>
+    <md-list-item ng-repeat="proc in vm.percentages">
+        <div flex=15>{{proc +' % '}} </div>
+        <div flex=15>{{((vm.oefening.OneRepMaxVoorstel * proc/100)/2.5 | number:0)*2.5 | number:1}} kg</div>
+
+    </md-list-item>
 </md-content>

@@ -29,8 +29,8 @@
                     },
                     title: 'workouts',
                     settings: {
-                        nav: 25,
-                        content: '<i class="fa fa-heart"></i> Workouts'
+                        nav: 22,
+                        content: '<i class="fa fa-heart"></i> Schema maken'
                     }
                     
 

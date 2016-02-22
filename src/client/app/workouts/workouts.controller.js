@@ -4,17 +4,24 @@ var app;
     var controller;
     (function (controller) {
         var Workouts = (function () {
-            function Workouts(logger, $state, currentAuth, _, fireData, Ref) {
+            function Workouts(logger, $state, currentAuth, _, fireData, Ref, $mdDialog) {
                 this.logger = logger;
                 this.$state = $state;
                 this.currentAuth = currentAuth;
                 this._ = _;
                 this.fireData = fireData;
                 this.Ref = Ref;
+                this.$mdDialog = $mdDialog;
                 this.stap1Title = 'Stap 1 : Selecteer een trainingsmethode';
                 this.toonMethodes = true;
                 this.toon1Rm = false;
                 this.toonSchema = false;
+                this.toonDetails = false;
+                this.toon1RepMaxCalculator = false;
+                this.gewichtKleinsteHalterSchijf = 1.25;
+                this.percentages = [40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
+                this.procentenLijst = [];
+                this.calculator = [];
                 this.init();
             }
             Workouts.prototype.init = function () {
@@ -54,7 +61,7 @@ var app;
                         refOefeningen.once("value", function (snapshot) {
                             snapshot.forEach(function (repMaxSnap) {
                                 var oefening = repMaxSnap.val();
-                                oefening.orm = 0;
+                                oefening.orm = 30;
                                 refUserOefeningen.push(oefening);
                                 dezeScopeOefeningen.push(oefening);
                             });
@@ -96,6 +103,61 @@ var app;
                 this.stap1Title = "Geselecteerde methode = " + tmethode.omschrijving;
                 this.stap2Title = "Stap 2: Bepaal je One Rep Max";
             };
+            Workouts.prototype.oneRepMaxDetails = function (oefening) {
+                this.toonDetails = true;
+                this.toon1Rm = false;
+                oefening.OneRepMaxVoorstel = oefening.orm + oefening.ophoogGewicht;
+                this.oefening = oefening;
+                //var temp = new ProcentenLijst( 45,50);
+                this.procentenLijst.push({ 'percentage': 45, 'gewicht': oefening.OneRepMaxVoorstel });
+            };
+            //voorbeeld uit Angular Material om een dialoog te tonen na menuklik
+            // toon1RmCalculator () {
+            //     this.$mdDialog.show(
+            //         this.$mdDialog.alert()
+            //             .title('You clicked!')
+            //             .textContent('You clicked the menu item at index ')
+            //             .ok('Nice')
+            //     );
+            // };
+            Workouts.prototype.toonCalculator = function () {
+                this.toon1RepMaxCalculator = true;
+                this.calculator.push({ 'gewicht': 50, 'aantal': 5 });
+            };
+            Workouts.prototype.submitCalculator = function (calculator) {
+                var formule = calculator.gewicht * (calculator.aantal * 0.033 + 1);
+                this.oefening.OneRepMaxVoorstel = Math.round(formule);
+                this.toon1RepMaxCalculator = false;
+            };
+            Workouts.prototype.calculatorAnuleren = function () {
+                this.toon1RepMaxCalculator = false;
+            };
+            Workouts.prototype.repMaxInstellen = function (oefening) {
+                oefening.orm = oefening.OneRepMaxVoorstel;
+                var gevondenOefeningRef;
+                var oudeOefening = [];
+                var user = this.currentAuth;
+                var refUserOefeningen = this.Ref.child("users").child(user.uid).child('oefeningen');
+                refUserOefeningen.orderByChild('oefeningId')
+                    .equalTo(oefening.oefeningId).once('value', function (userOefSnap) {
+                    userOefSnap.forEach(function (childSnap) {
+                        gevondenOefeningRef = childSnap.ref();
+                        gevondenOefeningRef.update({ orm: oefening.orm });
+                        oudeOefening.push(childSnap.val());
+                    });
+                });
+                this.toonDetails = false;
+                this.toon1Rm = true;
+                console.log(oudeOefening);
+                console.log(oudeOefening[0].omschrijving);
+            };
+            Workouts.prototype.detailsAnuleren = function () {
+                this.toonDetails = false;
+                this.toon1Rm = true;
+            };
+            Workouts.prototype.trainingsVoorstelGenereren = function () {
+                alert('oké');
+            };
             Workouts.prototype.activate = function () {
             };
             Workouts.controllerId = 'Workouts';
@@ -105,7 +167,8 @@ var app;
                 'currentAuth',
                 '_',
                 'fireData',
-                'Ref'
+                'Ref',
+                '$mdDialog'
             ];
             return Workouts;
         })();

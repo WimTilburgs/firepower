@@ -165,3 +165,10 @@
 
     </md-list-item>
 </md-content>
+
+<md-content ng-show="vm.toonGegenereerdWorkoutVoorstel">
+    <h4>gegenereerdeWorkouts</h4>
+    <pre>{{vm.gegenereerdeWorkouts | json}}</pre>
+    <h4>geselecteerdeTrainingsMethode.$id</h4>
+    <pre>{{vm.geselecteerdeTrainingsMethode.$id | json}}</pre>
+    </md-content>

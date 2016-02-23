@@ -12,12 +12,12 @@ module app.domain {
         gewicht: number;
         repsFree: boolean;
         realisatie: boolean;
-        oefeningKey: string;
+        oefeningId: string;
         oefeningOmschrijving: string;
-        userKey: string;
+        userId: string;
         userVoornaam: string;
         userAchternaam: string;
-        trainingsMethodeKey: string;
+        trainingsMethodeId: string;
         trainingsMethodeOmschrijving: string;
     }
 
@@ -33,12 +33,12 @@ module app.domain {
             public gewicht: number,
             public repsFree: boolean,
             public realisatie: boolean,
-            public oefeningKey: string,
+            public oefeningId: string,
             public oefeningOmschrijving: string,
-            public userKey: string,
+            public userId: string,
             public userVoornaam: string,
             public userAchternaam: string,
-            public trainingsMethodeKey: string,
+            public trainingsMethodeId: string,
             public trainingsMethodeOmschrijving: string,
             public uid?: string
         ) { }

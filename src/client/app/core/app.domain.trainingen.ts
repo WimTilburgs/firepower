@@ -9,6 +9,7 @@ module app.domain {
         datum: string;
         percentage: number;
         aantalReps: number;
+        oefeningOrm: number;
         gewicht: number;
         repsFree: boolean;
         realisatie: boolean;
@@ -22,7 +23,7 @@ module app.domain {
     }
 
     export class Trainingen implements ITrainingen {
-
+        //gewicht: number
         constructor(
 
             public workoutNummer: number,
@@ -30,6 +31,7 @@ module app.domain {
             public datum: string,
             public percentage: number,
             public aantalReps: number,
+            public oefeningOrm: number,
             public gewicht: number,
             public repsFree: boolean,
             public realisatie: boolean,
@@ -41,6 +43,8 @@ module app.domain {
             public trainingsMethodeId: string,
             public trainingsMethodeOmschrijving: string,
             public uid?: string
-        ) { }
+        ) { 
+            //this.gewicht = this.oefeningOrm*this.percentage/100
+        }
     }
 }

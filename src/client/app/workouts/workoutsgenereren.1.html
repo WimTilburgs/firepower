@@ -3,6 +3,12 @@
 
 <md-subheader class="md-primary " ng-show="vm.toon1Rm">
     {{vm.stap2Title}}</md-subheader>
+    
+    <md-subheader class="md-primary " ng-show="vm.toonGegenereerdWorkoutVoorstel">
+    Stap 2: Bepaal 1 Rep Max voltooid</md-subheader>
+    
+      <md-subheader class="md-primary " ng-show="vm.toonGegenereerdWorkoutVoorstel">
+    Stap 3: Schema gegenereerd</md-subheader>
 
 <md-content class="md-padding" layout-xs="column" layout="row" ng-show="vm.toonMethodes">
 
@@ -21,34 +27,34 @@
     </md-card>
 
 </md-content>
-
+<!-- Overzicht OnerepMaxens-->
 <div ng-show="vm.toon1Rm">
-<md-content class="md-padding" layout="column" layout-gt-sm="row" >
+    <md-content class="md-padding" layout="column" layout-gt-sm="row">
 
-    <md-card ng-repeat="oefening in vm.oefeningenPerMethode" class="md-whiteframe-z2">
+        <md-card ng-repeat="oefening in vm.oefeningenPerMethode" class="md-whiteframe-z2">
 
-        <md-subheader class="md-primary md-hue-1">{{oefening.omschrijving}}</md-subheader>
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline">{{'1 rep max '+oefening.orm+' kg'}}</span>
-            </md-card-title-text>
-        </md-card-title>
-        <md-card-content>
-            <!--<span class="md-headline">Voorstel : {{oefening.orm+oefening.ophoogGewicht}} kg</span>-->
-        </md-card-content>
-        <md-card-actions layout="row" layout-align="end end">
-            <md-button ng-click="vm.oneRepMaxDetails(oefening)">Details</md-button>
-        </md-card-actions>
-    </md-card>
-
-            
-</md-content>
-
-     <md-button ng-click="vm.trainingsVoorstelGenereren()" class="md-raised md-primary">TrainingsVoorstel genereren</md-button>
- </div>
+            <md-subheader class="md-primary md-hue-1">{{oefening.omschrijving}}</md-subheader>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{'1 rep max '+oefening.orm+' kg'}}</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <!--<span class="md-headline">Voorstel : {{oefening.orm+oefening.ophoogGewicht}} kg</span>-->
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end end">
+                <md-button ng-click="vm.oneRepMaxDetails(oefening)">Details</md-button>
+            </md-card-actions>
+        </md-card>
 
 
+    </md-content>
 
+    <md-button ng-click="vm.trainingsVoorstelGenereren()" class="md-raised md-primary">TrainingsVoorstel genereren</md-button>
+</div>
+
+
+<!-- Overzicht sets-->
 <md-content class="md-padding" layout="column" layout-align="space-between left" ng-show="vm.toonSchema">
 
     <md-card ng-repeat="(workoutNummer, sets) in vm.schemaGegroepeerdPerWorkout" " class="md-whiteframe-z2 ">
@@ -70,7 +76,7 @@
 
         </md-card-content>
     </md-card>
-    <pre>{{vm.gebruiker |json}}</pre>
+
 </md-content>
 
 <md-content class="md-padding" layout="column" layout-align="space-between left" ng-show="vm.toonDetails">
@@ -167,8 +173,36 @@
 </md-content>
 
 <md-content ng-show="vm.toonGegenereerdWorkoutVoorstel">
-    <h4>gegenereerdeWorkouts</h4>
-    <pre>{{vm.gegenereerdeWorkouts | json}}</pre>
-    <h4>geselecteerdeTrainingsMethode.$id</h4>
-    <pre>{{vm.geselecteerdeTrainingsMethode.$id | json}}</pre>
-    </md-content>
+<md-button ng-click="vm.trainingsVoorstelAccepteren()" class="md-raised md-primary">TrainingsVoorstel accepteren</md-button>
+    <div ng-repeat="workout in vm.uniekeWorkoutNummers">
+        <div ng-repeat="oefening in vm.uniekeOefingOmschrijvingen">
+            <md-list>
+                <h4>Workout : {{workout}} - {{oefening}}</h4>
+                <div layout="row">
+                    <div flex="25">Set</div>
+                    <div flex="25">Aantal</div>
+                    <div flex="25">Gewicht</div>
+                    <div flex="25">Amrap</div>
+                </div>
+
+                <md-list-item class="md-1-line" ng-repeat="wo in vm.gegenereerdeWorkouts | filter : { 'workoutNummer' : workout,'oefeningOmschrijving':oefening}">
+
+
+                    <div flex="25"><span> {{wo.setNummer}}</span></div>
+                    <div flex="25"><span>  {{wo.aantalReps}}</span></div>
+                    <div flex="25"> {{wo.gewicht | number:1}}</div>
+                    <div flex="25">
+                        <i ng-show="{{wo.repsFree}}" class="fa fa-check"></i>
+                        <i ng-show="{{!wo.repsFree}}" class="fa fa-times"></i>
+
+                    </div>
+
+
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+        </div>     
+    </div>
+     <md-button ng-click="vm.trainingsVoorstelAccepteren()" class="md-raised md-primary">TrainingsVoorstel accepteren</md-button>
+     <pre>{{vm.gegenereerdeWorkouts}}</pre>
+</md-content>

@@ -24,6 +24,9 @@ var app;
                 this.procentenLijst = [];
                 this.calculator = [];
                 this.gegenereerdeWorkouts = [];
+                this.trainingenOpslaanLijst = [];
+                this.uniekeWorkoutNummers = [];
+                this.uniekeOefingOmschrijvingen = [];
                 this.init();
             }
             Workouts.prototype.init = function () {
@@ -36,6 +39,17 @@ var app;
                 }
                 else {
                     this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
+                    var testGebruiker;
+                    var refUser = this.Ref.child("users").child(this.currentAuth.uid);
+                    refUser.on("value", function (snapshot) {
+                        //console.log(snapshot.val());
+                        //Workouts.prototype.gebruiker = snapshot.val();
+                        testGebruiker = snapshot.val();
+                        console.log(snapshot.val());
+                    }, function (errorObject) {
+                        console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
+                        return;
+                    });
                 }
                 this.activate();
             };
@@ -150,88 +164,91 @@ var app;
             };
             Workouts.prototype.trainingsVoorstelGenereren = function () {
                 this.toonGegenereerdWorkoutVoorstel = true;
+                this.toon1Rm = false;
+                var trainingsmethode = this.geselecteerdeTrainingsMethode;
+                var gebruiker = this.gebruiker;
                 var nieuweWorkout;
-                var nieuweWorkoutLijst = []; //app.domain.ITrainingen[] = [];
+                var nieuweWorkoutLijst = [];
                 var refTrainingsMethodes = this.Ref.child('stamGegevens').child('trainingsMethodes').child(this.geselecteerdeTrainingsMethode.$id);
                 var refMethodeSchema = refTrainingsMethodes.child('trainingsSchemas');
                 var refMethodeOefeningen = refTrainingsMethodes.child('oefeningen');
                 var refUser = this.Ref.child("users").child(this.currentAuth.uid);
                 var refUserOefeningen = refUser.child('oefeningen');
-                var testWorkouts = [];
-                var schema = [];
-                var oefeningen = [];
-                //Haal Methodeoefeningen op en met deze haal de oefeningen met de 1repmax uit de user
+                var oefeningen;
                 refMethodeOefeningen.once("value", function (snapshot) {
-                    snapshot.forEach(function (repMaxSnap) {
-                        var oefening = repMaxSnap.val();
-                        //var oefeningKey = repMaxSnap.key();
-                        //console.log(oefening);
+                    //Haal de oefeningen op die behoren bij de gekozen trainingsmethode
+                    snapshot.forEach(function (oefenSnap) {
+                        var oefening = oefenSnap.val();
+                        //Zoek bij de gebruiker de repmaxen behorende bij de oefeningen uit de methode
                         refUserOefeningen.orderByChild('oefeningId')
                             .equalTo(oefening.oefeningId).once('value', function (userOefSnap) {
                             userOefSnap.forEach(function (childSnap) {
-                                //console.log(childSnap.val());
-                                //oefeningen.push(childSnap.val());
                                 oefeningen = childSnap.val();
-                                //console.log(oefeningen[0].omschrijving);
-                                //Loop voor elke oefening een keer doorhet schema.
+                                //Loop voor elke oefening een keer door het schema.
                                 refMethodeSchema.once("value", function (snapshot) {
-                                    //var lengte = oefeningen.length;
-                                    //console.log('lengte 1' + lengte.toString)
                                     snapshot.forEach(function (schemaSnap) {
-                                        //console.log(lengte)
-                                        console.log(oefeningen.omschrijving);
-                                        //console.log(schemaSnap.val());
-                                        //schema.push(schemaSnap.val());
-                                        var x = schemaSnap.val(); //app.domain.Trainingen()
-                                        nieuweWorkout = { workoutNummer: x.workoutNummer,
+                                        // de var x is aangemaakt voor het gemak
+                                        var x = schemaSnap.val();
+                                        //Hier heb ik dus het schema de oefeningen uit de methode en de onerepmaxen van de gebruiker
+                                        //De methode en de gebruiker had ik al.
+                                        nieuweWorkout = {
+                                            workoutNummer: x.workoutNummer,
                                             setNummer: x.setNummer,
-                                            datum: "datumstring",
+                                            datum: Date.now().toString(),
                                             percentage: x.percentage,
                                             aantalReps: x.aantalReps,
-                                            gewicht: x.orm,
+                                            oefeningOrm: oefeningen.orm,
+                                            gewicht: Math.round(oefeningen.orm * x.percentage / 100 / 2.5) * 2.5,
                                             repsFree: x.amrap,
                                             realisatie: false,
                                             oefeningId: oefening.oefeningId,
                                             oefeningOmschrijving: oefening.omschrijving,
-                                            userId: 'userId',
-                                            userVoornaam: 'userVoornaam',
-                                            userAchternaam: 'userAchternaam',
-                                            trainingsMethodeId: 'trainingsMethodeId',
-                                            trainingsMethodeOmschrijving: 'trainingsMethodeOmschrijving'
+                                            userId: gebruiker.$id,
+                                            userVoornaam: gebruiker.voorNaam,
+                                            userAchternaam: gebruiker.achterNaam,
+                                            trainingsMethodeId: trainingsmethode.$id,
+                                            trainingsMethodeOmschrijving: trainingsmethode.omschrijving
                                         };
                                         nieuweWorkoutLijst.push(nieuweWorkout);
-                                        // var test = {
-                                        //     "workoutNummer": x.workoutNummer,
-                                        //     "setNummer": x.setNummer,
-                                        //     "gewicht": oefeningen.orm
-                                        // }
-                                        // var training = new app.domain.Trainingen(
-                                        //     x.workoutNummer, x.setNummer, new Date().toString(),
-                                        //     x.percentage, x.aantalReps, oefeningen.orm,
-                                        //     x.amrap, false, oefening.oefeningId, oefening.omschrijving, "userid", "voornaam", "achternaam", "tmethodeId", "tmethodeomschrijving");
-                                        // nieuweWorkouts.push(training);
-                                        //testWorkouts.push(test)
                                     });
-                                    //schema.push(snapshot.val());
-                                    //
-                                    //nieuweWorkouts.push()
                                 }, function (errorObject) {
                                     console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
                                     return;
                                 });
                             });
                         });
-                        //refUserOefeningen.push(oefening);
-                        //dezeScopeOefeningen.push(oefening);
                     });
                 }, function (errorObject) {
                     console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
                     return;
                 });
-                //Haal Methodeschemas op
-                //console.log(oefeningen);
-                //this.gegenereerdeWorkouts = schema;
+                //even de lijst beschikbaar maken voor de view  
                 this.gegenereerdeWorkouts = nieuweWorkoutLijst;
+                this.trainingenOpslaanLijst = nieuweWorkoutLijst;
+                //nu eens kijken of we zaak eens mooi kunnen groeperen per workout/oefening
+                this.groepeerWorkouts(nieuweWorkoutLijst);
+            };
+            Workouts.prototype.groepeerWorkouts = function (lijst) {
+                Workouts.prototype.schemaGegroepeerdPerWorkout = _.chain(lijst)
+                    .groupBy("workoutNummer")
+                    .value();
+                this.uniekeWorkoutNummers = _.chain(lijst).sortBy('workoutNummer').map(function (o) { return o.workoutNummer; }).uniq().value();
+                this.uniekeOefingOmschrijvingen = _.chain(lijst).sortBy('oefeningOmschrijving').map(function (o) { return o.oefeningOmschrijving; }).uniq().value();
+                //console.log(uniekeWorkoutNummers);
+            };
+            Workouts.prototype.trainingsVoorstelAccepteren = function () {
+                var refUser = this.Ref.child("users").child(this.currentAuth.uid);
+                //var lijst = angular.toJson(this.gegenereerdeWorkouts)
+                //refUser.child('planning').push(lijst);
+                //refUser.child('planning').push(angular.toJson(this.gegenereerdeWorkouts));
+                var data = angular.copy(this.trainingenOpslaanLijst);
+                _(data).forEach(function (value) {
+                    refUser.child('planning').push(value);
+                    console.log(value);
+                });
+                //console.log(this.trainingenOpslaanLijst);
+                //console.log(data);
+                //refUser.child('planning').push(data);
             };
             Workouts.prototype.activate = function () {
             };

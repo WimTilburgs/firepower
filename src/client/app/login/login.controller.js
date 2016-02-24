@@ -76,7 +76,7 @@
                     //console.log('login gelukt ' + authData.uid);
                     //gebruikerOpslaan(authData);
                     window.location.reload(true);
-                    $state.go('home');
+                    $state.go('gebruiker');
                 }).catch(function(error) {
                     logger.error('Inloggen mislukt')
                     console.log(error);
@@ -89,8 +89,8 @@
                     // window.location.reload(true);
                     // $state.go('home');
                     //gebruikerOpslaan(authData);
-                    window.location.reload(true);
-                    $state.go('home');
+                    //window.location.reload(true);
+                    $state.go('gebruiker');
                 }).catch(function (error) {
                     //dit werkt nog niet
                     if (error.code === 'TRANSPORT_UNAVAILABLE') {
@@ -98,7 +98,7 @@
                         // automatically when we come back to the origin page
                         Auth.$authWithOAuthRedirect(provider).then(function (authData) { 
                             window.location.reload(true);
-                            $state.go('home');
+                            $state.go('gebruiker');
                         });
                         //console.log('Authentication failed:', error);
                     }

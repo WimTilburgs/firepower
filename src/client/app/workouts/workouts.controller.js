@@ -13,7 +13,8 @@ var app;
                 this.Ref = Ref;
                 this.$mdDialog = $mdDialog;
                 this.stap1Title = 'Stap 1 : Selecteer een trainingsmethode';
-                this.toonMethodes = true;
+                this.toonGebruikerInvullen = false;
+                this.toonMethodes = false;
                 this.toon1Rm = false;
                 this.toonSchema = false;
                 this.toonDetails = false;
@@ -39,17 +40,25 @@ var app;
                 }
                 else {
                     this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
-                    var testGebruiker;
-                    var refUser = this.Ref.child("users").child(this.currentAuth.uid);
+                    var testGebruiker = null;
+                    var refUser = this.Ref.child("users").child(this.currentAuth.uid).child('data');
                     refUser.on("value", function (snapshot) {
-                        //console.log(snapshot.val());
-                        //Workouts.prototype.gebruiker = snapshot.val();
-                        testGebruiker = snapshot.val();
+                        if (!snapshot.val()) {
+                            return;
+                        }
+                        else {
+                            testGebruiker = snapshot.val();
+                        }
                         console.log(snapshot.val());
+                        //Workouts.prototype.gebruiker = snapshot.val();
+                        // testGebruiker = snapshot.val();  
                     }, function (errorObject) {
                         console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
                         return;
                     });
+                    if (testGebruiker == null) {
+                        this.$state.go('gebruiker');
+                    }
                 }
                 this.activate();
             };

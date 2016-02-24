@@ -17,47 +17,19 @@ var app;
             }
             Gebruiker.prototype.init = function () {
                 this.title = 'Gebruikersoverzicht';
-                this.singleModel = 0;
                 if (!this.currentAuth) {
                     this.$state.go('login');
                 }
-                this.gebruiker = this.firebaseData.getGebruiker;
                 this.activate();
             };
             Gebruiker.prototype.userOpslaan = function () {
-                this.Ref.child('users').child(this.currentAuth.uid).update({
+                this.Ref.child('users').child(this.currentAuth.uid).child("data").update({
                     'voorNaam': this.user.voorNaam,
                     'achterNaam': this.user.achterNaam,
                     'email': this.user.email
                 });
             };
-            Gebruiker.prototype.test = function () {
-                this.$state.go('gebruiker.trainen');
-            };
             Gebruiker.prototype.activate = function () {
-                this.logger.info('Gebruikersoverzicht');
-                this.gebruiker.$loaded().then(function (response) {
-                    var _achterNaam = '';
-                    var _email = '';
-                    var _voorNaam = '';
-                    var _uid = '';
-                    angular.forEach(response, function (value, key) {
-                        //console.log(key, value);
-                        if (key == 'voorNaam') {
-                            _voorNaam = value;
-                        }
-                        ;
-                        if (key == 'achterNaam') {
-                            _achterNaam = value;
-                        }
-                        ;
-                        if (key == 'email') {
-                            _email = value;
-                        }
-                        ;
-                    });
-                    Gebruiker.prototype.user = new app.domain.User(_achterNaam, _email, _voorNaam, response.$id);
-                });
             };
             Gebruiker.controllerId = 'Gebruiker';
             /* @ngInject */

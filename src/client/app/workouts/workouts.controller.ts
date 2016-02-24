@@ -14,7 +14,8 @@ module app.controller {
         stap2Title: string;
 
         gebruiker: any;
-        toonMethodes: boolean = true;
+        toonGebruikerInvullen = false;
+        toonMethodes: boolean = false;
         toon1Rm: boolean = false;
         toonSchema: boolean = false;
         toonDetails: boolean = false;
@@ -66,19 +67,29 @@ module app.controller {
             if (!this.currentAuth) {
                 return;
             } else {
+
                 this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
-                var testGebruiker;
-                var refUser = this.Ref.child("users").child(this.currentAuth.uid);
-               refUser.on("value", function(snapshot) {
-                //console.log(snapshot.val());
-                //Workouts.prototype.gebruiker = snapshot.val();
-                 testGebruiker = snapshot.val();  
-                  console.log(snapshot.val());
-            }, function(errorObject) {
-                console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
-                return;
-            });
-               
+                var testGebruiker = null;
+                var refUser = this.Ref.child("users").child(this.currentAuth.uid).child('data');
+                refUser.on("value", function(snapshot) {
+                    
+                    if(!snapshot.val()) { 
+                        return;
+                    } else {
+                        testGebruiker = snapshot.val();
+                    }
+                    console.log(snapshot.val());
+                    //Workouts.prototype.gebruiker = snapshot.val();
+                    // testGebruiker = snapshot.val();  
+                
+                }, function(errorObject) {
+                    console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
+                    return;
+                });
+                if(testGebruiker == null) {
+                    this.$state.go('gebruiker');
+                }
+                
             }
 
 
@@ -306,22 +317,22 @@ module app.controller {
             //refUser.child('planning').push(angular.toJson(this.gegenereerdeWorkouts));
           
             var data = angular.copy(this.trainingenOpslaanLijst);
-              _(data).forEach(function(value) {
+            _(data).forEach(function(value) {
                 refUser.child('planning').push(value);
                 console.log(value);
             });
             //console.log(this.trainingenOpslaanLijst);
             //console.log(data);
             //refUser.child('planning').push(data);
-            }
+        }
 
         activate(): void {
 
 
-                }
+        }
     }
 
-        angular
+    angular
         .module('app.workouts')
         .controller(Workouts.controllerId, Workouts);
-    }
+}

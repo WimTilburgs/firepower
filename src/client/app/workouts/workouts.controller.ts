@@ -24,6 +24,7 @@ module app.controller {
         toonSchemaAlAanwezig: boolean = false;
         toon1RepMaxCalculator: boolean = false;
         toonGegenereerdWorkoutVoorstel: boolean = false;
+        toonSchemaOpgeslagen: boolean = false;
         oefeningenPerMethode: any;
         gewichtKleinsteHalterSchijf: number = 1.25
         trainingsMethodes: any;
@@ -216,8 +217,8 @@ module app.controller {
                 })
             this.toonDetails = false;
             this.toon1Rm = true;
-            console.log(oudeOefening);
-            console.log(oudeOefening[0].omschrijving);
+            //console.log(oudeOefening);
+            //console.log(oudeOefening[0].omschrijving);
         }
 
         detailsAnuleren(): void {
@@ -227,7 +228,7 @@ module app.controller {
         trainingenOpslaanLijst = [];
         trainingsVoorstelGenereren(): void {
             var authdata = this.currentAuth;
-            console.log(authdata);
+            //console.log(authdata);
             this.toonGegenereerdWorkoutVoorstel = true;
             this.toon1Rm = false;
             var trainingsmethode = this.geselecteerdeTrainingsMethode;
@@ -313,18 +314,34 @@ module app.controller {
 
         trainingsVoorstelAccepteren(): void {
             var refUser = this.Ref.child("users").child(this.currentAuth.uid);
-            //var lijst = angular.toJson(this.gegenereerdeWorkouts)
-            //refUser.child('planning').push(lijst);
-            //refUser.child('planning').push(angular.toJson(this.gegenereerdeWorkouts));
-          
             var data = angular.copy(this.trainingenOpslaanLijst);
             _(data).forEach(function(value) {
                 refUser.child('planning').push(value);
-                //console.log(value);
+
             });
+            this.stap1Title = "Trainingen generen voltooid"
+            this.toonGegenereerdWorkoutVoorstel = false;
             //console.log(this.trainingenOpslaanLijst);
             //console.log(data);
             //refUser.child('planning').push(data);
+        }
+
+        trainingenBekijken(): void {
+            this.stap1Title = "bekijk het maar";
+            let lijst = this.gebruikerPlanning;
+
+            this.uniekeWorkoutNummers = _.chain(lijst).sortBy('workoutNummer').map(function(o) { return o.workoutNummer }).uniq().value();
+            this.uniekeOefingOmschrijvingen = _.chain(lijst).sortBy('oefeningOmschrijving').map(function(o) { return o.oefeningOmschrijving }).uniq().value();
+
+            var arr = _.values(lijst);
+            //console.log(arr);
+            this.gegenereerdeWorkouts = arr
+        }
+
+        trainingenVerwijderen(): void {
+            var refUserPlanning = this.Ref.child("users").child(this.currentAuth.uid).child('planning');
+            refUserPlanning.remove();
+            this.$state.go('gebruiker');
         }
 
         activate(): void {

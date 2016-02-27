@@ -21,6 +21,7 @@ var app;
                 this.toonSchemaAlAanwezig = false;
                 this.toon1RepMaxCalculator = false;
                 this.toonGegenereerdWorkoutVoorstel = false;
+                this.toonSchemaOpgeslagen = false;
                 this.gewichtKleinsteHalterSchijf = 1.25;
                 this.percentages = [40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
                 this.procentenLijst = [];
@@ -161,8 +162,8 @@ var app;
                 });
                 this.toonDetails = false;
                 this.toon1Rm = true;
-                console.log(oudeOefening);
-                console.log(oudeOefening[0].omschrijving);
+                //console.log(oudeOefening);
+                //console.log(oudeOefening[0].omschrijving);
             };
             Workouts.prototype.detailsAnuleren = function () {
                 this.toonDetails = false;
@@ -170,7 +171,7 @@ var app;
             };
             Workouts.prototype.trainingsVoorstelGenereren = function () {
                 var authdata = this.currentAuth;
-                console.log(authdata);
+                //console.log(authdata);
                 this.toonGegenereerdWorkoutVoorstel = true;
                 this.toon1Rm = false;
                 var trainingsmethode = this.geselecteerdeTrainingsMethode;
@@ -246,17 +247,29 @@ var app;
             };
             Workouts.prototype.trainingsVoorstelAccepteren = function () {
                 var refUser = this.Ref.child("users").child(this.currentAuth.uid);
-                //var lijst = angular.toJson(this.gegenereerdeWorkouts)
-                //refUser.child('planning').push(lijst);
-                //refUser.child('planning').push(angular.toJson(this.gegenereerdeWorkouts));
                 var data = angular.copy(this.trainingenOpslaanLijst);
                 _(data).forEach(function (value) {
                     refUser.child('planning').push(value);
-                    //console.log(value);
                 });
+                this.stap1Title = "Trainingen generen voltooid";
+                this.toonGegenereerdWorkoutVoorstel = false;
                 //console.log(this.trainingenOpslaanLijst);
                 //console.log(data);
                 //refUser.child('planning').push(data);
+            };
+            Workouts.prototype.trainingenBekijken = function () {
+                this.stap1Title = "bekijk het maar";
+                var lijst = this.gebruikerPlanning;
+                this.uniekeWorkoutNummers = _.chain(lijst).sortBy('workoutNummer').map(function (o) { return o.workoutNummer; }).uniq().value();
+                this.uniekeOefingOmschrijvingen = _.chain(lijst).sortBy('oefeningOmschrijving').map(function (o) { return o.oefeningOmschrijving; }).uniq().value();
+                var arr = _.values(lijst);
+                //console.log(arr);
+                this.gegenereerdeWorkouts = arr;
+            };
+            Workouts.prototype.trainingenVerwijderen = function () {
+                var refUserPlanning = this.Ref.child("users").child(this.currentAuth.uid).child('planning');
+                refUserPlanning.remove();
+                this.$state.go('gebruiker');
             };
             Workouts.prototype.activate = function () {
             };

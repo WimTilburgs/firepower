@@ -11,7 +11,10 @@
     
       <md-subheader class="md-primary " ng-show="vm.toonGegenereerdWorkoutVoorstel">
     Stap 3: Schema gegenereerd</md-subheader>
-
+    
+          <md-subheader class="md-primary " ng-show="vm.toonSchemaOpgeslagen">
+    Stap 4: Schema opgeslagen</md-subheader>
+<!-- Overzicht Training gegevens-->
 <md-content class="md-padding" layout-xs="column" layout="row" ng-show="vm.toonMethodes">
 
     <md-card ng-repeat="trainingsMethode in vm.trainingsMethodes" class="md-whiteframe-z2">
@@ -29,6 +32,44 @@
     </md-card>
 
 </md-content>
+
+<!-- TrainingsSchema al aanwezig-->
+
+<md-content ng-show="vm.toonSchemaAlAanwezig">
+  <md-button ng-click="vm.trainingenBekijken()" class="md-raised md-primary">Trainingen tonen</md-button>
+  <md-button ng-click="vm.trainingenVerwijderen()" class="md-raised md-primary">Trainingen verwijdenen</md-button>
+    <div ng-repeat="workout in vm.uniekeWorkoutNummers">
+        <div ng-repeat="oefening in vm.uniekeOefingOmschrijvingen">
+            <md-list>
+                <h4>Workout : {{workout}} - {{oefening}}</h4>
+                <div layout="row">
+                    <div flex="25">Set</div>
+                    <div flex="25">Aantal</div>
+                    <div flex="25">Gewicht</div>
+                    <div flex="25">Amrap</div>
+                </div>
+
+                <md-list-item class="md-1-line" ng-repeat="wo in vm.gegenereerdeWorkouts | filter : { 'workoutNummer' : workout,'oefeningOmschrijving':oefening}">
+
+
+                    <div flex="25"><span> {{wo.setNummer}}</span></div>
+                    <div flex="25"><span>  {{wo.aantalReps}}</span></div>
+                    <div flex="25"> {{wo.gewicht | number:1}}</div>
+                    <div flex="25">
+                        <i ng-show="{{wo.repsFree}}" class="fa fa-check"></i>
+                        <i ng-show="{{!wo.repsFree}}" class="fa fa-times"></i>
+
+                    </div>
+
+
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+        </div>     
+    </div>
+    
+    </md-content>
+
 <!-- Overzicht OnerepMaxens-->
 <div ng-show="vm.toon1Rm">
     <md-content class="md-padding" layout="column" layout-gt-sm="row">

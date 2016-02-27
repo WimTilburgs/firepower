@@ -36,6 +36,26 @@ module app.controller {
             if (!this.currentAuth) {
                 this.$state.go('login');
             }
+            var testGebruiker = null;
+            var refUser = this.Ref.child("users").child(this.currentAuth.uid).child('data');
+                refUser.on("value", function(snapshot) {
+                    
+                    if(!snapshot.val()) { 
+                        return;
+                    } else {
+                        testGebruiker = snapshot.val();
+                    }
+                    console.log(snapshot.val());
+                    //Workouts.prototype.gebruiker = snapshot.val();
+                    // testGebruiker = snapshot.val();  
+                
+                }, function(errorObject) {
+                    console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
+                    return;
+                });
+                if(testGebruiker == null) {
+                   this.userOpslaan();
+                }
             
             
             this.activate();
@@ -44,9 +64,9 @@ module app.controller {
         userOpslaan(): void {
             this.Ref.child('users').child(this.currentAuth.uid).child("data").update(
                 {
-                    'voorNaam': this.user.voorNaam,
-                    'achterNaam': this.user.achterNaam,
-                    'email': this.user.email
+                    'voorNaam': "bert",
+                    'achterNaam': "de beer",
+                    'email': "wim3025@hotmail.com"
                 });
         }
 

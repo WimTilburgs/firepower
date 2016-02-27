@@ -14,10 +14,11 @@ var app;
                 this.$mdDialog = $mdDialog;
                 this.stap1Title = 'Stap 1 : Selecteer een trainingsmethode';
                 this.toonGebruikerInvullen = false;
-                this.toonMethodes = false;
+                this.toonMethodes = true;
                 this.toon1Rm = false;
                 this.toonSchema = false;
                 this.toonDetails = false;
+                this.toonSchemaAlAanwezig = false;
                 this.toon1RepMaxCalculator = false;
                 this.toonGegenereerdWorkoutVoorstel = false;
                 this.gewichtKleinsteHalterSchijf = 1.25;
@@ -40,25 +41,10 @@ var app;
                 }
                 else {
                     this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
-                    var testGebruiker = null;
-                    var refUser = this.Ref.child("users").child(this.currentAuth.uid).child('data');
-                    refUser.on("value", function (snapshot) {
-                        if (!snapshot.val()) {
-                            return;
-                        }
-                        else {
-                            testGebruiker = snapshot.val();
-                        }
-                        console.log(snapshot.val());
-                        //Workouts.prototype.gebruiker = snapshot.val();
-                        // testGebruiker = snapshot.val();  
-                    }, function (errorObject) {
-                        console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
-                        return;
+                    this.gebruiker.$loaded().then(function (response) {
+                        Workouts.prototype.gebruikerData = response.data;
+                        Workouts.prototype.gebruikerPlanning = response.planning;
                     });
-                    if (testGebruiker == null) {
-                        this.$state.go('gebruiker');
-                    }
                 }
                 this.activate();
             };
@@ -76,6 +62,22 @@ var app;
                 this.toonSchema = true;
             };
             Workouts.prototype.selecteerTrainingsMethode = function (tmethode) {
+                if (this.gebruikerPlanning) {
+                    this.toonMethodes = false;
+                    this.toonSchemaAlAanwezig = true;
+                    this.stap1Title = "Er is al een bestaand schema. Wat wil je daarmee doen?";
+                }
+                else {
+                    this.oefeningenPerMethode = this.bepaalOefeningenMetOneRepMax(tmethode);
+                    this.toonMethodes = false;
+                    this.toonSchema = false;
+                    this.toon1Rm = true;
+                    this.geselecteerdeTrainingsMethode = tmethode;
+                    //this.stap1Title = "Geselecteerde methode = " + tmethode.omschrijving;
+                    this.stap2Title = "Stap 2: Bepaal je One Rep Max";
+                }
+            };
+            Workouts.prototype.bepaalOefeningenMetOneRepMax = function (tmethode) {
                 var user = this.currentAuth;
                 var dezeScopeOefeningen = [];
                 // deze heb ik zo nodig this.oefeningenPerMethode
@@ -120,13 +122,8 @@ var app;
                     console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
                     return;
                 });
-                this.oefeningenPerMethode = dezeScopeOefeningen;
-                this.toonMethodes = false;
-                this.toonSchema = false;
-                this.toon1Rm = true;
-                this.geselecteerdeTrainingsMethode = tmethode;
-                this.stap1Title = "Geselecteerde methode = " + tmethode.omschrijving;
-                this.stap2Title = "Stap 2: Bepaal je One Rep Max";
+                //this.oefeningenPerMethode = dezeScopeOefeningen;
+                return dezeScopeOefeningen;
             };
             Workouts.prototype.oneRepMaxDetails = function (oefening) {
                 this.toonDetails = true;
@@ -172,10 +169,12 @@ var app;
                 this.toon1Rm = true;
             };
             Workouts.prototype.trainingsVoorstelGenereren = function () {
+                var authdata = this.currentAuth;
+                console.log(authdata);
                 this.toonGegenereerdWorkoutVoorstel = true;
                 this.toon1Rm = false;
                 var trainingsmethode = this.geselecteerdeTrainingsMethode;
-                var gebruiker = this.gebruiker;
+                var gebruiker = this.gebruikerData;
                 var nieuweWorkout;
                 var nieuweWorkoutLijst = [];
                 var refTrainingsMethodes = this.Ref.child('stamGegevens').child('trainingsMethodes').child(this.geselecteerdeTrainingsMethode.$id);
@@ -212,7 +211,7 @@ var app;
                                             realisatie: false,
                                             oefeningId: oefening.oefeningId,
                                             oefeningOmschrijving: oefening.omschrijving,
-                                            userId: gebruiker.$id,
+                                            userId: authdata.uid,
                                             userVoornaam: gebruiker.voorNaam,
                                             userAchternaam: gebruiker.achterNaam,
                                             trainingsMethodeId: trainingsmethode.$id,
@@ -253,7 +252,7 @@ var app;
                 var data = angular.copy(this.trainingenOpslaanLijst);
                 _(data).forEach(function (value) {
                     refUser.child('planning').push(value);
-                    console.log(value);
+                    //console.log(value);
                 });
                 //console.log(this.trainingenOpslaanLijst);
                 //console.log(data);

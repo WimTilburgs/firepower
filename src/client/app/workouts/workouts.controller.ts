@@ -14,11 +14,14 @@ module app.controller {
         stap2Title: string;
 
         gebruiker: any;
+        gebruikerData: any;
+        gebruikerPlanning: any;
         toonGebruikerInvullen = false;
-        toonMethodes: boolean = false;
+        toonMethodes: boolean = true;
         toon1Rm: boolean = false;
         toonSchema: boolean = false;
         toonDetails: boolean = false;
+        toonSchemaAlAanwezig: boolean = false;
         toon1RepMaxCalculator: boolean = false;
         toonGegenereerdWorkoutVoorstel: boolean = false;
         oefeningenPerMethode: any;
@@ -69,33 +72,18 @@ module app.controller {
             } else {
 
                 this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
-                var testGebruiker = null;
-                var refUser = this.Ref.child("users").child(this.currentAuth.uid).child('data');
-                refUser.on("value", function(snapshot) {
-                    
-                    if(!snapshot.val()) { 
-                        return;
-                    } else {
-                        testGebruiker = snapshot.val();
-                    }
-                    console.log(snapshot.val());
-                    //Workouts.prototype.gebruiker = snapshot.val();
-                    // testGebruiker = snapshot.val();  
-                
-                }, function(errorObject) {
-                    console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
-                    return;
-                });
-                if(testGebruiker == null) {
-                    this.$state.go('gebruiker');
-                }
-                
+                this.gebruiker.$loaded().then(function(response) {
+                    Workouts.prototype.gebruikerData = response.data;
+                    Workouts.prototype.gebruikerPlanning = response.planning
+
+
+                })
+
             }
 
 
             this.activate();
         }
-
 
 
         bekijkSchema(tmethode): void {
@@ -115,6 +103,23 @@ module app.controller {
         }
 
         selecteerTrainingsMethode(tmethode): void {
+            if (this.gebruikerPlanning) {
+                this.toonMethodes = false;
+                this.toonSchemaAlAanwezig = true;
+                this.stap1Title = "Er is al een bestaand schema. Wat wil je daarmee doen?"
+
+            } else {
+                this.oefeningenPerMethode = this.bepaalOefeningenMetOneRepMax(tmethode);
+                this.toonMethodes = false;
+                this.toonSchema = false;
+                this.toon1Rm = true;
+                this.geselecteerdeTrainingsMethode = tmethode;
+                //this.stap1Title = "Geselecteerde methode = " + tmethode.omschrijving;
+                this.stap2Title = "Stap 2: Bepaal je One Rep Max"
+            }
+        }
+
+        bepaalOefeningenMetOneRepMax(tmethode) {
             var user = this.currentAuth;
             var dezeScopeOefeningen = []
             // deze heb ik zo nodig this.oefeningenPerMethode
@@ -162,13 +167,8 @@ module app.controller {
                 console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
                 return
             });
-            this.oefeningenPerMethode = dezeScopeOefeningen;
-            this.toonMethodes = false;
-            this.toonSchema = false;
-            this.toon1Rm = true;
-            this.geselecteerdeTrainingsMethode = tmethode;
-            this.stap1Title = "Geselecteerde methode = " + tmethode.omschrijving;
-            this.stap2Title = "Stap 2: Bepaal je One Rep Max"
+            //this.oefeningenPerMethode = dezeScopeOefeningen;
+            return dezeScopeOefeningen;
         }
 
         oneRepMaxDetails(oefening): void {
@@ -226,11 +226,12 @@ module app.controller {
         }
         trainingenOpslaanLijst = [];
         trainingsVoorstelGenereren(): void {
-
+            var authdata = this.currentAuth;
+            console.log(authdata);
             this.toonGegenereerdWorkoutVoorstel = true;
             this.toon1Rm = false;
             var trainingsmethode = this.geselecteerdeTrainingsMethode;
-            var gebruiker = this.gebruiker;
+            var gebruiker = this.gebruikerData;
             var nieuweWorkout: app.domain.ITrainingen;
             var nieuweWorkoutLijst = [];
             var refTrainingsMethodes = this.Ref.child('stamGegevens').child('trainingsMethodes').child(this.geselecteerdeTrainingsMethode.$id);
@@ -268,7 +269,7 @@ module app.controller {
                                             realisatie: false,
                                             oefeningId: oefening.oefeningId,
                                             oefeningOmschrijving: oefening.omschrijving,
-                                            userId: gebruiker.$id,
+                                            userId: authdata.uid,
                                             userVoornaam: gebruiker.voorNaam,
                                             userAchternaam: gebruiker.achterNaam,
                                             trainingsMethodeId: trainingsmethode.$id,
@@ -319,7 +320,7 @@ module app.controller {
             var data = angular.copy(this.trainingenOpslaanLijst);
             _(data).forEach(function(value) {
                 refUser.child('planning').push(value);
-                console.log(value);
+                //console.log(value);
             });
             //console.log(this.trainingenOpslaanLijst);
             //console.log(data);

@@ -1,0 +1,14 @@
+<!--<img src="images/Bench Press-52.png" />-->
+<div layout="row" layout-xs="column" layout-fill ng-show="!vm.toonWorkout">
+    <div ng-repeat="plan in vm.gebruikerPlanning" layout-fill layout-padding>
+        <md-button ng-click="vm.planSelecteren(plan)" flex="100" layout-fill class="md-raised">
+            Workout : {{plan.workoutNummer}}</br>{{plan.oefeningOmschrijving}}
+        </md-button>
+    </div>
+</div>
+
+ <md-content ng-show="vm.toonWorkout">
+    <h4>Datum workout</h4>
+    <md-datepicker ng-model="vm.datumWorkout" md-placeholder="datum"></md-datepicker>
+</md-content>
+<pre>{{vm.selectedWorkout | json}}</pre>

@@ -18,6 +18,7 @@
         'app.login',
         'app.stamgegevens',
         'app.trainen',
+        'app.trainingen',
         'app.workouts',
     ])
  .constant('_',window._);

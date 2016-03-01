@@ -11,7 +11,7 @@
         'app.firebase',
         'app.widgets',
         'app.admin',
-        'app.dashboard',
+        'app.overzichten',
         'app.gebruiker',
         'app.home',
         'app.layout',

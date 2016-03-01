@@ -26,11 +26,7 @@
                             return Auth.$waitForAuth();
                         }]
                     },
-                    title: 'trainen',
-                    settings: {
-                        nav: 25,
-                        content: '<i class="fa fa-thumbs-up"></i> Trainen'
-                    }
+                  
                 }
             }
         ];

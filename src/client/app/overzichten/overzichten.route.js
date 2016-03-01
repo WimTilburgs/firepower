@@ -1,8 +1,8 @@
-(function() {
+(function () {
     'use strict';
 
     angular
-        .module('app.trainingen')
+        .module('app.overzichten')
         .run(appRun);
 
     appRun.$inject = ['routerHelper'];
@@ -10,15 +10,16 @@
     function appRun(routerHelper) {
         routerHelper.configureStates(getStates());
     }
-
+    /* @ngInject */
+    getStates.$inject = ['Auth']
     function getStates(Auth) {
         return [
             {
-                state: 'trainingen',
+                state: 'overzichten',
                 config: {
-                    url: '/trainingen',
-                    templateUrl: 'app/trainingen/trainingen.html',
-                    controller: 'TrainingenController',
+                    url: '/overzichten',
+                    templateUrl: 'app/overzichten/overzichten.html',
+                    controller: 'OverzichtenController',
                     controllerAs: 'vm',
                     resolve: {
                         'currentAuth': ['Auth', function (Auth) {
@@ -26,11 +27,12 @@
                             return Auth.$waitForAuth();
                         }]
                     },
-                    title: 'trainen',
+                    title: 'overzichten',
                     settings: {
-                        nav: 25,
-                        content: '<i class="fa fa-thumbs-up"></i> Trainingen'
+                        nav: 30,
+                        content: '<i class="fa fa-dashboard"></i> Overzichten'
                     }
+
                 }
             }
         ];

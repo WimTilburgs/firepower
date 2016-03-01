@@ -25,9 +25,13 @@ var app;
                 }
                 else {
                     this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
+                    this.planning = this.fireData.getGebruikerPlanning(this.currentAuth);
                     this.gebruiker.$loaded().then(function (response) {
                         var arr = _.values(response.planning);
-                        TrainingenController.prototype.planning = arr;
+                        if (arr.length == 0) {
+                            //TrainingenController.prototype.ganaarWorkouts();
+                            return;
+                        }
                         var openWorkouts = [];
                         var openWorkoutsKlaar = [];
                         var uniekeWorkoutNummers = _.chain(arr).sortBy('workoutNummer').map(function (o) { return o.workoutNummer; }).uniq().value();
@@ -44,7 +48,7 @@ var app;
                         _.forEach(oefeningenOmschrijving, function (oefenOms, key) {
                             _.forEach(uniekeWorkoutNummers, function (woNum, key1) {
                                 //console.log('Workout ' + woNum + ' '+ oefenOms)
-                                var nieuw = _.filter(arr, { 'oefeningOmschrijving': oefenOms, 'workoutNummer': woNum });
+                                var nieuw = _.filter(arr, { 'oefeningOmschrijving': oefenOms, 'workoutNummer': woNum, 'realisatie': false });
                                 var oefId = _.map(nieuw, 'oefeningId');
                                 var a = { oefeningId: oefId[0], workoutNummer: woNum, oefeningOmschrijving: oefenOms, aantal: nieuw.length };
                                 //console.log(a);
@@ -70,9 +74,38 @@ var app;
             };
             TrainingenController.prototype.activate = function () {
             };
+            TrainingenController.prototype.ganaarWorkouts = function ($state) {
+                //$state.go('dashboard');
+            };
             TrainingenController.prototype.planSelecteren = function (plan) {
-                this.selectedWorkout = _.filter(this.planning, { workoutNummer: plan.workoutNummer, oefeningId: plan.oefeningId });
+                //console.log(this.planning);
+                this.selectedWorkout = _.filter(this.planning, {
+                    workoutNummer: plan.workoutNummer,
+                    oefeningId: plan.oefeningId,
+                    realisatie: false });
                 this.toonWorkout = true;
+            };
+            TrainingenController.prototype.aantalOmhoog = function (wo) {
+                wo.aantalReps++;
+            };
+            TrainingenController.prototype.aantalOmlaag = function (wo) {
+                wo.aantalReps--;
+            };
+            TrainingenController.prototype.setOpslaan = function (wo) {
+                var refWorkouts = this.Ref.child('workouts');
+                //refWorkouts.push(wo)
+                wo.datum = this.datumWorkout.getTime();
+                wo.realisatie = true;
+                var nieuweWorkout = new app.domain.Trainingen(wo.workoutNummer, wo.setNummer, wo.datum, wo.percentage, wo.aantalReps, wo.oefeningOrm, wo.gewicht, wo.repsFree, true, wo.oefeningId, wo.oefeningOmschrijving, wo.userId, wo.userVoornaam, wo.userAchternaam, wo.trainingsMethodeId, wo.trainingsMethodeOmschrijving, ' ');
+                refWorkouts.push(nieuweWorkout);
+                this.planning.$remove(wo);
+                this.selectedWorkout = _.filter(this.planning, {
+                    workoutNummer: wo.workoutNummer,
+                    oefeningId: wo.oefeningId,
+                    realisatie: false });
+                if (this.selectedWorkout.length == 0) {
+                    this.$state.go('overzichten');
+                }
             };
             TrainingenController.controllerId = 'TrainingenController';
             /* @ngInject */

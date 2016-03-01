@@ -46,6 +46,11 @@ module app.core {
             return this.$firebaseObject(this.ref.child('users').child(authData.uid));
         }
         
+        getGebruikerPlanning(authData): any {
+            return this.$firebaseArray(this.ref.child('users').child(authData.uid).child('planning'));
+        }
+        
+       
         getOefeningen(): any {
             return this.$firebaseArray(this.ref.child('oefeningen'));
         }

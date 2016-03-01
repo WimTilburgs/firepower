@@ -7,8 +7,42 @@
     </div>
 </div>
 
- <md-content ng-show="vm.toonWorkout">
+<md-content ng-show="vm.toonWorkout">
     <h4>Datum workout</h4>
     <md-datepicker ng-model="vm.datumWorkout" md-placeholder="datum"></md-datepicker>
+
+    <md-card ng-repeat="wo in vm.selectedWorkout" class="md-whiteframe-z2">
+
+        <md-subheader class="md-primary md-hue-1">{{wo.oefeningOmschrijving}} </md-subheader>
+      
+        <md-card-content>
+
+
+            <div layout="row" layout-align="space-between center">
+                <div>
+                    <span class="md-headline"> {{wo.gewicht}} kg   </span>
+                </div>
+
+                <div layout-align="center">
+                    <span ng-model="wo.aantalReps" class="md-display-1" style="color:darkred">{{wo.aantalReps}}</span>
+                </div>
+                <md-button class="md-fab md-primary" aria-label="set opslaan" ng-click="vm.setOpslaan(wo)">
+                    <i class="fa fa-floppy-o"></i>
+                    <md-tooltip md-direction="left ">
+                        Opslaan
+                    </md-tooltip>
+                </md-button>
+            </div>
+
+            <md-card-actions layout="row" layout-align="center" ng-show="wo.repsFree">
+                <md-button class="md-fab md-hue-2" aria-label="aantal omlaag" ng-click="vm.aantalOmlaag(wo)">
+                    <i class="fa fa-minus"></i>
+                </md-button>
+                <md-button class="md-fab md-primary md-hue-2" aria-label="aantal omhoog" ng-click="vm.aantalOmhoog(wo)">
+                    <i class="fa fa-plus"></i>
+                </md-button>
+            </md-card-actions>
+        </md-card-content>
+      
 </md-content>
-<pre>{{vm.selectedWorkout | json}}</pre>
+  <pre>{{vm.uitgevoerdeWorkout}}</pre>

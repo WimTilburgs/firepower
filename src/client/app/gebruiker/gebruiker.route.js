@@ -28,10 +28,10 @@
                         }]
                     },
                     title: 'gebruiker',
-                    // settings: {
-                    //     nav: 25,
-                    //     content: '<i class="fa fa-user"></i> Ik'
-                    // }
+                    settings: {
+                        nav: 22,
+                        content: '<i class="fa fa-user"></i> Ik'
+                    }
 
                 }
             }

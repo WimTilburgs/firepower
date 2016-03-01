@@ -27,10 +27,7 @@
                         }]
                     },
                     title: 'dashboard',
-                    settings: {
-                        nav: 30,
-                        content: '<i class="fa fa-dashboard"></i> Dashboard'
-                    }
+                    
                 }
             }
         ];

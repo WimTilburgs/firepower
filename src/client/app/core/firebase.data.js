@@ -22,6 +22,9 @@ var app;
             FireData.prototype.getGebruiker = function (authData) {
                 return this.$firebaseObject(this.ref.child('users').child(authData.uid));
             };
+            FireData.prototype.getGebruikerPlanning = function (authData) {
+                return this.$firebaseArray(this.ref.child('users').child(authData.uid).child('planning'));
+            };
             FireData.prototype.getOefeningen = function () {
                 return this.$firebaseArray(this.ref.child('oefeningen'));
             };

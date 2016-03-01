@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.dashboard')
+        .module('app.home')
         .run(appRun);
 
     appRun.$inject = ['routerHelper'];
@@ -22,7 +22,7 @@
                     controllerAs: 'vm',
                     title: 'home',
                     settings: {
-                        nav: 20,
+                        nav: 10,
                         content: '<i class="fa fa-home"></i> Home'
                     }
                 }

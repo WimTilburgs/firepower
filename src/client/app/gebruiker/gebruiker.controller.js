@@ -29,7 +29,7 @@ var app;
                     else {
                         testGebruiker = snapshot.val();
                     }
-                    console.log(snapshot.val());
+                    //console.log(snapshot.val());
                     //Workouts.prototype.gebruiker = snapshot.val();
                     // testGebruiker = snapshot.val();  
                 }, function (errorObject) {
@@ -37,7 +37,9 @@ var app;
                     return;
                 });
                 if (testGebruiker == null) {
-                    this.userOpslaan();
+                    //this.userOpslaan();
+                    this.makeUser(this.currentAuth);
+                    console.log(this.currentAuth);
                 }
                 this.activate();
             };
@@ -49,6 +51,38 @@ var app;
                 });
             };
             Gebruiker.prototype.activate = function () {
+            };
+            Gebruiker.prototype.makeUser = function (data) {
+                var _achterNaam;
+                var _email;
+                var _voorNaam;
+                var x = data;
+                //alert(x.achterNaam)
+                switch (x.provider) {
+                    case 'password':
+                        _achterNaam = '';
+                        _voorNaam = '';
+                        _email = x.password.email;
+                        break;
+                    case 'facebook':
+                        _achterNaam = x.facebook.cachedUserProfile.last_name;
+                        _voorNaam = x.facebook.cachedUserProfile.first_name;
+                        _email = x.facebook.cachedUserProfile.email;
+                        break;
+                    case 'google':
+                        _achterNaam = x.google.cachedUserProfile.family_name;
+                        _voorNaam = x.google.cachedUserProfile.given_name;
+                        _email = '';
+                        break;
+                    default:
+                        break;
+                }
+                this.Ref.child('users').child(this.currentAuth.uid).child("data").update({
+                    'voorNaam': _voorNaam,
+                    'achterNaam': _achterNaam,
+                    'email': _email
+                });
+                //this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
             };
             Gebruiker.controllerId = 'Gebruiker';
             /* @ngInject */

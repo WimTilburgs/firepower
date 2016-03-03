@@ -302,6 +302,7 @@ module app.controller {
         uniekeWorkoutNummers = [];
         uniekeOefingOmschrijvingen = [];
         groepeerWorkouts(lijst): void {
+            
             Workouts.prototype.schemaGegroepeerdPerWorkout = _.chain(lijst)
                 //.groupBy("oefeningOmschrijving")
                 .groupBy("workoutNummer")

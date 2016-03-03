@@ -70,6 +70,9 @@ var app;
             FireData.prototype.getTrainingsSchemas = function () {
                 return this.$firebaseArray(this.ref.child('trainingsSchemas'));
             };
+            FireData.prototype.getTrainingenPerGebruiker = function (gebruikerId) {
+                return this.$firebaseArray(this.ref.child('workouts').orderByChild('userId').equalTo(gebruikerId));
+            };
             /* @ngInject */
             FireData.$inject = ['logger',
                 '$window',

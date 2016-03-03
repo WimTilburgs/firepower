@@ -104,6 +104,11 @@ module app.core {
         getTrainingsSchemas(): any {
             return this.$firebaseArray(this.ref.child('trainingsSchemas'));
         }
+        
+        getTrainingenPerGebruiker(gebruikerId) {
+            return this.$firebaseArray(this.ref.child('workouts').orderByChild('userId').equalTo(gebruikerId));
+        }
+        
 
 
     }

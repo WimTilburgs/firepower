@@ -1,0 +1,46 @@
+<md-dialog flex="66" aria-label="Wijzig set" ng-cloak>
+
+    <form ng-submit="vm.wijzig()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Wijzig set  </h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-svg-src="images/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div layout="column">
+                <div layout-align="space-around none">
+                    <div>
+                        <h4>Datum workout</h4>
+                        <md-datepicker ng-model="vm.datumWorkout" md-placeholder="datum"></md-datepicker>
+                    </div>
+                    <br />
+                    <div layout="row" layout-align="center center">
+                        <md-input-container class="md-block">
+                            <label>Aantal reps</label>
+                            <input type="number" ng-model="vm.geselecteerdeTrainingSet.aantalReps " />
+                        </md-input-container>
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <md-input-container class="md-block">
+                            <label>Gewicht</label>
+                            <input type="number" step="0.5" ng-model="vm.geselecteerdeTrainingSet.gewicht " />
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row" layout-align="end end">
+                    <md-button class="md-icon-button" ng-click="vm.wijzig()">
+                        <md-icon md-svg-src="images/icons/ic_save_black_24px.svg" aria-label="Save"></md-icon>
+                        <md-tooltip md-direction="top ">
+                            Opslaan
+                        </md-tooltip>
+                    </md-button>
+                </div>
+            </div>
+        </md-dialog-content>
+    </form>
+
+</md-dialog>

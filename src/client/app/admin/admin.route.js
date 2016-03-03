@@ -21,10 +21,10 @@
                     controller: 'AdminController',
                     controllerAs: 'vm',
                     title: 'tijdelijk',
-                    // settings: {
-                    //     nav: 150,
-                    //     content: '<i class="fa fa-lock"></i> tijdelijk'
-                    // },
+                    settings: {
+                        nav: 150,
+                        content: '<i class="fa fa-lock"></i> tijdelijk'
+                    },
                     authenticate: true
                 }
             }

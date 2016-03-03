@@ -1,9 +1,10 @@
 ///<reference path="../../../../typings/tsd.d.ts"/>
-(function () {
-    'use strict';
+
+
     angular
         .module('app.admin')
         .controller('AdminController', AdminController);
+
     AdminController.$inject = ['logger', '_', 'firebaseData', 'uiGridConstants', '$state', 'blogic'];
     /* @ngInject */
     function AdminController(logger, _, firebaseData, uiGridConstants, $state, blogic) {
@@ -12,19 +13,24 @@
         //vm.trainingen = firebaseData.getTrainingenPerGebruiker('cor.roos@chello.nl');
         vm.trainingen = firebaseData.getTrainingenPerGebruiker('wim3025@hotmail.com');
         vm.authData = firebaseData.getAuthGegevens;
+
         activate();
+
         function activate() {
+            
             logger.info('Activated Admin View');
             vm.trainingen.$loaded(function () {
+                
                 //alert(vm.trainingen.length)
-                var geg = vm.trainingen;
+                var geg = vm.trainingen
+                
                 // for (var teller in geg) {
                 //     geg[teller].fireUid = vm.authData.uid;
                 //     vm.trainingen.$save(geg[teller]);
                 //     console.log(vm.authData)
                 // }
                 //vm.trainingen.$save();
-            });
+            })
         }
     }
-})();
+

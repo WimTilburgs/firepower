@@ -4,7 +4,7 @@ var app;
     var controller;
     (function (controller) {
         var OverzichtenController = (function () {
-            function OverzichtenController(logger, $state, currentAuth, _, fireData, Ref, $mdDialog, $scope) {
+            function OverzichtenController(logger, $state, currentAuth, _, fireData, Ref, $mdDialog, $scope, blogic) {
                 this.logger = logger;
                 this.$state = $state;
                 this.currentAuth = currentAuth;
@@ -13,6 +13,7 @@ var app;
                 this.Ref = Ref;
                 this.$mdDialog = $mdDialog;
                 this.$scope = $scope;
+                this.blogic = blogic;
                 this.init();
             }
             OverzichtenController.prototype.init = function () {
@@ -21,9 +22,24 @@ var app;
                     this.$state.go('login');
                 }
                 this.trainingenPerGebruiker = this.fireData.getTrainingenPerGebruiker(this.currentAuth.uid);
+                this.trainingenPerGebruiker.$loaded(function (response) {
+                    var temp = _.orderBy(response, ['datum', 'oefeningOmschrijving', 'workoutNummer', 'setNummer'], ['desc']);
+                    //console.log(temp);
+                    OverzichtenController.prototype.trainingenPerGebruikerGeselecteerd = temp;
+                    //OverzichtenController.prototype.getRecords(response)
+                });
                 this.activate();
             };
             OverzichtenController.prototype.activate = function () {
+            };
+            OverzichtenController.prototype.openTrainingen = function () {
+                this.$state.go('overzichten.trainingen');
+            };
+            OverzichtenController.prototype.openRecords = function () {
+                this.$state.go('overzichten.records');
+            };
+            OverzichtenController.prototype.getRecords = function (gebruikerTrainingen) {
+                this.recordsPerGebruiker = this.blogic.haalRecords(this.trainingenPerGebruiker);
             };
             OverzichtenController.prototype.cancel = function () {
                 this.geselecteerdeTrainingSet.aantalReps = this.aantalRepsTijdelijk;
@@ -48,12 +64,12 @@ var app;
                     templateUrl: 'app/overzichten/wijzigDialoog.tmpl.html',
                     parent: angular.element(document.body),
                     clickOutsideToClose: true,
-                })
-                    .then(function (answer) {
-                    this.status = 'You said the information was "' + answer + '".';
-                }, function () {
-                    this.status = 'You cancelled the dialog.';
                 });
+                // .then(function(answer) {
+                //     this.status = 'You said the information was "' + answer + '".';
+                // }, function() {
+                //     this.status = 'You cancelled the dialog.';
+                // });
                 // $scope.$watch(function() {
                 //   return $mdMedia('xs') || $mdMedia('sm');
                 // }, function(wantsFullScreen) {
@@ -71,7 +87,8 @@ var app;
                 'fireData',
                 'Ref',
                 '$mdDialog',
-                '$scope'
+                '$scope',
+                'blogic'
             ];
             return OverzichtenController;
         })();

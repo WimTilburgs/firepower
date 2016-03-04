@@ -28,7 +28,7 @@ module app.domain {
 
             public workoutNummer: number,
             public setNummer: number,
-            public datum: string,
+            public datum: any,
             public percentage: number,
             public aantalReps: number,
             public oefeningOrm: number,

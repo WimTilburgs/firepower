@@ -94,6 +94,7 @@ var app;
             TrainingenController.prototype.setOpslaan = function (wo) {
                 var refWorkouts = this.Ref.child('workouts');
                 //refWorkouts.push(wo)
+                this.datumWorkout.setHours(0, 0, 0, 0);
                 wo.datum = this.datumWorkout.getTime();
                 wo.realisatie = true;
                 var nieuweWorkout = new app.domain.Trainingen(wo.workoutNummer, wo.setNummer, wo.datum, wo.percentage, wo.aantalReps, wo.oefeningOrm, wo.gewicht, wo.repsFree, true, wo.oefeningId, wo.oefeningOmschrijving, wo.userId, wo.userVoornaam, wo.userAchternaam, wo.trainingsMethodeId, wo.trainingsMethodeOmschrijving, ' ');

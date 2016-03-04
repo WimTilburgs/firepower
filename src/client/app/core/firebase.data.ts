@@ -109,7 +109,11 @@ module app.core {
             return this.$firebaseArray(this.ref.child('workouts').orderByChild('userId').equalTo(gebruikerId));
         }
         
-
+        haalRecords(trainingen){
+            console.log(trainingen);
+            var records = 23
+            return records;
+        }
 
     }
     angular

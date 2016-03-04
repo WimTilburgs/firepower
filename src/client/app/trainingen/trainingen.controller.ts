@@ -133,6 +133,7 @@ module app.controller {
         setOpslaan(wo):void{
             var refWorkouts = this.Ref.child('workouts');
             //refWorkouts.push(wo)
+            this.datumWorkout.setHours(0,0,0,0);
             wo.datum = this.datumWorkout.getTime();
             wo.realisatie = true;
            var nieuweWorkout = new app.domain.Trainingen(

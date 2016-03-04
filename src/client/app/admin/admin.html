@@ -1,26 +1,8 @@
-<section class="mainbar">
-    <section class="matter">
-        <div class="container">
-             <div class="row">
-              
-                <div class="col-md-12">
-                    <div class="widget wgreen">
-                        <div ht-widget-header title=Metingen"
-                             allow-collapse="true"></div>
-                        <div class="widget-content text-center text-info">
-                            <h3>Oefeningen</h3>
-                            <pre>{{vm.authData}}</pre>
-                            <pre>{{vm.trainingen}}</pre>
-                        </div>
-                        <div class="widget-foot">
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            
-          
-        </div>
-    </section>
-</section>
+<h3>{{vm.title}}</h3>
+<md-button ng-click="vm.haalTrainingen()">HaalTrainingen</md-button>
+<br/>
+<md-button ng-click="vm.converteerTrainingen()">Conversie</md-button>
+
+<pre>{{vm.oudeTrainingen | json }}</pre>
+<pre>{{vm.conversieTrainingen | json }}</pre>
+<pre>{{vm.authData}}</pre>

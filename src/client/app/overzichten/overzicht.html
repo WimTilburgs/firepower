@@ -1,0 +1,42 @@
+<md-content>
+    <br>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <!--<md-button class="md-icon-button" aria-label="Settings">
+          <md-icon md-svg-icon="images/icons/menu.svg"></md-icon>
+        </md-button>-->
+            <h2>
+          <span>Overzichten</span>
+        </h2>
+            <span flex></span>
+            <!--<md-button class="md-icon-button" aria-label="Favorite">
+          <md-icon md-svg-icon="img/icons/favorite.svg" style="color: greenyellow;"></md-icon>
+        </md-button>
+      
+         <md-button class="md-icon-button" aria-label="Settings">
+          <md-icon md-svg-icon="images/icons/ic_menu_24px.svg"></md-icon>
+        </md-button>-->
+            <md-menu md-offset="0 -7">
+                <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="More">
+                    <md-icon md-svg-icon="images/icons/ic_more_vert_24px.svg"></md-icon>
+                </md-button>
+                <md-menu-content width="4">
+
+                    <md-menu-item>
+                        <md-button ng-click="vm.openTrainingen()">
+                            Trainingen
+                           
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.openRecords()">
+                           Records
+                            
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+
+        </div>
+    </md-toolbar>
+    <div ui-view></div>
+</md-content>

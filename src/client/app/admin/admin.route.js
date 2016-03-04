@@ -11,7 +11,7 @@
         routerHelper.configureStates(getStates());
     }
 
-    function getStates() {
+    function getStates(Auth) {
         return [
             {
                 state: 'admin',
@@ -20,12 +20,18 @@
                     templateUrl: 'app/admin/admin.html',
                     controller: 'AdminController',
                     controllerAs: 'vm',
-                    title: 'tijdelijk',
-                    settings: {
-                        nav: 150,
-                        content: '<i class="fa fa-lock"></i> tijdelijk'
+                    
+                    resolve: {
+                        'currentAuth': ['Auth', function (Auth) {
+
+                            return Auth.$waitForAuth();
+                        }]
                     },
-                    authenticate: true
+                    title: 'tijdelijk',
+                    // settings: {
+                    //     nav: 150,
+                    //     content: '<i class="fa fa-lock"></i> tijdelijk'
+                    // }
                 }
             }
         ];

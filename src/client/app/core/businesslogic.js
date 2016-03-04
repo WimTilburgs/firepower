@@ -10,6 +10,7 @@
         //var _ = window._;
         var service = {
             getRecords: getRecords,
+            haalRecords: haalRecords,
             getOpenstaandeWorkouts: getOpenstaandeWorkouts
         };
         return service;
@@ -32,6 +33,12 @@
                     //console.log(gegPerOefening2);
                 });
             });
+            return records;
+        }
+        
+        function haalRecords(trainingen){
+            console.log(trainingen);
+            var records = 23
             return records;
         }
 

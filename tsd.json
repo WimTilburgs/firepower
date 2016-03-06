@@ -9,13 +9,16 @@
       "commit": "5d0f2126c8dac8fce0ff020218aea06607213b0d"
     },
     "angularjs/angular.d.ts": {
-      "commit": "5d0f2126c8dac8fce0ff020218aea06607213b0d"
+      "commit": "9f0f926a12026287b5a4a229e5672c01e7549313"
     },
     "jquery/jquery.d.ts": {
-      "commit": "5d0f2126c8dac8fce0ff020218aea06607213b0d"
+      "commit": "9f0f926a12026287b5a4a229e5672c01e7549313"
     },
     "firebase/firebase.d.ts": {
       "commit": "95433230a9913054c57c715e6b91a9ae738d0b97"
+    },
+    "angular-material/angular-material.d.ts": {
+      "commit": "9f0f926a12026287b5a4a229e5672c01e7549313"
     }
   }
 }

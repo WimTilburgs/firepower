@@ -1,3 +1,20 @@
+   <h3>{{ vm.selected | uppercase }}</h3>
+
+
+
+    <md-radio-group ng-model="vm.selected" ng-click="vm.raportKeuze(vm.selected)">
+        <md-radio-button value="records"> Records </md-radio-button>
+        <md-radio-button value="trainingen" class="md-primary">Trainingen</md-radio-button>
+    </md-radio-group>
+    <div ng-show="vm.toonTrainingen">
+        <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="vm.cbAmrap" class="md-primary" ng-click="vm.amrapToggle(vm.cbAmrap)">
+            <span>Toon alleen de Amrap sets.</span>
+        </md-checkbox>
+        <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="vm.cbTop" class="md-primary" ng-click="vm.topSetToggle(vm.cbTop)">
+            <span>Toon alleen de 95% sets.</span>
+        </md-checkbox>
+    </div>
+  
   <md-list>
         <md-subheader class="md-no-sticky">Klik om te wijzigen</md-subheader>
         <div layout="row" layout-align="space-between center" flex="80">
@@ -9,7 +26,16 @@
             <p>1RepMax</p>
         </div>
 
-        <md-list-item ng-repeat="training in vm.trainingenPerGebruikerGeselecteerd" ng-click="vm.setWijzigen(training)">
+        <md-list-item ng-show="vm.toonTrainingen" ng-repeat="training in vm.trainingenPerGebruikerGeselecteerd | filter: vm.myFilter" ng-click="vm.setWijzigen(training)">
+            <p>{{ training.datum | date }}</p>
+            <p> {{ training.oefeningOmschrijving}}</p>
+            <p> {{ training.gewicht | number:1}} kg</p>
+            <p> {{ training.aantalReps }}</p>
+            <p>{{(training.gewicht*(training.aantalReps*0.033+1)) | number:0}}</p>
+            <!--<p>{{training.oefeningOrm}}</p>-->
+        </md-list-item>
+        
+        <md-list-item ng-show="!vm.toonTrainingen" ng-repeat="training in vm.recordsPerGebruiker" ng-click="vm.setWijzigen(training)">
             <p>{{ training.datum | date }}</p>
             <p> {{ training.oefeningOmschrijving}}</p>
             <p> {{ training.gewicht | number:1}} kg</p>

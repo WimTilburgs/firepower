@@ -1,0 +1,24 @@
+<md-list flex>
+
+
+    <md-subheader class="md-no-sticky">Klik om te wijzigen</md-subheader>
+
+
+    <md-list-item ng-repeat="training in vm.trainingenPerGebruikerGeselecteerd" ng-click="vm.setWijzigen(training)" class="md-3-line">
+
+
+        <div class="md-list-item-text" layout="column">
+            <h3> {{ training.oefeningOmschrijving}} </h3>
+            <h4>{{ training.datum | date }}</h4>
+
+            <div>
+                <div layout="row" layout-align="space-between center">
+                    <p>Gewicht : {{ training.gewicht | number:1}} kg</p>
+                    <p>Aantal reps {{ training.aantalReps }}</p>
+                    <p>1Rep max {{(training.gewicht*(training.aantalReps*0.033+1)) | number:0}}</p>
+                </div>
+            </div>
+        </div>
+        <!--<p>{{training.oefeningOrm}}</p>-->
+    </md-list-item>
+</md-list>

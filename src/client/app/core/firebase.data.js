@@ -73,11 +73,6 @@ var app;
             FireData.prototype.getTrainingenPerGebruiker = function (gebruikerId) {
                 return this.$firebaseArray(this.ref.child('workouts').orderByChild('userId').equalTo(gebruikerId));
             };
-            FireData.prototype.haalRecords = function (trainingen) {
-                console.log(trainingen);
-                var records = 23;
-                return records;
-            };
             /* @ngInject */
             FireData.$inject = ['logger',
                 '$window',

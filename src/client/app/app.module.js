@@ -4,6 +4,7 @@
     angular.module('app', [
         'ngMaterial',
         'ngMessages',
+        'md.data.table',
         'ui.grid',
         'ui.grid.edit',
         'ui.bootstrap',

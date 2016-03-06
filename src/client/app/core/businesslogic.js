@@ -37,8 +37,24 @@
         }
         
         function haalRecords(trainingen){
-            console.log(trainingen);
-            var records = 23
+            var geg = trainingen;
+            var oefeningen;
+             var records = [];
+            //geg = _.filter(geg, { 'repsFree': true });
+            oefeningen = _.chain(geg).sortBy('oefeningId').map(function(o) { return o.oefeningId }).uniq().value();
+            _.forEach(oefeningen,function(value,key){
+                var gegPerOefening = _.filter(geg, { 'oefeningId': value ,'repsFree': true});
+                 gegPerOefening = _.orderBy(gegPerOefening, ['gewicht', 'aantalReps'], ['desc', 'desc']);
+                var gewichtenPerOefening = _.chain(gegPerOefening).orderBy(['gewicht'], ['desc']).map(function (o) { return o.gewicht }).uniq().value();
+                //console.log(gewichtenPerOefening);
+               _.forEach(gewichtenPerOefening, function (value, key) {
+                    var gegPerOefening2 = _.filter(gegPerOefening, { 'gewicht': value });
+
+                    records.push(gegPerOefening2[0]);
+                    //console.log(value);
+                    //console.log(gegPerOefening2);
+                });
+            });
             return records;
         }
 

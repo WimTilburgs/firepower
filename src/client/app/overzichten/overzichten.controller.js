@@ -14,6 +14,11 @@ var app;
                 this.$mdDialog = $mdDialog;
                 this.$scope = $scope;
                 this.blogic = blogic;
+                this.toonTrainingen = true;
+                this.selected = 'trainingen';
+                this.cbAmrap = false;
+                this.cbTop = false;
+                this.cbTrainingen = false;
                 this.init();
             }
             OverzichtenController.prototype.init = function () {
@@ -22,15 +27,59 @@ var app;
                     this.$state.go('login');
                 }
                 this.trainingenPerGebruiker = this.fireData.getTrainingenPerGebruiker(this.currentAuth.uid);
+                this.activate();
+            };
+            OverzichtenController.prototype.activate = function () {
                 this.trainingenPerGebruiker.$loaded(function (response) {
                     var temp = _.orderBy(response, ['datum', 'oefeningOmschrijving', 'workoutNummer', 'setNummer'], ['desc']);
                     //console.log(temp);
                     OverzichtenController.prototype.trainingenPerGebruikerGeselecteerd = temp;
-                    //OverzichtenController.prototype.getRecords(response)
+                    //this.recordsPerGebruiker = OverzichtenController.prototype.blogic.haalRecords(this.trainingenPerGebruiker);
+                    //console.log(this.recordsPerGebruiker);
                 });
-                this.activate();
             };
-            OverzichtenController.prototype.activate = function () {
+            OverzichtenController.prototype.raportKeuze = function (data) {
+                if (data == 'trainingen') {
+                    this.toonTrainingen = true;
+                }
+                else {
+                    this.toonTrainingen = false;
+                    this.recordsPerGebruiker = this.blogic.haalRecords(this.trainingenPerGebruiker);
+                }
+            };
+            OverzichtenController.prototype.getRecords = function (selected) {
+                this.cbTrainingen = true;
+                this.toonTrainingen = false;
+                this.cbAmrap = false;
+                this.cbTop = false;
+                this.recordsPerGebruiker = this.blogic.haalRecords(this.trainingenPerGebruiker);
+                // if (!selected) {
+                //    this.toonTrainingen = false;
+                // } else {
+                //     this.toonTrainingen = true;
+                // }
+            };
+            OverzichtenController.prototype.amrapToggle = function (selected) {
+                this.toonTrainingen = true;
+                this.cbTop = false;
+                this.cbTrainingen = false;
+                if (!selected) {
+                    this.myFilter = { 'repsFree': true };
+                }
+                else {
+                    this.myFilter = {};
+                }
+            };
+            OverzichtenController.prototype.topSetToggle = function (selected) {
+                this.toonTrainingen = true;
+                this.cbAmrap = false;
+                this.cbTrainingen = false;
+                if (!selected) {
+                    this.myFilter = { 'percentage': 95 };
+                }
+                else {
+                    this.myFilter = {};
+                }
             };
             OverzichtenController.prototype.openTrainingen = function () {
                 this.$state.go('overzichten.trainingen');
@@ -38,8 +87,8 @@ var app;
             OverzichtenController.prototype.openRecords = function () {
                 this.$state.go('overzichten.records');
             };
-            OverzichtenController.prototype.getRecords = function (gebruikerTrainingen) {
-                this.recordsPerGebruiker = this.blogic.haalRecords(this.trainingenPerGebruiker);
+            OverzichtenController.prototype.openTrainingenMob = function () {
+                this.$state.go('overzichten.trainingenmob');
             };
             OverzichtenController.prototype.cancel = function () {
                 this.geselecteerdeTrainingSet.aantalReps = this.aantalRepsTijdelijk;

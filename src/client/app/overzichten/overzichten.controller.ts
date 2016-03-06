@@ -5,6 +5,8 @@ module app.controller {
     class OverzichtenController {
         static controllerId = 'OverzichtenController';
         title: string;
+        toonTrainingen: boolean = true;
+        selected= 'trainingen';
         trainingenPerGebruiker: any;
         trainingenPerGebruikerGeselecteerd: any;
         recordsPerGebruiker: any;
@@ -13,6 +15,10 @@ module app.controller {
         aantalRepsTijdelijk: number;
         gewichtTijdelijk: number;
         datumWorkout;
+        myFilter: any; //= {'repsFree':true};
+        cbAmrap = false;
+        cbTop = false;
+        cbTrainingen = false;
         //user: app.domain.IUser;
        
        
@@ -50,13 +56,7 @@ module app.controller {
                 this.$state.go('login');
             }
             this.trainingenPerGebruiker = this.fireData.getTrainingenPerGebruiker(this.currentAuth.uid);
-            this.trainingenPerGebruiker.$loaded(function(response) {
-                var temp = _.orderBy(response, ['datum', 'oefeningOmschrijving', 'workoutNummer', 'setNummer'], ['desc']);
-                //console.log(temp);
-                OverzichtenController.prototype.trainingenPerGebruikerGeselecteerd = temp;
-                //OverzichtenController.prototype.getRecords(response)
 
-            })
 
 
             this.activate();
@@ -66,19 +66,74 @@ module app.controller {
 
 
         activate(): void {
+            this.trainingenPerGebruiker.$loaded(function(response) {
+                var temp = _.orderBy(response, ['datum', 'oefeningOmschrijving', 'workoutNummer', 'setNummer'], ['desc']);
+                //console.log(temp);
+                OverzichtenController.prototype.trainingenPerGebruikerGeselecteerd = temp;
+                
+                //this.recordsPerGebruiker = OverzichtenController.prototype.blogic.haalRecords(this.trainingenPerGebruiker);
+                //console.log(this.recordsPerGebruiker);
+            })
 
+        }
+        
+        raportKeuze(data){
+            if(data == 'trainingen'){
+                this.toonTrainingen = true;
+            } else {
+                this.toonTrainingen = false;
+                 this.recordsPerGebruiker = this.blogic.haalRecords(this.trainingenPerGebruiker);
+            }
+           
+        }
+
+        getRecords(selected): void {
+            this.cbTrainingen = true;
+            this.toonTrainingen = false;
+            
+            this.cbAmrap = false;
+            this.cbTop = false;
+            this.recordsPerGebruiker = this.blogic.haalRecords(this.trainingenPerGebruiker);
+            // if (!selected) {
+            //    this.toonTrainingen = false;
+            // } else {
+            //     this.toonTrainingen = true;
+            // }
+        }
+
+        amrapToggle(selected): void {
+            this.toonTrainingen = true;
+            this.cbTop = false;
+            this.cbTrainingen = false;
+            if (!selected) {
+                this.myFilter = { 'repsFree': true };
+            } else {
+                this.myFilter = {};
+            }
+        }
+
+        topSetToggle(selected): void {
+            this.toonTrainingen = true;
+            this.cbAmrap = false;
+            this.cbTrainingen = false;
+            if (!selected) {
+                this.myFilter = { 'percentage': 95 };
+            } else {
+                this.myFilter = {};
+            }
         }
 
         openTrainingen(): void {
-            this.$state.go('overzichten.trainingen')
+            this.$state.go('overzichten.trainingen');
         }
 
         openRecords(): void {
             this.$state.go('overzichten.records')
         }
 
-        getRecords(gebruikerTrainingen): void {
-             this.recordsPerGebruiker = this.blogic.haalRecords(this.trainingenPerGebruiker)
+        openTrainingenMob(): void {
+            this.$state.go('overzichten.trainingenmob');
+
         }
 
         cancel(): void {
@@ -94,7 +149,7 @@ module app.controller {
         }
 
         setWijzigen(training): void {
-           
+
             this.geselecteerdeTrainingSet = training;
             this.aantalRepsTijdelijk = training.aantalReps;
             this.gewichtTijdelijk = training.gewicht;

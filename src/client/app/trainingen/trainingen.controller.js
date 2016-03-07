@@ -4,7 +4,7 @@ var app;
     var controller;
     (function (controller) {
         var TrainingenController = (function () {
-            function TrainingenController(logger, $state, currentAuth, _, fireData, Ref, $mdDialog) {
+            function TrainingenController(logger, $state, currentAuth, _, fireData, Ref, $mdDialog, blogic) {
                 this.logger = logger;
                 this.$state = $state;
                 this.currentAuth = currentAuth;
@@ -12,6 +12,7 @@ var app;
                 this.fireData = fireData;
                 this.Ref = Ref;
                 this.$mdDialog = $mdDialog;
+                this.blogic = blogic;
                 this.datumWorkout = new Date();
                 this.toonWorkout = false;
                 this.init();
@@ -24,6 +25,7 @@ var app;
                     return;
                 }
                 else {
+                    this.trainingenPerGebruiker = this.fireData.getTrainingenPerGebruiker(this.currentAuth.uid);
                     this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
                     this.planning = this.fireData.getGebruikerPlanning(this.currentAuth);
                     this.gebruiker.$loaded().then(function (response) {
@@ -73,6 +75,22 @@ var app;
                 this.activate();
             };
             TrainingenController.prototype.activate = function () {
+                var bl = this.blogic;
+                var tr = this.trainingenPerGebruiker;
+                this.trainingenPerGebruiker.$loaded(function () {
+                    console.log(tr);
+                    TrainingenController.prototype.records = bl.haalRecords(tr);
+                    console.log(TrainingenController.prototype.records);
+                });
+            };
+            TrainingenController.prototype.getRecordAantal = function (oefeningId, gewicht) {
+                var record = _.filter(this.records, { 'oefeningId': oefeningId, 'gewicht': gewicht });
+                var mapped = _.map(record, 'aantalReps');
+                var aantal = mapped[0];
+                if (record.length > 0) {
+                    return 'Huidige record aantal ' + aantal;
+                }
+                return 'Nog geen record aantal reps bij dit gewicht.';
             };
             TrainingenController.prototype.ganaarWorkouts = function ($state) {
                 //$state.go('dashboard');
@@ -116,7 +134,8 @@ var app;
                 '_',
                 'fireData',
                 'Ref',
-                '$mdDialog'
+                '$mdDialog',
+                'blogic'
             ];
             return TrainingenController;
         })();

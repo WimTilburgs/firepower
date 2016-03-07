@@ -13,9 +13,10 @@ module app.controller {
         gebruikerPlanning: any;
         selectedWorkout: any;
         planning: any
-
+        trainingenPerGebruiker: any;
         toonWorkout: boolean = false;
-       
+       records: any;
+       recordAantal: any;
         
         /* @ngInject */
         static $inject = ['logger',
@@ -24,7 +25,8 @@ module app.controller {
             '_',
             'fireData',
             'Ref',
-            '$mdDialog'
+            '$mdDialog',
+            'blogic'
 
         ];
         constructor(
@@ -35,7 +37,8 @@ module app.controller {
             private _: any,
             private fireData: app.core.FireData,
             private Ref,
-            private $mdDialog
+            private $mdDialog,
+            private blogic
 
         ) {
             this.init();
@@ -50,7 +53,7 @@ module app.controller {
             if (!this.currentAuth) {
                 return;
             } else {
-
+                this.trainingenPerGebruiker = this.fireData.getTrainingenPerGebruiker(this.currentAuth.uid);
                 this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
                 this.planning = this.fireData.getGebruikerPlanning(this.currentAuth)
                 this.gebruiker.$loaded().then(function(response) {
@@ -105,8 +108,24 @@ module app.controller {
         }
 
         activate(): void {
-
-
+            var bl = this.blogic;
+            var tr = this.trainingenPerGebruiker;
+             this.trainingenPerGebruiker.$loaded(function(){
+                 console.log(tr);
+                TrainingenController.prototype.records = bl.haalRecords(tr);
+                console.log(TrainingenController.prototype.records);
+             })
+             
+        }
+        
+        getRecordAantal(oefeningId, gewicht) {
+            var record = _.filter(this.records, { 'oefeningId': oefeningId, 'gewicht': gewicht });
+            var mapped = _.map(record, 'aantalReps');
+            var aantal = mapped[0];
+            if (record.length > 0) {
+                return 'Huidige record aantal ' + aantal;
+            }
+            return 'Nog geen record aantal reps bij dit gewicht.';
         }
         
         ganaarWorkouts($state): void{

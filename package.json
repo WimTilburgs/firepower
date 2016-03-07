@@ -1,6 +1,6 @@
 {
   "name": "powertowel",
-  "description": "powertowel Project Generated from HotTowel Angular",
+  "description": "FirePower Project Generated from HotTowel Angular",
   "version": "0.0.0",
   "scripts": {
     "init": "npm install",

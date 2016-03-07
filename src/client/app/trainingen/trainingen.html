@@ -13,7 +13,7 @@
 
     <md-card ng-repeat="wo in vm.selectedWorkout" class="md-whiteframe-z2">
 
-        <md-subheader class="md-primary md-hue-1">{{wo.oefeningOmschrijving}} </md-subheader>
+        <md-subheader class="md-primary md-hue-1">{{wo.oefeningOmschrijving}} record : {{vm.getRecordAantal(wo.oefeningId,wo.gewicht)}}</md-subheader>
       
         <md-card-content>
 

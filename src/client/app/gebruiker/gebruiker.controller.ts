@@ -8,7 +8,8 @@ module app.controller {
         static controllerId = 'Gebruiker';
         title: string;
         user: app.domain.IUser;
-       
+        imagePath: string = "images/Bench Press-52.png"
+      
        
         /* @ngInject */
         static $inject = ['logger',
@@ -45,6 +46,7 @@ module app.controller {
                 } else {
                     testGebruiker = snapshot.val();
                 }
+                Gebruiker.prototype.user = testGebruiker;
                 //console.log(snapshot.val());
                 //Workouts.prototype.gebruiker = snapshot.val();
                 // testGebruiker = snapshot.val();  
@@ -56,7 +58,7 @@ module app.controller {
             if (testGebruiker == null) {
                 //this.userOpslaan();
                 this.makeUser(this.currentAuth);
-                console.log(this.currentAuth);
+                //console.log(this.currentAuth);
             }
 
 
@@ -117,7 +119,7 @@ module app.controller {
                     'achterNaam': _achterNaam,
                     'email': _email
                 });
-           //this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+           this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
         }
     }
 

@@ -18,7 +18,7 @@
                 state: 'overzichten',
                 config: {
                     url: '/overzichten',
-                    templateUrl: 'app/overzichten/overzicht.html',
+                    templateUrl: 'app/overzichten/overzichten.html',
                     controller: 'OverzichtenController',
                     controllerAs: 'vm',
                     resolve: {

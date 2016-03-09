@@ -1,49 +1,46 @@
-<md-content>
-    <md-toolbar class="md-warn">
-        <div class="md-toolbar-tools">
-            <h2 class="md-flex">{{vm.title}}</h2>
-        </div>
-        <md-menu md-offset="0 -7">
-            <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
-                <i class="fa fa-bars"></i>
-            </md-button>
-            <md-menu-content width="4">
+ <h3>{{ vm.selected | uppercase }}</h3>
 
-                <md-menu-item>
-                    <md-button>
-                        <a ui-sref="trainingsschemas({id: m.$id})">Onderhoud schemas</a>
-                    </md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button>
-                        <a ui-sref="trainingsoefeningen({id: m.$id})">Onderhoud oefeningen</a>
-                    </md-button>
-                </md-menu-item>
-            </md-menu-content>
-        </md-menu>
-    </md-toolbar>
-    <!--<pre>{{vm.trainingenPerGebruiker |json}}</pre>-->
-    <md-list>
-        <md-subheader class="md-no-sticky">Klik om te wijzigen</md-subheader>
-        <div layout="row" layout-align="space-between center" flex="80">
 
-            <p>Datum</p>
-            <p>Oefening</p>
-            <p>Gewicht</p>
-            <p>Aantal</p>
-            <p>1RepMax</p>
-        </div>
 
-        <md-list-item ng-repeat="training in vm.trainingenPerGebruikerGeselecteerd" ng-click="vm.setWijzigen(training)">
-            <p>{{ training.datum | date }}</p>
-            <p> {{ training.oefeningOmschrijving}}</p>
-            <p> {{ training.gewicht | number:1}} kg</p>
-            <p> {{ training.aantalReps }}</p>
-            <p>{{(training.gewicht*(training.aantalReps*0.033+1)) | number:0}}</p>
-            <!--<p>{{training.oefeningOrm}}</p>-->
-        </md-list-item>
-    </md-list>
-
-</md-content>
-<!--<h1>Berekende 1 Rep Max : {{(vm.calculator[0].gewicht*(vm.calculator[0].aantal*0.033 +1)) | number:0 }} kg</h1>-->
-<!--<pre>{{vm.trainingenPerGebruikerGeselecteerd | json}}</pre>-->
+    <md-radio-group ng-model="vm.selected" ng-click="vm.raportKeuze(vm.selected)">
+        <md-radio-button value="records"> Records </md-radio-button>
+        <md-radio-button value="trainingen" class="md-primary">Trainingen</md-radio-button>
+    </md-radio-group>
+    <div ng-show="vm.toonTrainingen">
+        <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="vm.cbAmrap" class="md-primary" ng-click="vm.amrapToggle(vm.cbAmrap)">
+            <span>Toon alleen de Amrap sets.</span>
+        </md-checkbox>
+        <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="vm.cbTop" class="md-primary" ng-click="vm.topSetToggle(vm.cbTop)">
+            <span>Toon alleen de 95% sets.</span>
+        </md-checkbox>
+    </div>
+<md-table-container>
+    <table md-table>
+        <thead md-head md-order="myOrder">
+            <tr md-row>
+                <th md-column md-order-by="datum"><span>Datum</span></th>
+                <th md-column md-order-by="oefeningOmschrijving"><span>Omschrijving</span></th>
+                <th md-column md-numeric md-order-by="gewicht"><span>Gewicht (kg)</span></th>
+                <th md-column md-numeric>Aantal reps</th>
+                <th md-column md-numeric>1 Rep Max</th>
+            </tr>
+        </thead>
+        <tbody md-body>
+            <tr ng-show="vm.toonTrainingen" md-row ng-repeat="training in vm.trainingenPerGebruikerGeselecteerd | orderBy: myOrder | filter: vm.myFilter"
+            ng-click="vm.setWijzigen(training)">
+                <td md-cell>{{training.datum | date}}</td>
+                <td md-cell>{{training.oefeningOmschrijving}}</td>
+                <td md-cell>{{training.gewicht | number: 1}}</td>
+                <td md-cell>{{training.aantalReps}}</td>
+                <td md-cell>{{(training.gewicht*(training.aantalReps*0.033+1)) | number:0}}</td>
+            </tr>
+            <tr ng-show="!vm.toonTrainingen" md-row ng-repeat="training in vm.recordsPerGebruiker | orderBy: myOrder " ng-click="vm.setWijzigen(training)">
+                <td md-cell>{{training.datum | date}}</td>
+                <td md-cell>{{training.oefeningOmschrijving}}</td>
+                <td md-cell>{{training.gewicht | number: 1}}</td>
+                <td md-cell>{{training.aantalReps}}</td>
+                <td md-cell>{{(training.gewicht*(training.aantalReps*0.033+1)) | number:0}}</td>
+            </tr>
+        </tbody>
+    </table>
+</md-table-container>

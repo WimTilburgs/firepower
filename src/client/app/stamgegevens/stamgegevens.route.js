@@ -21,10 +21,10 @@
                     controller: 'Stamgegevens',
                     controllerAs: 'vm',
                     title: 'Stamgegevens',
-                    settings: {
-                        nav: 40,
-                        content: '<i class="fa fa-lock"></i> Stamgegevens'
-                    },
+                    // settings: {
+                    //     nav: 40,
+                    //     content: '<i class="fa fa-lock"></i> Stamgegevens'
+                    // },
                 },
                 authenticate: true
             }

@@ -13,6 +13,7 @@ var app;
                 this.Ref = Ref;
                 this.$state = $state;
                 this.currentAuth = currentAuth;
+                this.imagePath = "images/Bench Press-52.png";
                 this.init();
             }
             Gebruiker.prototype.init = function () {
@@ -29,6 +30,7 @@ var app;
                     else {
                         testGebruiker = snapshot.val();
                     }
+                    Gebruiker.prototype.user = testGebruiker;
                     //console.log(snapshot.val());
                     //Workouts.prototype.gebruiker = snapshot.val();
                     // testGebruiker = snapshot.val();  
@@ -39,7 +41,6 @@ var app;
                 if (testGebruiker == null) {
                     //this.userOpslaan();
                     this.makeUser(this.currentAuth);
-                    console.log(this.currentAuth);
                 }
                 this.activate();
             };
@@ -82,7 +83,7 @@ var app;
                     'achterNaam': _achterNaam,
                     'email': _email
                 });
-                //this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+                this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
             };
             Gebruiker.controllerId = 'Gebruiker';
             /* @ngInject */

@@ -43,6 +43,7 @@ module app.core {
         }
 
         getGebruiker(authData): any {
+            
             return this.$firebaseObject(this.ref.child('users').child(authData.uid));
         }
         

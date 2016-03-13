@@ -111,9 +111,9 @@ module app.controller {
             var bl = this.blogic;
             var tr = this.trainingenPerGebruiker;
              this.trainingenPerGebruiker.$loaded(function(){
-                 console.log(tr);
+                 //console.log(tr);
                 TrainingenController.prototype.records = bl.haalRecords(tr);
-                console.log(TrainingenController.prototype.records);
+                //console.log(TrainingenController.prototype.records);
              })
              
         }

@@ -6,9 +6,9 @@ var app;
     var controller;
     (function (controller) {
         var Gebruiker = (function () {
-            function Gebruiker(logger, firebaseData, Auth, Ref, $state, currentAuth) {
+            function Gebruiker(logger, fireData, Auth, Ref, $state, currentAuth) {
                 this.logger = logger;
-                this.firebaseData = firebaseData;
+                this.fireData = fireData;
                 this.Auth = Auth;
                 this.Ref = Ref;
                 this.$state = $state;
@@ -21,39 +21,70 @@ var app;
                 if (!this.currentAuth) {
                     this.$state.go('login');
                 }
-                var testGebruiker = null;
-                var refUser = this.Ref.child("users").child(this.currentAuth.uid).child('data');
-                refUser.on("value", function (snapshot) {
-                    if (!snapshot.val()) {
-                        return;
-                    }
-                    else {
-                        testGebruiker = snapshot.val();
-                    }
-                    Gebruiker.prototype.user = testGebruiker;
-                    //console.log(snapshot.val());
-                    //Workouts.prototype.gebruiker = snapshot.val();
-                    // testGebruiker = snapshot.val();  
-                }, function (errorObject) {
-                    console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
+                if (!this.currentAuth) {
                     return;
-                });
-                if (testGebruiker == null) {
-                    //this.userOpslaan();
-                    this.makeUser(this.currentAuth);
+                }
+                else {
+                    var aut = this.currentAuth;
+                    this.gebruikerInlog = this.currentAuth;
+                    this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
+                    var refUser = this.Ref.child("users").child(this.currentAuth.uid).child('data');
+                    refUser.on("value", function (snapshot) {
+                        if (!snapshot.val()) {
+                            Gebruiker.prototype.makeUser(aut, refUser);
+                        }
+                    }, function (errorObject) {
+                        console.log("Fout bij het lezen van de gegevens: " + errorObject.code);
+                        return;
+                    });
                 }
                 this.activate();
             };
-            Gebruiker.prototype.userOpslaan = function () {
-                this.Ref.child('users').child(this.currentAuth.uid).child("data").update({
-                    'voorNaam': "bert",
-                    'achterNaam': "de beer",
-                    'email': "wim3025@hotmail.com"
-                });
+            Gebruiker.prototype.gebruikerWijzigen = function () {
+                if (!this.geboorteDate || this.geboorteDate == "Invalid Date") {
+                    Gebruiker.prototype.leeftijdString = "";
+                    this.gebruiker.data.geboorteDatum = null;
+                }
+                else {
+                    var datum = this.geboorteDate.getTime();
+                    console.log(datum);
+                    Gebruiker.prototype.leeftijdString = Gebruiker.prototype.berekenLeeftijd(datum);
+                    this.gebruiker.data.geboorteDatum = datum;
+                }
+                this.gebruiker.$save();
             };
             Gebruiker.prototype.activate = function () {
+                this.gebruiker.$loaded().then(function (response) {
+                    var gdatum = response.data.geboorteDatum;
+                    Gebruiker.prototype.leeftijdString = Gebruiker.prototype.berekenLeeftijd(gdatum);
+                    Gebruiker.prototype.geboorteDate = new Date(gdatum);
+                });
             };
-            Gebruiker.prototype.makeUser = function (data) {
+            Gebruiker.prototype.berekenLeeftijd = function (datum) {
+                var today = new Date();
+                var geboorteDatum = new Date(datum);
+                var maandMeervoud = "maanden";
+                var vandaagMaand = today.getMonth();
+                var geboorteMaand = geboorteDatum.getMonth();
+                var verschilMaanden = 0;
+                var leeftijd = today.getFullYear() - geboorteDatum.getFullYear();
+                geboorteDatum.setFullYear(today.getFullYear());
+                if (today < geboorteDatum) {
+                    leeftijd--;
+                    verschilMaanden = 12 - geboorteMaand + vandaagMaand;
+                }
+                else {
+                    verschilMaanden = vandaagMaand - geboorteMaand;
+                }
+                if (verschilMaanden == 1) {
+                    maandMeervoud = "maand";
+                }
+                if (verschilMaanden == 0) {
+                    return "Leeftijd " + leeftijd + " jaar";
+                }
+                return "Leeftijd " + leeftijd + " jaar en " + verschilMaanden + " " + maandMeervoud;
+            };
+            Gebruiker.prototype.makeUser = function (data, refUser) {
                 var _achterNaam;
                 var _email;
                 var _voorNaam;
@@ -78,17 +109,19 @@ var app;
                     default:
                         break;
                 }
-                this.Ref.child('users').child(this.currentAuth.uid).child("data").update({
+                //console.log(_achterNaam,_voorNaam,_email)
+                //console.log(Gebruiker.prototype.Ref);
+                refUser.update({
                     'voorNaam': _voorNaam,
                     'achterNaam': _achterNaam,
                     'email': _email
                 });
-                this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
+                //this.user = new app.domain.User(_achterNaam, _email, _voorNaam);
             };
             Gebruiker.controllerId = 'Gebruiker';
             /* @ngInject */
             Gebruiker.$inject = ['logger',
-                'firebaseData',
+                'fireData',
                 'Auth',
                 'Ref',
                 '$state',

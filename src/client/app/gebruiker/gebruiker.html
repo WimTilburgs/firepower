@@ -3,8 +3,8 @@
         <md-card>
             <md-card-title>
                 <md-card-title-text>
-                    <span class="md-headline">{{vm.user.naam}}</span>
-                    <span class="md-subhead">{{vm.user.email}}</span>
+                    <span class="md-headline">{{vm.gebruiker.data.voorNaam+ ' '+ vm.gebruiker.data.achterNaam}}</span>
+                    <span class="md-subhead">{{vm.gebruiker.data.email}}</span>
                 </md-card-title-text>
                 <md-card-title-media>
                     <div class="md-media-sm card-media">
@@ -12,56 +12,89 @@
                     </div>
                 </md-card-title-media>
             </md-card-title>
+            <md-card-content>
+                <div ng-show="vm.gebruiker.data.geboorteDatum">
+                    <p>{{vm.gebruiker.data.geboorteDatum | date}}</p>
+                    <p>{{vm.leeftijdString}}</p>
+                </div>
+            </md-card-content>
             <md-card-actions layout="row" layout-align="end center">
                 <md-button>Actie 1</md-button>
                 <md-button>Actie 2</md-button>
             </md-card-actions>
         </md-card>
-        </div>
-</md-content>
-<md-content>
+    </div>
+   
     <div flex-xs flex-gt-xs="80" layout="column">
-    <md-tabs md-dynamic-height md-border-bottom>
-        <md-tab label="Een">
-            <md-content class="md-padding">
-                <h1 class="md-display-2">Tab Een</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque
-                    ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus
-                    est, sollicitudin consectetur felis nec, feugiat ultricies mi.</p>
-            </md-content>
-        </md-tab>
-        <md-tab label="Twee">
-            <md-content class="md-padding">
-                <h1 class="md-display-2">Tab Twee</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque
-                    ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus
-                    est, sollicitudin consectetur felis nec, feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor
-                    in ultrices porttitor, orci enim rutrum enim, vel tempor sapien arcu a tellus. Vivamus convallis sodales
-                    ante varius gravida. Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam malesuada consequat
-                    diam, a facilisis tortor volutpat et. Sed urna dolor, aliquet vitae posuere vulputate, euismod ac lorem.
-                    Sed felis risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in enim venenatis, iaculis tortor
-                    eu, bibendum ante. Donec ac tellus dictum neque volutpat blandit. Praesent efficitur faucibus risus,
-                    ac auctor purus porttitor vitae. Phasellus ornare dui nec orci posuere, nec luctus mauris semper.</p>
-                <p>Morbi viverra, ante vel aliquet tincidunt, leo dolor pharetra quam, at semper massa orci nec magna. Donec
-                    posuere nec sapien sed laoreet. Etiam cursus nunc in condimentum facilisis. Etiam in tempor tortor. Vivamus
-                    faucibus egestas enim, at convallis diam pulvinar vel. Cras ac orci eget nisi maximus cursus. Nunc urna
-                    libero, viverra sit amet nisl at, hendrerit tempor turpis. Maecenas facilisis convallis mi vel tempor.
-                    Nullam vitae nunc leo. Cras sed nisl consectetur, rhoncus sapien sit amet, tempus sapien.</p>
-                <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum.
-                    Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu
-                    fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim
-                    scelerisque, finibus commodo lectus.</p>
-            </md-content>
-        </md-tab>
-        <md-tab label="Drie">
-            <md-content class="md-padding">
-                <h1 class="md-display-2">Tab Drie</h1>
-                <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum.
-                    Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu
-                    fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim
-                    scelerisque, finibus commodo lectus.</p>
-            </md-content>
-        </md-tab>
-    </md-tabs>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Basis gegevens">
+                <md-content class="md-padding">
+                    <p>{{vm.user.naam}}</p>
+                    <div layout="row">
+                        <md-input-container class="md-block">
+                            <label>Voornaam</label>
+                            <input type="text" ng-model="vm.gebruiker.data.voorNaam" />
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container class="md-block">
+                            <label>Achternaam</label>
+                            <input type="text" ng-model="vm.gebruiker.data.achterNaam" />
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row" ng-hide="vm.gebruikerInlog.provider=='password'">
+                        <md-input-container class="md-block">
+                            <label>e-Mail</label>
+                            <input type="email" ng-model="vm.gebruiker.data.email" />
+                        </md-input-container>
+                    </div>
+                    
+                    <div layout="row">
+                        <md-input-container class="md-block">
+                            <label>Geboortedatum</label>
+                            <input type="date" ng-model="vm.geboorteDate" />
+                        </md-input-container>
+                    </div>
+                    
+                     <div layout="row">
+                        <md-input-container class="md-block">
+                            <label>Lengte in cm</label>
+                            <input type="number" ng-model="vm.gebruiker.data.lengte" />
+                        </md-input-container>
+                    </div>
+
+                    <!--<md-datepicker ng-model="vm.geboorteDate" md-placeholder="Geboortedatum"></md-datepicker>-->
+                    <div layout="row">
+                        <md-button ng-click="vm.gebruikerWijzigen()">Opslaan</md-button>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="1 Rep Max">
+                <md-content class="md-padding">
+                    <h1 class="md-display-2">Tab Twee</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat
+                        neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas
+                        lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi. Aliquam erat volutpat. Nam
+                        placerat, tortor in ultrices porttitor, orci enim rutrum enim, vel tempor sapien arcu a tellus. Vivamus
+                        convallis sodales ante varius gravida. Curabitur a purus vel augue ultrices ultricies id a nisl.
+                        Nullam malesuada consequat diam, a facilisis tortor volutpat et. Sed urna dolor, aliquet vitae posuere
+                        vulputate, euismod ac lorem. Sed felis risus, pulvinar at interdum quis, vehicula sed odio. Phasellus
+                        in enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus dictum neque volutpat blandit.
+                        Praesent efficitur faucibus risus, ac auctor purus porttitor vitae. Phasellus ornare dui nec orci
+                        posuere, nec luctus mauris semper.</p>
+
+                </md-content>
+            </md-tab>
+            <md-tab label="Drie">
+                <md-content class="md-padding">
+                    <h1 class="md-display-2">Tab Drie</h1>
+                    <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie
+                        dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere
+                        mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam,
+                        congue eu enim scelerisque, finibus commodo lectus.</p>
+                </md-content>
+            </md-tab>
+        </md-tabs>
     </div>
 </md-content>

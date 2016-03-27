@@ -1,20 +1,23 @@
- <h3>{{ vm.selected | uppercase }}</h3>
+<h3>{{ vm.selected | uppercase }}</h3>
+<div ng-show="!vm.trainingenPerGebruikerGeselecteerd.length">
+    <p>Geen traininghistorie gevonden. </p>
+</div>
 
+<div ng-show="vm.trainingenPerGebruikerGeselecteerd.length">
+<md-radio-group ng-model="vm.selected" ng-click="vm.raportKeuze(vm.selected)">
+    <md-radio-button value="records"> Records </md-radio-button>
+    <md-radio-button value="trainingen" class="md-primary">Trainingen</md-radio-button>
+</md-radio-group>
+<div ng-show="vm.toonTrainingen">
+    <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="vm.cbAmrap" class="md-primary" ng-click="vm.amrapToggle(vm.cbAmrap)">
+        <span>Toon alleen de Amrap sets.</span>
+    </md-checkbox>
+    <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="vm.cbTop" class="md-primary" ng-click="vm.topSetToggle(vm.cbTop)">
+        <span>Toon alleen de 95% sets.</span>
+    </md-checkbox>
+</div>
 
-
-    <md-radio-group ng-model="vm.selected" ng-click="vm.raportKeuze(vm.selected)">
-        <md-radio-button value="records"> Records </md-radio-button>
-        <md-radio-button value="trainingen" class="md-primary">Trainingen</md-radio-button>
-    </md-radio-group>
-    <div ng-show="vm.toonTrainingen">
-        <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="vm.cbAmrap" class="md-primary" ng-click="vm.amrapToggle(vm.cbAmrap)">
-            <span>Toon alleen de Amrap sets.</span>
-        </md-checkbox>
-        <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="vm.cbTop" class="md-primary" ng-click="vm.topSetToggle(vm.cbTop)">
-            <span>Toon alleen de 95% sets.</span>
-        </md-checkbox>
-    </div>
-<md-table-container>
+<md-table-container >
     <table md-table>
         <thead md-head md-order="myOrder">
             <tr md-row>
@@ -44,3 +47,4 @@
         </tbody>
     </table>
 </md-table-container>
+</div>

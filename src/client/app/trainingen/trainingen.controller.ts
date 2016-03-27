@@ -55,11 +55,31 @@ module app.controller {
             } else {
                 this.trainingenPerGebruiker = this.fireData.getTrainingenPerGebruiker(this.currentAuth.uid);
                 this.gebruiker = this.fireData.getGebruiker(this.currentAuth);
-                this.planning = this.fireData.getGebruikerPlanning(this.currentAuth)
-                this.gebruiker.$loaded().then(function(response) {
+                this.planning = this.fireData.getGebruikerPlanning(this.currentAuth);
+                
+               
+
+            }
+
+            this.activate();
+        }
+
+        activate(): void {
+            var bl = this.blogic;
+            var tr = this.trainingenPerGebruiker;
+            var gr = this.gebruiker;
+            var st = this.$state;
+             this.trainingenPerGebruiker.$loaded(function(){
+                 //console.log(tr);
+                TrainingenController.prototype.records = bl.haalRecords(tr);
+                //console.log(TrainingenController.prototype.records);
+             })
+             
+              this.gebruiker.$loaded().then(function(response) {
+                   
                     var arr = _.values(response.planning);
                     if(arr.length == 0){
-                        //TrainingenController.prototype.ganaarWorkouts();
+                        st.go('workouts');
                         return;
                     }
                     var openWorkouts = [];
@@ -101,21 +121,12 @@ module app.controller {
                     TrainingenController.prototype.gebruikerPlanning = openWorkoutsKlaar;
                   
                 })
-
-            }
-
-            this.activate();
-        }
-
-        activate(): void {
-            var bl = this.blogic;
-            var tr = this.trainingenPerGebruiker;
-             this.trainingenPerGebruiker.$loaded(function(){
-                 //console.log(tr);
-                TrainingenController.prototype.records = bl.haalRecords(tr);
-                //console.log(TrainingenController.prototype.records);
-             })
              
+        }
+        
+        gaNaarWorkouts(){
+            TrainingenController.prototype.$state.go('workouts');
+            //this.$state.go('workouts');
         }
         
         getRecordAantal(oefeningId, gewicht) {
@@ -128,9 +139,7 @@ module app.controller {
             return 'Nog geen record aantal reps bij dit gewicht.';
         }
         
-        ganaarWorkouts($state): void{
-            //$state.go('dashboard');
-        }
+        
 
         planSelecteren(plan): void {
             //console.log(this.planning);

@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
     angular
@@ -16,9 +16,9 @@
         vm.messageCount = 0;
         vm.people = [];
         vm.title = 'Dashboard';
-
+        vm.imagePath = "images/5-3-1-How-to-Build-Pure-Strength.jpg"
         activate();
 
-        function activate() {}
+        function activate() { }
     }
 })();

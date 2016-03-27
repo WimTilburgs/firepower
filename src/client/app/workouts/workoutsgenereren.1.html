@@ -15,9 +15,14 @@
           <md-subheader class="md-primary " ng-show="vm.toonSchemaOpgeslagen">
     Stap 4: Schema opgeslagen</md-subheader>
 <!-- Overzicht Training gegevens-->
-<md-content class="md-padding" layout-xs="column" layout="row" ng-show="vm.toonMethodes">
 
-    <md-card ng-repeat="trainingsMethode in vm.trainingsMethodes" class="md-whiteframe-z2">
+
+
+<md-content class="md-padding" layout-xs="column" layout="row"  layout-wrap
+
+ ng-show="vm.toonMethodes">
+ 
+    <md-card flex-xs flex-gt-xs="40"  ng-repeat="trainingsMethode in vm.trainingsMethodes" class="md-whiteframe-z2">
         <md-subheader class="md-primary md-hue-1">Trainingsmethode</md-subheader>
 
 
@@ -30,14 +35,15 @@
             <md-button ng-click="vm.bekijkSchema(trainingsMethode)">Schema</md-button>
         </md-card-actions>
     </md-card>
-
+    <div flex-xs flex-gt-xs="40"  >
+</div>
 </md-content>
 
 <!-- TrainingsSchema al aanwezig-->
 
 <md-content ng-show="vm.toonSchemaAlAanwezig">
   <md-button ng-click="vm.trainingenBekijken()" class="md-raised md-primary">Trainingen tonen</md-button>
-  <md-button ng-click="vm.trainingenVerwijderen()" class="md-raised md-primary">Trainingen verwijdenen</md-button>
+  <md-button ng-click="vm.trainingenVerwijderen()" class="md-raised md-primary">Trainingen verwijderen</md-button>
     <div ng-repeat="workout in vm.uniekeWorkoutNummers">
         <div ng-repeat="oefening in vm.uniekeOefingOmschrijvingen">
             <md-list>
@@ -247,5 +253,5 @@
         </div>     
     </div>
      <md-button ng-click="vm.trainingsVoorstelAccepteren()" class="md-raised md-primary">TrainingsVoorstel accepteren</md-button>
-     <pre>{{vm.gegenereerdeWorkouts}}</pre>
+     <!--<pre>{{vm.gegenereerdeWorkouts}}</pre>-->
 </md-content>

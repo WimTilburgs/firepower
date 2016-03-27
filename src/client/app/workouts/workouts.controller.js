@@ -198,6 +198,16 @@ var app;
                                     snapshot.forEach(function (schemaSnap) {
                                         // de var x is aangemaakt voor het gemak
                                         var x = schemaSnap.val();
+                                        var minGewicht = 20;
+                                        var minHalterSchijfGewicht = 2.5;
+                                        //Bij een 1repMax van 70 kg of meer dan gewichten afronden op 5 kg
+                                        if (oefeningen.orm >= 70) {
+                                            minHalterSchijfGewicht = 5;
+                                        }
+                                        var berekendGewicht = Math.round(oefeningen.orm * x.percentage / 100 / minHalterSchijfGewicht) * minHalterSchijfGewicht;
+                                        if (berekendGewicht > minGewicht) {
+                                            minGewicht = berekendGewicht;
+                                        }
                                         //Hier heb ik dus het schema de oefeningen uit de methode en de onerepmaxen van de gebruiker
                                         //De methode en de gebruiker had ik al.
                                         nieuweWorkout = {
@@ -207,7 +217,8 @@ var app;
                                             percentage: x.percentage,
                                             aantalReps: x.aantalReps,
                                             oefeningOrm: oefeningen.orm,
-                                            gewicht: Math.round(oefeningen.orm * x.percentage / 100 / 2.5) * 2.5,
+                                            //gewicht: Math.round(oefeningen.orm * x.percentage / 100 / 2.5) * 2.5,
+                                            gewicht: minGewicht,
                                             repsFree: x.amrap,
                                             realisatie: false,
                                             oefeningId: oefening.oefeningId,
@@ -258,7 +269,7 @@ var app;
                 //refUser.child('planning').push(data);
             };
             Workouts.prototype.trainingenBekijken = function () {
-                this.stap1Title = "bekijk het maar";
+                this.stap1Title = "Trainingen tonen";
                 var lijst = this.gebruikerPlanning;
                 this.uniekeWorkoutNummers = _.chain(lijst).sortBy('workoutNummer').map(function (o) { return o.workoutNummer; }).uniq().value();
                 this.uniekeOefingOmschrijvingen = _.chain(lijst).sortBy('oefeningOmschrijving').map(function (o) { return o.oefeningOmschrijving; }).uniq().value();

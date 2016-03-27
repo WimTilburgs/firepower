@@ -85,6 +85,15 @@ module app.controller {
                 Gebruiker.prototype.geboorteDate = new Date(gdatum);
             });
         }
+        
+        gaTrainen(): void {
+            this.$state.go('trainingen');
+        }
+        
+        gaOverzichten(): void {
+            this.$state.go('overzichten');
+        }
+
 
         berekenLeeftijd(datum): string {
             let today = new Date();

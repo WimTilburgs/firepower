@@ -60,6 +60,12 @@ var app;
                     Gebruiker.prototype.geboorteDate = new Date(gdatum);
                 });
             };
+            Gebruiker.prototype.gaTrainen = function () {
+                this.$state.go('trainingen');
+            };
+            Gebruiker.prototype.gaOverzichten = function () {
+                this.$state.go('overzichten');
+            };
             Gebruiker.prototype.berekenLeeftijd = function (datum) {
                 var today = new Date();
                 var geboorteDatum = new Date(datum);
